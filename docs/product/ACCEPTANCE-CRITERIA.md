@@ -101,12 +101,14 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] On a healthy counter service, JavaScript initiates the approved counter operation.
 - [ ] The browser receives the approved counter result through the API.
 - [ ] Browser network inspection confirms no direct Cosmos DB request occurs.
-- [ ] The displayed value follows the approved visitor-counting semantics.
-- [ ] A normal reload produces behavior consistent with the persisted counter state and approved semantics.
+- [ ] The displayed value follows the approved semantics: one successfully committed counter operation per top-level resume page load.
+- [ ] A normal reload produces exactly one additional counter operation and the displayed result reflects the committed persisted state.
+- [ ] Refreshing the page is treated as a new counter operation.
+- [ ] The implementation does not use cookies, authentication, fingerprinting, IP tracking, or user identification to determine whether to count the operation.
 - [ ] Counter/API failure does not prevent the visitor from reading the resume.
 - [ ] Failure behavior matches the approved counter failure UX once OR-009 is resolved.
 
-**Blocking dependencies:** OR-001, OR-008, OR-009.
+**Blocking dependencies:** OR-008, OR-009.
 
 ## AC-008 — Visitor Counter Persistence
 
@@ -118,10 +120,13 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Counter state survives a normal backend redeployment.
 - [ ] Counter state survives a normal frontend redeployment.
 - [ ] Browser inspection shows no direct database access.
-- [ ] Database failure produces the approved controlled failure state.
-- [ ] Concurrent/duplicate operations are handled according to the approved counter semantics.
+- [ ] Database failure produces the approved controlled failure state and does not increment persisted state.
+- [ ] Concurrent successful operations do not overwrite one another.
+- [ ] If the persisted value is N, then K successfully committed operations result in N + K.
+- [ ] Failed API/database operations do not change the persisted count.
+- [ ] Conditional update conflicts are retried safely or otherwise resolved without lost increments.
 
-**Blocking dependencies:** OR-001 and OR-008.
+**Blocking dependency:** OR-008.
 
 ## AC-009 — Visitor Counter API
 
@@ -132,7 +137,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The endpoint uses the approved HTTP method and request contract.
 - [ ] A valid request returns the approved success response and status behavior.
 - [ ] Invalid requests return the approved controlled error and status behavior.
-- [ ] Database failure returns the approved controlled API failure.
+- [ ] Database failure returns the approved controlled API failure and does not increment persisted state.
 - [ ] CORS behavior matches the approved contract.
 - [ ] Database credentials/secrets are not returned to the browser.
 - [ ] Browser requests do not directly target Cosmos DB.
@@ -251,10 +256,10 @@ The MVP cannot be declared fully accepted until:
 
 - [ ] AC-001 through AC-016 all pass.
 - [ ] No P0 ambiguity remains.
-- [ ] OR-001 through OR-005 are explicitly resolved or formally accepted as documented deviations.
+- [ ] OR-002 through OR-005 are explicitly resolved or formally accepted as documented deviations.
 - [ ] All deliberate deviations from the original challenge are documented.
 - [ ] The numeric cost ceiling is defined and verified.
-- [ ] Visitor-count semantics are defined and verified.
+- [ ] Visitor-count semantics are verified against the resolved OR-001 definition.
 - [ ] Public hostname interpretation is defined and verified.
 - [ ] HTTPS/CDN configuration and cost are validated.
 - [ ] Final public resume content is approved.
