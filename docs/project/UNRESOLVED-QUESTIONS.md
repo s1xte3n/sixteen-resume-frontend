@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **NOT CLOSED**. OR-001 through OR-005 are P1 closure blockers.
+> **Current status:** Requirements closure is **NOT CLOSED**. OR-003 through OR-005 are P1 closure blockers; OR-001 and OR-002 are resolved.
 
 ## 1. Reconciliation Rules
 
@@ -21,6 +21,8 @@ The two documents have distinct roles:
 ## 2. P1 Open Decisions
 
 These items must be resolved before affected MVP acceptance and before requirements closure.
+
+**Resolved P1 decisions:** OR-001 and OR-002. The remaining P1 closure blockers are OR-003, OR-004, and OR-005.
 
 ### OR-001 — Visitor Definition
 
@@ -40,17 +42,22 @@ Candidate interpretations already identified by the approved requirements are pa
 ### OR-002 — Free Hostname vs Custom Domain
 
 **Affected requirements:** MVP-006, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-**Question:** Does the approved free hostname/subdomain satisfy the original challenge requirement for DNS/custom-domain functionality?
+**Decision:** Accept the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP as the project's scoped public-hostname/DNS interpretation.
 
-**Conflict:** The original challenge describes pointing a custom DNS domain to the CDN endpoint, while the approved project state excludes paid domain purchase and selects FreeDNS/afraid.org as the initial DNS direction.
+**Project constraint:** The MVP must not require paid domain registration.
 
-**Why it matters:** DNS acceptance and the claim made about challenge compliance depend on the interpretation.
+**Deviation:** The MVP does **not** claim ownership of a conventional registrable custom domain. Documentation must use the term **Public hostname: FreeDNS hosted hostname/subdomain**.
 
-**Decision required:** Explicitly document whether the free hostname/subdomain is accepted as the project's scoped interpretation and, if so, record the deviation from the literal challenge wording.
+**Production acceptance rule:**
+- The approved FreeDNS hostname resolves publicly.
+- The hostname resolves to the approved Azure delivery endpoint.
+- The resume is served through that hostname.
+- The hostname supports HTTPS through the approved delivery architecture.
+- No paid domain registration is required.
+- The project documentation records this as a scoped deviation from the literal custom-domain wording.
 
----
 
 ### OR-003 — Numeric Cost Ceiling
 
@@ -242,7 +249,7 @@ These are retained only to prevent accidental reopening of already-decided proje
 
 | Item | Current decision/context |
 |---|---|
-| DNS provider | FreeDNS / afraid.org selected initially; exact hostname remains covered by OR-002 and DNS setup. |
+| DNS provider | FreeDNS / afraid.org selected initially; exact hostname remains to be provisioned and verified against the resolved OR-002 acceptance rule. |
 | Azure certification | AI-901 is held and is the documented certification deviation from the literal AZ-900 challenge requirement. |
 | Resume source | Complete CV supplied; public publication approval remains OR-005. |
 | Resume positioning | 4+ years of hands-on software development experience, with professional employment represented separately as IT Operator — Gijima Holdings. |
