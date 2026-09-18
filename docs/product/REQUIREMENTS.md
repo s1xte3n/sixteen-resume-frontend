@@ -31,9 +31,9 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-004 | Production static website must use Azure Storage static website hosting. | P1 | BASELINED | REQ-AZ-002, REQ-AZ-003 | Azure Storage, frontend | AC-004 | VT-004 |
 | REQ-AZ-005 | Production delivery must provide HTTPS through the approved CDN/delivery architecture within the approved cost ceiling. | P1 | BLOCKED | REQ-AZ-004, REQ-AZ-006; OR-003, OR-004 | CDN/delivery, certificate, Storage | AC-005 | VT-005 |
 | REQ-AZ-006 | Production website must have an approved public hostname/DNS solution resolving to the intended delivery endpoint. | P1 | BLOCKED | REQ-AZ-005; OR-002 | DNS, delivery | AC-006 | VT-006 |
-| REQ-AZ-007 | Browser JavaScript must request and display the approved visitor-counter result without direct Cosmos DB access. | P1 | BLOCKED | REQ-AZ-008..010; OR-001, OR-008, OR-009 | JavaScript, API | AC-007 | VT-007 |
-| REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BLOCKED | REQ-AZ-009, REQ-AZ-010; OR-001, OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
-| REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BLOCKED | REQ-AZ-008, REQ-AZ-010; OR-001, OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
+| REQ-AZ-007 | Browser JavaScript must request and display the approved visitor-counter result without direct Cosmos DB access. | P1 | BLOCKED | REQ-AZ-008..010; OR-008, OR-009 | JavaScript, API | AC-007 | VT-007 |
+| REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BLOCKED | REQ-AZ-009, REQ-AZ-010; OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
+| REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BLOCKED | REQ-AZ-008, REQ-AZ-010; OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
 | REQ-AZ-010 | Visitor-counter processing must run on Python Azure Functions with only required data-access permissions. | P1 | BASELINED | REQ-AZ-008, REQ-AZ-009 | Function, Python | AC-010 | VT-010 |
 | REQ-AZ-011 | Automated Python tests must execute before production backend deployment and results must be visible in CI. | P1 | DEFERRED | REQ-AZ-010, REQ-AZ-013; OR-006 | Tests, GitHub Actions | AC-011 | VT-011 |
 | REQ-AZ-012 | Required Azure infrastructure must be represented in source-controlled ARM templates and provisionable without undocumented manual production configuration. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-005, REQ-AZ-008, REQ-AZ-010 | ARM, Azure resources | AC-012 | VT-012 |
@@ -65,7 +65,7 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 
 | ID | Classification | Affected requirements | Status |
 |---|---|---|---|
-| QF-001 | Visitor semantics undefined; counter is not objectively testable. | REQ-AZ-007..009, REQ-AZ-015 | OPEN / OR-001 |
+| QF-001 | Visitor semantics resolved: one successfully committed counter operation per top-level resume page load, with concurrency-safe increments. | REQ-AZ-007..009, REQ-AZ-015 | RESOLVED / OR-001 |
 | QF-002 | Free hostname versus original custom-domain interpretation conflicts. | REQ-AZ-006, REQ-AZ-015 | OPEN / OR-002 |
 | QF-003 | Zero/near-zero cost is not measurable without a numeric ceiling. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | OPEN / OR-003 |
 | QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / OR-004 |

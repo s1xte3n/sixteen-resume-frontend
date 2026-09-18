@@ -19,7 +19,6 @@ No ambiguity listed here may be silently resolved during implementation.
 
 | ID | Decision / ambiguity | Affected requirements | Status |
 |---|---|---|---|
-| OR-001 | Define what counts as a visitor: page load, API request, browser session, unique visitor, or another unit. | MVP-007, MVP-008, MVP-009 | Open |
 | OR-002 | Confirm whether a free hostname/subdomain satisfies the original challenge's custom-domain/DNS intent. | MVP-006, MVP-015 | Open |
 | OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
 | OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
@@ -27,17 +26,25 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-001 — Visitor Definition
 
-**Question:** What exactly constitutes one visitor-counter increment?
+**Decision:** A visitor is one successfully committed visitor-counter operation initiated by a top-level resume page load.
 
-Candidate interpretations already identified by the approved requirements are page load, counter API request, browser session, unique visitor, or another explicitly defined unit.
+**Counting semantics:**
+- The frontend performs exactly one counter request per top-level resume page load.
+- A browser refresh is a new page load and therefore counts as another visitor-counter operation.
+- The counter does not identify or attempt to distinguish unique humans, browsers, sessions, IP addresses, devices, or users.
+- Every successfully committed counter operation increments the persisted total by exactly one.
+- A failed API operation or failed database operation does not increment the persisted total.
+- Duplicate HTTP requests are separate counter operations unless a future requirement explicitly introduces idempotency semantics.
 
-**Why it matters:** Counter behavior, persistence tests, API behavior, concurrency expectations, and acceptance criteria depend on this definition.
+**Concurrency rule:** The backend must perform a concurrency-safe atomic logical increment. Concurrent successful operations must not overwrite one another. The implementation should use conditional entity updates/ETags with retry-on-conflict behavior so each successfully committed operation contributes exactly one increment.
 
-**Decision required:** Select and document one counting unit and the behavior for duplicate/concurrent operations.
+**Acceptance invariant:** If the persisted count is N before K successfully committed counter operations, the resulting persisted count is N + K.
+
+**Privacy rationale:** This definition is deterministic and avoids cookies, authentication, fingerprinting, IP tracking, or other identity-based visitor tracking.
 
 **Affected:** MVP-007, MVP-008, MVP-009.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-002 — Free Hostname vs Custom Domain
 
@@ -240,10 +247,9 @@ The PRD phase is closed only when:
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
 5. The numeric cost constraint is defined.
-6. Visitor-count semantics are defined.
-7. Public hostname interpretation is defined.
+6. Public hostname interpretation is defined.
 8. HTTPS/CDN configuration is validated.
 9. Final public resume content is approved.
 10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: NOT CLOSED.** The requirements are fully exposed and traceable at the PRD level, but OR-001 through OR-005 remain P1 closure blockers.
+**Current status: NOT CLOSED.** OR-001 is resolved. OR-002 through OR-005 remain P1 closure blockers.
