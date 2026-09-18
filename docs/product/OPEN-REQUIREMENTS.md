@@ -24,9 +24,6 @@ No ambiguity listed here may be silently resolved during implementation.
 | OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
 | OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
-| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
-| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
-| OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
 ### OR-001 — Visitor Definition
 
@@ -54,7 +51,7 @@ No ambiguity listed here may be silently resolved during implementation.
 
 **Decision:** Accept the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP as the project's scoped public-hostname/DNS interpretation.
 
-**Original challenge requirement:** The challenge describes pointing a custom DNS domain to the CDN endpoint. citeturn0file0
+**Original challenge requirement:** The challenge describes pointing a custom DNS domain to the CDN endpoint.
 
 **Project constraint:** The MVP must not require paid domain registration.
 
