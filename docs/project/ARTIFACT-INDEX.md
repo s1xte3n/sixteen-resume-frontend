@@ -1,187 +1,206 @@
 # Artifact Index
 
-## 1\. Purpose
+## 1. Purpose
+
+This document identifies authoritative project documentation, requirements artifacts, implementation artifacts, and their current status.
+
+---
+
+# 2. Project Documentation
+
+| Artifact                               | Purpose                                                                       | Status  | Source of Truth |
+| -------------------------------------- | ----------------------------------------------------------------------------- | ------- | --------------- |
+| `docs/project/PROJECT-OVERVIEW.md`     | Project purpose, users, scope, constraints, technology, deployment, and goals | Current | Yes             |
+| `docs/project/PROJECT-STATUS.md`       | Current implementation state and project status                               | Current | Yes             |
+| `docs/project/DECISIONS.md`            | Confirmed decisions and rationale                                             | Current | Yes             |
+| `docs/project/UNRESOLVED-QUESTIONS.md` | Discovery/project-level unresolved questions                                  | Current | Yes             |
+| `docs/project/ARTIFACT-INDEX.md`       | Documentation governance and artifact inventory                               | Updated | Yes             |
+
+---
+
+# 3. Product Documentation
 
-This document identifies the project's authoritative documentation and current artifact status.
+| Artifact                              | Purpose                                                          | Status  | Source of Truth |
+| ------------------------------------- | ---------------------------------------------------------------- | ------- | --------------- |
+| `docs/product/PRD.md`                 | Approved product requirements baseline                           | Current | Yes             |
+| `docs/product/USER-STORIES.md`        | User stories and use cases                                       | Current | Yes             |
+| `docs/product/ACCEPTANCE-CRITERIA.md` | Testable acceptance criteria                                     | Current | Yes             |
+| `docs/product/SCOPE.md`               | Scope and exclusions                                             | Current | Yes             |
+| `docs/product/OPEN-REQUIREMENTS.md`   | Existing discovery-stage open requirements                       | Current | Supporting      |
+| `docs/product/REQUIREMENTS.md`        | Canonical traceable requirement matrix                           | Create  | Yes             |
+| `docs/product/TRACEABILITY-MATRIX.md` | Requirement-to-test/implementation/release traceability          | Create  | Yes             |
+| `docs/product/FEATURE-BACKLOG.md`     | Implementation-ready backlog                                     | Create  | Yes             |
+| `docs/product/DEPENDENCY-MATRIX.md`   | Requirement sequencing and dependency relationships              | Create  | Yes             |
+| `docs/product/REQUIREMENT-GAPS.md`    | Ambiguous, contradictory, unverifiable, and missing requirements | Create  | Yes             |
 
-\---
+---
 
-# 2\. Project Documentation
+# 4. Requirements Governance
 
-|Artifact|Purpose|Status|Source of Truth|
-|-|-|-|-|
-|`docs/project/PROJECT-OVERVIEW.md`|Project purpose, users, goals, scope, constraints, stack, deployment, dependencies, assumptions, and risks|Current|Yes|
-|`docs/project/PROJECT-STATUS.md`|Current project state, completed/incomplete work, blockers, next gate, and evidence|Current|Yes|
-|`docs/project/DECISIONS.md`|Confirmed decisions, rationale, alternatives, consequences, and open decisions|Current|Yes|
-|`docs/project/OPEN-QUESTIONS.md`|Discovery-stage unresolved questions, priorities, owners, and decision status|Current|Yes|
-|`docs/project/PROJECT-CHARTER.md`|Project scope, MVP, stakeholders, milestones, success criteria, and Definition of Done|Current|Yes|
-|`docs/project/ARTIFACT-INDEX.md`|Project artifact index and documentation governance|Updated|Yes|
+The authoritative relationship between the product artifacts is:
+
+```text
+PRD
+ ↓
+REQUIREMENTS.md
+ ↓
+REQUIREMENT-GAPS.md
+ ↓
+DEPENDENCY-MATRIX.md
+ ↓
+FEATURE-BACKLOG.md
+ ↓
+TRACEABILITY-MATRIX.md
+ ↓
+Implementation + Tests + CI/CD Evidence
+```
+
+`REQUIREMENTS.md` is the canonical requirement identity and priority source.
 
-\---
+`REQUIREMENT-GAPS.md` controls requirements that are not implementation-ready.
 
-# 3\. Product Documentation
+`FEATURE-BACKLOG.md` contains only implementation-ready work.
 
-|Artifact|Purpose|Status|Source of Truth|
-|-|-|-|-|
-|`docs/product/PRD.md`|Complete product requirements and feature-level requirements|Created|Yes|
-|`docs/product/USER-STORIES.md`|User stories and use cases mapped to requirement IDs|Created|Yes|
-|`docs/product/ACCEPTANCE-CRITERIA.md`|Testable acceptance criteria for every MVP requirement|Created|Yes|
-|`docs/product/SCOPE.md`|MVP, P1/P2/P3 scope, explicit exclusions, and future ideas|Created|Yes|
-|`docs/product/OPEN-REQUIREMENTS.md`|Unresolved product decisions, ambiguities, contradictions, hidden dependencies, and untestable requirements|Created|Yes|
+`TRACEABILITY-MATRIX.md` provides evidence linkage.
 
-\---
+---
 
-# 4\. Source Requirements
+# 5. Source Requirements
 
-|Artifact|Purpose|Status|
-|-|-|-|
-|Cloud Resume Challenge — Azure requirements|Original challenge requirements baseline|Current|
-|Project owner's CV|Resume-content source|Current|
-|Approved project state|Project-specific requirements and decisions|Current|
+| Source                                    | Purpose                                    | Status  |
+| ----------------------------------------- | ------------------------------------------ | ------- |
+| Azure Cloud Resume Challenge requirements | Original challenge baseline                | Current |
+| `docs/product/PRD.md`                     | Approved project-specific requirements     | Current |
+| Project state                             | Approved project constraints and decisions | Current |
+| Supplied CV                               | Resume content source                      | Current |
+| `docs/product/ACCEPTANCE-CRITERIA.md`     | Existing acceptance baseline               | Current |
 
-\---
+---
 
-# 5\. Source Code Repositories
+# 6. Repository Documentation
 
-|Repository|Purpose|Status|
-|-|-|-|
-|`github.com/s1xte3n/sixteen-frontend`|Frontend resume application|Exists; empty|
-|`github.com/s1xte3n/sixteen-backend`|Backend/API application|Exists; empty|
+| Repository                        | Purpose                                       | Status                       |
+| --------------------------------- | --------------------------------------------- | ---------------------------- |
+| `s1xte3n/sixteen-resume-frontend` | Frontend resume application and documentation | Exists                       |
+| `s1xte3n/sixteen-resume-backend`  | Backend/API/IaC application                   | Planned/verify current state |
 
-\---
+Repository naming must be normalized because some older project documentation refers to `sixteen-frontend` and `sixteen-backend`.
 
-# 6\. Current Implementation Artifacts
+---
 
-|Artifact|Status|
-|-|-|
-|Frontend source code|Not started|
-|Backend source code|Not started|
-|ARM templates|Not started|
-|Python tests|Not started|
-|GitHub Actions frontend workflow|Not started|
-|GitHub Actions backend workflow|Not started|
-|Azure project resources|No project resources confirmed|
-|Public deployment|Not started|
-|Public hostname|Not selected|
-|Blog post|Not created|
+# 7. Current Implementation Artifacts
 
-\---
+| Artifact                       | Status                                    |
+| ------------------------------ | ----------------------------------------- |
+| HTML resume                    | Not started                               |
+| CSS                            | Not started                               |
+| JavaScript visitor counter     | Blocked by visitor semantics/API contract |
+| Azure Storage                  | Not started                               |
+| HTTPS/CDN                      | Blocked by delivery/cost validation       |
+| DNS hostname                   | Blocked by hostname interpretation        |
+| Cosmos DB                      | Not started                               |
+| Azure Function                 | Not started                               |
+| Python implementation          | Not started                               |
+| Python tests                   | Blocked by test-framework decision        |
+| ARM templates                  | Not started                               |
+| Backend GitHub Actions         | Blocked by repository/test decisions      |
+| Frontend GitHub Actions        | Blocked by repository/delivery decisions  |
+| Production deployment          | Blocked by P1 requirements                |
+| Blog — Dev.to                  | Not started                               |
+| Blog — Hashnode                | Not started                               |
+| Public resume content approval | Pending                                   |
 
-# 7\. Branch Model
+---
 
-|Branch|Intended Role|Current Status|
-|-|-|-|
-|`develop`|Development/integration|Intended|
-|`main`|Production|Intended|
+# 8. Requirements Phase Status
 
-The repositories are currently empty, so actual branch implementation/state still needs to be established.
+**Status:** Traceability baseline created.
 
-\---
+### Requirement count
 
-# 8\. External Artifacts
+* 16 canonical MVP requirements
+* 8 cross-cutting requirements
+* 1 deliberate certification deviation
 
-## Resume Content
+### Current P1 blockers
 
-The supplied CV is the current source material for the public resume.
+1. Visitor-count semantics
+2. Free hostname vs custom-domain interpretation
+3. Numeric cost ceiling
+4. HTTPS/CDN architecture and cost validation
+5. Final public resume content
+6. Repository naming normalization
 
-Before production deployment, final public content must be reviewed and approved by the project owner.
+### Current P2 blockers/deferred decisions
 
-**Status:** Awaiting final public-content approval.
+1. API contract
+2. Counter failure UX
+3. Python test framework
+4. Blog-platform normalization
+5. Browser support baseline
+6. Availability target
+7. DNS propagation expectations
 
-## Blog Post
+---
 
-A project-learning blog post is required by the approved MVP scope.
+# 9. Artifact Status Rules
 
-**Status:** Not created.
+When a requirement changes:
 
-**Platform:** Undecided.
+1. Update `REQUIREMENTS.md`.
+2. Update `REQUIREMENT-GAPS.md` if ambiguity exists.
+3. Update `DEPENDENCY-MATRIX.md`.
+4. Update `TRACEABILITY-MATRIX.md`.
+5. Update `FEATURE-BACKLOG.md` only when implementation becomes ready.
+6. Update `PROJECT-STATUS.md` when implementation status changes.
+7. Record significant decisions in `DECISIONS.md`.
+8. Update this artifact index.
 
-\---
+No artifact may claim completion without corresponding evidence.
 
-# 9\. Product Requirements Artifacts
+---
 
-## PRD
+# 10. Naming Consistency Rule
 
-**Path:** `docs/product/PRD.md`
+The canonical repository naming must be explicitly normalized before CI/CD traceability is closed.
 
-**Status:** Created.
+Current evidence contains both:
 
-**Purpose:** Defines the product purpose, actors, confirmed requirements, assumptions, MVP requirements, non-functional requirements, contradictions, and completion gate.
+* `sixteen-frontend`
+* `sixteen-backend`
 
-## User Stories
+and:
 
-**Path:** `docs/product/USER-STORIES.md`
+* `sixteen-resume-frontend`
+* `sixteen-resume-backend`
 
-**Status:** Created.
+The repository supplied for this documentation review is:
 
-**Purpose:** Maps user stories and use cases to product requirement IDs.
+`s1xte3n/sixteen-resume-frontend`
 
-## Acceptance Criteria
+Until the naming decision is normalized, CI/CD requirements remain blocked.
 
-**Path:** `docs/product/ACCEPTANCE-CRITERIA.md`
+---
 
-**Status:** Created.
+# 11. Requirements Closure Rule
 
-**Purpose:** Provides testable acceptance criteria for every MVP requirement.
+The requirements phase is closed only when:
 
-## Scope
+* Every MVP requirement has a unique ID.
+* Every requirement has a priority.
+* Every requirement has dependencies.
+* Every requirement has affected components.
+* Every requirement has acceptance criteria.
+* Every requirement has at least one verification ID.
+* P0/P1 ambiguity is resolved or formally accepted as a deviation.
+* Contradictions are explicitly resolved.
+* Unverifiable requirements receive measurable definitions.
+* Traceability connects requirements to implementation and release evidence.
 
-**Path:** `docs/product/SCOPE.md`
+---
 
-**Status:** Created.
+# 12. Next Gate
 
-**Purpose:** Defines MVP, P1, P2, P3, explicit exclusions, and scope governance.
+The next gate is **requirements closure**, not implementation.
 
-## Open Requirements
-
-**Path:** `docs/product/OPEN-REQUIREMENTS.md`
-
-**Status:** Created.
-
-**Purpose:** Tracks unresolved decisions, ambiguities, contradictions, hidden dependencies, missing requirements, and requirements that cannot yet be objectively tested.
-
-\---
-
-# 10\. Product Phase Status
-
-**Requirements documentation:** Created.
-
-**MVP acceptance coverage:** Complete.
-
-**PRD closure:** Pending explicit resolution of P1 product decisions.
-
-Current P1 open items:
-
-1. Visitor-count semantics.
-2. Free hostname/subdomain versus original custom-domain interpretation.
-3. Numeric cost ceiling.
-4. HTTPS/CDN service suitability and cost validation.
-5. Final public resume-content approval.
-
-No implementation tasks are defined by these product documents.
-
-\---
-
-# 11\. Artifact Governance
-
-When a requirement, decision, or project state changes:
-
-1. Update the affected product or project document.
-2. Record significant confirmed decisions in `docs/project/DECISIONS.md`.
-3. Record unresolved decisions in `docs/product/OPEN-REQUIREMENTS.md` or `docs/project/OPEN-QUESTIONS.md`, depending on whether they are product or project-level.
-4. Update `docs/project/PROJECT-STATUS.md` when implementation state changes.
-5. Synchronize this artifact index.
-6. Do not silently change confirmed requirements.
-7. Do not mark unresolved requirements as complete without explicit evidence.
-
-\---
-
-# 12\. PRD Closure Rule
-
-The requirements phase is complete only when:
-
-* Every MVP feature has testable acceptance criteria.
-* No high-impact ambiguity is hidden.
-* All P0/P1 requirements are explicitly resolved or formally accepted as a documented deviation.
-* The final scope is reflected consistently across the product and project documentation.
-
+No new implementation task should be created for the currently blocked P1 requirements until their corresponding gaps are resolved.
