@@ -991,7 +991,7 @@ The original challenge describes a custom DNS domain. The approved project exclu
 
 The following remain intentionally unspecified because the approved sources do not define them:
 
-- Numeric cost ceiling.
+- Exact live-subscription pricing evidence for the approved delivery configuration.
 - Exact API request/response and CORS contract.
 - API authentication requirement, if any.
 - Counter failure UX.

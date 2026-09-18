@@ -21,7 +21,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure subscription | Complete | Existing subscription                            |
 | Azure region       | Complete | East US                                          |
 | Deployment count   | Complete | One deployment                                   |
-| Cost constraint    | Complete | R0 preferred; lowest possible cost               |
+| Cost constraint    | Complete | USD $40/month recurring Azure ceiling; $0 required one-time purchase |
 | Security baseline  | Complete | Secrets, HTTPS, least privilege, API separation  |
 | Git workflow       | Complete | develop → feature → PR → CI → merge              |
 | Repository plan    | Complete | Two repositories                                 |
@@ -42,7 +42,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | CSS                        | Not started |
 | JavaScript visitor counter | Not started |
 | Azure Storage              | Not started |
-| Azure CDN                  | Not started |
+| Azure Front Door Standard | Not started |
 | DNS hostname               | Not started |
 | Cosmos DB                  | Not started |
 | Azure Function             | Not started |

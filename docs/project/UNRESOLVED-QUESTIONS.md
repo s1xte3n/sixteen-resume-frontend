@@ -10,7 +10,7 @@
 
 The two documents have distinct roles:
 
-- `docs/product/OPEN-REQUIREMENTS.md` is the **authoritative product-level register**.
+- `docs/product/OPEN-REQUIREMENTS.md` is the authoritative product-level register.
 - `docs/project/UNRESOLVED-QUESTIONS.md` mirrors every currently open requirement and provides project-facing context.
 - IDs and status values in this document must remain aligned with the authoritative register.
 - Implementation details that are not themselves unresolved product requirements belong in implementation/design documentation, not in this unresolved-questions register.
@@ -54,16 +54,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 
 **Project constraint:** The MVP must not require paid domain registration.
 
-**Deviation:** The MVP does **not** claim ownership of a conventional registrable custom domain. Documentation must use the term **Public hostname: FreeDNS hosted hostname/subdomain**.
-
-**Production acceptance rule:**
-- The approved FreeDNS hostname resolves publicly.
-- The hostname resolves to the approved Azure delivery endpoint.
-- The resume is served through that hostname.
-- The hostname supports HTTPS through the approved delivery architecture.
-- No paid domain registration is required.
-- The project documentation records this as a scoped deviation from the literal custom-domain wording.
-
+---
 
 ### OR-003 — Numeric Cost Ceiling
 
@@ -87,13 +78,35 @@ These items must be resolved before affected MVP acceptance and before requireme
 ### OR-004 — HTTPS/CDN Configuration
 
 **Affected requirements:** MVP-005, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-**Question:** Which current Azure delivery configuration satisfies Azure Storage hosting, HTTPS, CDN/delivery capability, public hostname requirements, and the approved cost ceiling?
+**Decision:** Use **Azure Front Door Standard** in front of the Azure Storage static website.
 
-**Why it matters:** The selected service/configuration determines architecture, pricing, DNS, certificate handling, caching, and acceptance evidence.
+**Approved delivery path:**
 
-**Decision required:** Validate the exact production delivery configuration and record the applicable cost assumptions.
+```text
+FreeDNS public hostname
+        |
+        v
+Azure Front Door Standard
+        |
+        v
+Azure Storage Static Website
+```
+
+**HTTPS:** Use an Azure-managed TLS certificate on the Front Door custom domain and redirect HTTP to HTTPS.
+
+**CDN/delivery:** Azure Front Door Standard provides the required edge/CDN delivery layer.
+
+**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure ceiling is $40/month.
+
+**Production validation:** Deployment evidence must verify the actual Front Door SKU, hostname, HTTPS certificate, origin, and total estimated/observed billing remain within the approved ceiling.
+
+**Alternatives rejected:**
+
+- Front Door Premium — unnecessary for the MVP and materially higher base cost.
+- Front Door Classic — retiring and not appropriate for new onboarding.
+- Direct Storage delivery — does not satisfy the required CDN/delivery architecture.
 
 ---
 
@@ -212,11 +225,9 @@ The project has not specified whether the project-learning link opens in the sam
 
 ## 5. Related Contradictions and Dependencies
 
-The following items are recorded in the authoritative open-requirements register and are reproduced here for project visibility.
-
 ### IC-001 — Custom Domain vs Free Hostname
 
-The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and currently selects FreeDNS/afraid.org as the DNS direction. This is tracked by OR-002.
+The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and selects FreeDNS/afraid.org as the DNS direction. This is tracked by OR-002.
 
 ### IC-002 — AZ-900
 
@@ -261,7 +272,10 @@ These are retained only to prevent accidental reopening of already-decided proje
 
 | Item | Current decision/context |
 |---|---|
-| DNS provider | FreeDNS / afraid.org selected initially; exact hostname remains to be provisioned and verified against the resolved OR-002 acceptance rule. |
+| DNS provider | FreeDNS / afraid.org selected initially; hostname must be provisioned and verified against the OR-002 acceptance rule. |
+| Delivery service | Azure Front Door Standard. |
+| HTTPS certificate | Azure-managed TLS certificate on the Front Door custom domain. |
+| Cost ceiling | USD $40/month recurring Azure cost; USD $0 one-time domain/infrastructure purchase required by MVP. |
 | Azure certification | AI-901 is held and is the documented certification deviation from the literal AZ-900 challenge requirement. |
 | Resume source | Complete CV supplied; public publication approval remains OR-005. |
 | Resume positioning | 4+ years of hands-on software development experience, with professional employment represented separately as IT Operator — Gijima Holdings. |
