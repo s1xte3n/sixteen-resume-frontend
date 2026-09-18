@@ -66,7 +66,7 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | ID | Classification | Affected requirements | Status |
 |---|---|---|---|
 | QF-001 | Visitor semantics resolved: one successfully committed counter operation per top-level resume page load, with concurrency-safe increments. | REQ-AZ-007..009, REQ-AZ-015 | RESOLVED / OR-001 |
-| QF-002 | Free hostname versus original custom-domain interpretation conflicts. | REQ-AZ-006, REQ-AZ-015 | OPEN / OR-002 |
+| QF-002 | Free hostname versus original custom-domain interpretation is a deliberate scoped deviation. | REQ-AZ-006, REQ-AZ-015 | RESOLVED / OR-002 |
 | QF-003 | Numeric cost ceiling was previously undefined. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | RESOLVED / OR-003 |
 | QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / OR-004 |
 | QF-005 | Final public CV subset is not approved. | REQ-AZ-001, REQ-AZ-015 | OPEN / OR-005 |

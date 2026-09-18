@@ -7,7 +7,7 @@
 | Contract | Visitor Counter HTTP API |
 | Contract version | 1.0.0 |
 | API version | v1 |
-| Status | Draft — implementation-ready interface; acceptance blocked by OR-001 |
+| Status | Draft — implementation-ready interface; OR-001 visitor semantics resolved |
 | Runtime | Python on Azure Functions |
 | Persistence | Azure Cosmos DB Table API |
 | Public caller | Resume browser JavaScript |
@@ -34,9 +34,9 @@ The following are frozen for implementation:
 - No API operation exposes Cosmos DB identifiers, credentials, connection strings, or tokens.
 - No reset, delete, admin, analytics, authentication, or profile operations are part of v1.
 
-### Acceptance blocker
+### Visitor semantics resolution
 
-OR-001 leaves the definition of a visitor unresolved. Therefore the contract defines the operation boundary and schemas, but the exact increment trigger/duplicate semantics remain a required business-rule input. The implementation must not invent those semantics.
+OR-001 is resolved. The API operation uses the approved visitor semantics: one successfully committed counter operation caused by a top-level resume page load; a refresh is another operation; no unique-human, browser, session, IP, device, or user identification is performed; failed operations do not increment persisted state; and concurrent successful operations must not lose increments.
 
 ## 3. Operation VC-001
 
@@ -194,9 +194,7 @@ The final origin is intentionally not frozen until the public hostname/delivery 
 
 Before production acceptance, resolve:
 
-1. OR-001 — exact visitor-count semantics.
-2. OR-002 — free hostname versus custom-domain interpretation.
-3. OR-004 — HTTPS/CDN and final production origin.
-4. OR-009 — counter failure UX if it changes client-visible behavior.
+1. OR-004 — HTTPS/CDN and final production origin.
+2. OR-009 — counter failure UX if it changes client-visible behavior.
 
 No unresolved gate may be silently implemented as a new requirement.

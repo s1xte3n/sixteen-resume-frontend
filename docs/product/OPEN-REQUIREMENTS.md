@@ -71,6 +71,8 @@ No ambiguity listed here may be silently resolved during implementation.
 
 **Decision:** The MVP hard ceiling is **USD $40/month recurring Azure/cloud cost**, with **R0/month** as the preferred target.
 
+**Recommendation:** Do **not** change the ceiling to R100/month. The approved delivery direction uses Azure Front Door Standard, whose current published base fee is USD $35/month before request and data-transfer charges. A R100/month ceiling would therefore conflict with the approved HTTPS/CDN architecture before the remaining Azure services are accounted for.
+
 **Cost policy:**
 - **R0/month:** Preferred where viable.
 - **R0–USD $40/month recurring:** Allowed.
@@ -81,7 +83,7 @@ No ambiguity listed here may be silently resolved during implementation.
 - Any unexpected Azure/cloud charge must be investigated before project work continues.
 - Cost acceptance must use current billing/pricing evidence and verify the deployed configuration remains within the ceiling.
 
-**Acceptance invariant:** The measured recurring Azure/cloud cost attributable to the MVP must be `<= USD $40/month` for production acceptance. A forecast or estimate above USD $40/month blocks production. An unexpected charge triggers investigation before continuing project work.
+**Acceptance invariant:** The measured recurring Azure/cloud cost attributable to the MVP must be <= USD $40/month for production acceptance. A forecast or estimate above USD $40/month blocks production. An unexpected charge triggers investigation before continuing project work.
 
 **Affected:** MVP-005, MVP-006, MVP-012, MVP-015.
 
