@@ -227,7 +227,7 @@ Kubernetes.
 Multi-region resources.
 Additional analytics systems.
 
-The final resource SKUs must be validated against the approved numeric cost ceiling before production.
+The final resource SKUs must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production. R0/month is the preferred target. Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling. Any unexpected Azure/cloud charge must be investigated before continuing project work. A recurring cost above R100/month blocks production.
 
 16. Infrastructure Failure
 
