@@ -105,7 +105,7 @@ Each deployment/runtime identity receives only the permissions required for its 
 
 The architecture prefers free, serverless, or consumption-based services.
 
-The numeric cost ceiling remains an unresolved requirement and must be frozen before final production acceptance.
+The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is the hard MVP ceiling, with R0/month preferred and explicit exclusions.
 
 ---
 
@@ -644,17 +644,18 @@ Those would exceed the approved scope.
 
 # 18. Cost Architecture
 
-The cost strategy is:
+The cost policy is:
 
-Prefer free allowances.
-Prefer serverless/consumption services.
+Prefer R0/month recurring Azure/cloud cost.
+Allow R0–R100/month recurring Azure/cloud cost.
+Block >R100/month recurring Azure/cloud cost.
+Prefer free allowances and serverless/consumption services.
 Minimize persistent resource usage.
 Avoid unnecessary services.
-Validate current pricing before production.
-
-The numeric cost ceiling is not yet frozen.
-
-Therefore the architecture must not claim final cost compliance until that decision is recorded.
+Validate current pricing and billing evidence before production.
+Exclude personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later from the recurring ceiling.
+Paid domain registration is out of MVP.
+Investigate any unexpected Azure/cloud charge before continuing project work.
 
 # 19. Major Technology Decisions
 
@@ -674,7 +675,6 @@ The following decisions materially affect architecture or acceptance and must be
 P1
 Visitor-count semantics.
 Free hostname/subdomain versus custom-domain interpretation.
-Numeric project cost ceiling.
 Exact HTTPS/CDN architecture and pricing.
 Final public resume content.
 Repository naming normalization.
@@ -714,7 +714,7 @@ All P0 architecture/security requirements are baselined.
 P1 architecture decisions are explicitly resolved.
 The CDN/HTTPS architecture is validated.
 The hostname model is approved.
-The cost ceiling is numeric.
+The cost ceiling is numeric and fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and documented exclusions.
 Visitor semantics are defined.
 API contract is defined.
 Repository names are normalized.
