@@ -12,8 +12,8 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 | REQ-AZ-002 | REQ-AZ-001 | Content/UI | Yes | 2 |
 | REQ-AZ-003 | REQ-AZ-002 | UI | Yes | 3 |
 | REQ-AZ-004 | REQ-AZ-002, REQ-AZ-003 | Hosting | Yes | 4 |
-| REQ-AZ-005 | REQ-AZ-004, REQ-AZ-006; OR-003, OR-004 | Delivery/cost | Yes | 7 |
-| REQ-AZ-006 | REQ-AZ-005; OR-002 | DNS/delivery | Yes | 6 |
+| REQ-AZ-005 | REQ-AZ-004, REQ-AZ-006 | Delivery/cost | Yes | 7 |
+| REQ-AZ-006 | REQ-AZ-005 | DNS/delivery | Yes | 6 |
 | REQ-AZ-007 | REQ-AZ-008..010; OR-001, OR-008, OR-009 | Application | Yes | 12 |
 | REQ-AZ-008 | REQ-AZ-009, REQ-AZ-010; OR-001, OR-008 | Persistence/API | Yes | 11 |
 | REQ-AZ-009 | REQ-AZ-010; OR-008 | API | Yes | 10 |
@@ -33,7 +33,7 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 | REQ-AZ-SEC-002 | REQ-AZ-009 | The API is the database security boundary. |
 | REQ-AZ-SEC-003 | REQ-AZ-012..014 | Least privilege depends on actual resource and deployment architecture. |
 | REQ-AZ-SEC-004 | REQ-AZ-005 | HTTPS depends on final delivery configuration. |
-| REQ-AZ-COST-001 | OR-003 | No numeric acceptance threshold exists yet. |
+| REQ-AZ-COST-001 | Approved US$5/month recurring cloud/service ceiling | Cost acceptance is objectively testable against the approved threshold. |
 | REQ-AZ-REG-001 | REQ-AZ-012 | Resource locations are validated from IaC. |
 | REQ-AZ-GIT-001 | Repository/branch normalization | Branch model must match actual canonical repositories. |
 | REQ-AZ-DEV-001 | REQ-AZ-012 | Reproducibility depends on ARM coverage. |
@@ -44,9 +44,6 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 | Decision | Blocks |
 |---|---|
 | OR-001 Visitor semantics | REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-015 |
-| OR-002 Hostname interpretation | REQ-AZ-006, REQ-AZ-015 |
-| OR-003 Numeric cost ceiling | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 |
-| OR-004 HTTPS/CDN configuration | REQ-AZ-005, REQ-AZ-006, REQ-AZ-014, REQ-AZ-015 |
 | OR-005 Public resume approval | REQ-AZ-001, REQ-AZ-015 |
 | OR-006 Test framework | REQ-AZ-011, REQ-AZ-013 |
 | OR-007 Blog publication interpretation | REQ-AZ-016 |

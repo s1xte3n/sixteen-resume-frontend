@@ -16,7 +16,7 @@
 | Backend repository | `s1xte3n/sixteen-resume-backend` |
 | Development/integration branch | `develop` |
 | Production branch | `main` |
-| Cost direction | Zero/R0 where possible; otherwise lowest-cost viable option, subject to explicit approval |
+| Cost direction | US$5/month maximum recurring cloud/service cost; US$0 planned one-time domain registration; free services preferred |
 | Target completion | 30 September 2026 |
 
 ## 2. Product Purpose
@@ -62,7 +62,7 @@ The following are confirmed project requirements and must not be silently change
 
 1. The existing Azure subscription can provision every required service.
 2. Required services and relevant free allowances remain available when implementation starts.
-3. The required delivery architecture can remain within the eventual numeric cost ceiling.
+3. The selected Cloudflare Free → Azure Storage delivery architecture remains within the approved US$5/month recurring cloud/service ceiling, subject to final hostname compatibility verification.
 4. A suitable free hostname/subdomain can satisfy the approved interpretation of the DNS requirement.
 5. GitHub Actions can be configured with secure deployment authentication.
 6. The supplied CV contains sufficient material for the initial public resume.
@@ -337,7 +337,7 @@ HTTPS request and hostname.
 **Business Rules**  
 - HTTPS is mandatory.
 - CDN/delivery capability is required by the approved project direction.
-- The exact service/configuration must satisfy the final approved cost ceiling.
+- The selected delivery service/configuration must satisfy the approved US$5/month recurring cloud/service ceiling.
 - Current service suitability must be validated before production acceptance.
 
 **Success State**  
@@ -353,7 +353,7 @@ Public read; delivery configuration restricted to authorized project/deployment 
 Certificate lifecycle; cache staleness; service/pricing changes; origin failure.
 
 **Dependencies**  
-MVP-004, MVP-006, OR-003, OR-004.
+MVP-004, MVP-006.
 
 **Acceptance Criteria**  
 See AC-005; verification VT-005.
@@ -696,7 +696,7 @@ Deployment identity receives only required resource-management permissions.
 Existing resource state; parameter mismatch; partial deployment; deployment rollback/failure.
 
 **Dependencies**  
-MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013, OR-003, OR-004.
+MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013.
 
 **Acceptance Criteria**  
 See AC-012; verification VT-012.
@@ -796,7 +796,7 @@ Restricted deployment write access to Azure Storage/delivery resources.
 Partial publication; stale cache; repeated deployment; failed cache purge.
 
 **Dependencies**  
-MVP-004, MVP-005, MVP-013, MVP-015, OR-004.
+MVP-004, MVP-005, MVP-013, MVP-015.
 
 **Acceptance Criteria**  
 See AC-014; verification VT-014.
@@ -920,8 +920,8 @@ Blog CMS, comments, subscriptions, analytics dashboard, or multiple unrelated ar
 
 ### Cost
 
-- Project direction is R0/free where possible and lowest-cost viable where free service is unavailable.
-- A numeric maximum cost is still required before final production acceptance (OR-003).
+- Project direction prioritizes free services; the approved recurring cloud/service ceiling is US$5/month.
+- The approved recurring cloud/service cost ceiling is US$5/month; final production acceptance must verify actual configuration remains within that ceiling.
 - Any unavoidable cost requires explicit approval.
 
 ### Reliability
@@ -959,16 +959,16 @@ The original challenge calls for AZ-900 or an advanced Azure certification. The 
 
 ### Domain
 
-The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and currently directs the project toward a free hostname/subdomain. The exact interpretation is still recorded as OR-002 and must be explicitly closed.
+The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and uses a FreeDNS/afraid.org hosted hostname/subdomain. This is a documented deviation under resolved OR-002.
 
 ## 10. Contradictions and Ambiguities
 
 | ID | Issue | Impact | Status |
 |---|---|---|---|
 | OR-001 | Visitor unit is defined as one successfully committed counter operation initiated by a top-level resume page load. | Counter behavior and tests must implement the approved semantics. | Resolved |
-| OR-002 | Original custom-domain wording conflicts with free-hostname direction. | DNS and production acceptance cannot be final. | Open P1 |
-| OR-003 | Zero/near-zero has no numeric threshold. | Cost acceptance cannot be objective. | Open P1 |
-| OR-004 | Exact current HTTPS/CDN configuration and cost suitability are not validated. | Delivery architecture and acceptance cannot be final. | Open P1 |
+| OR-002 | Original custom-domain wording conflicts with free-hostname direction. | FreeDNS hosted hostname/subdomain is accepted as a documented project deviation. | Resolved |
+| OR-003 | Numeric cost ceiling | US$5/month recurring cloud/service ceiling; US$0 planned one-time domain registration. | Resolved |
+| OR-004 | Cloudflare Free proxy/CDN → Azure Storage Static Website selected; final hostname compatibility remains an implementation verification condition. | Resolved — conditional verification |
 | OR-005 | Exact public CV content has not received final owner approval. | Public-content acceptance cannot be final. | Open P1 |
 | OR-006 | Python test framework is unspecified. | Test implementation details remain open. | Open P2 |
 | OR-007 | Blog platform is inconsistent between product docs and approved project state. | MVP-016 documentation is inconsistent. | Open P2; project state indicates Dev.to + Hashnode |
@@ -983,7 +983,7 @@ The original challenge describes a custom DNS domain. The approved project exclu
 
 The following remain intentionally unspecified because the approved sources do not define them:
 
-- Numeric cost ceiling.
+- Exact API request/response and CORS contract.
 - Exact API request/response and CORS contract.
 - API authentication requirement, if any.
 - Counter failure UX.
@@ -1008,9 +1008,9 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
-5. A numeric cost ceiling is defined.
+5. The US$5/month recurring cloud/service cost ceiling is defined and verified.
 6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration and cost are validated.
+8. The accepted Cloudflare Free delivery architecture is documented and final hostname compatibility is verified.
 9. Final public resume content is approved.
 
 No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.

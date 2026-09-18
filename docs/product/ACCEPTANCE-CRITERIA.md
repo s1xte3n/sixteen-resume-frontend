@@ -78,7 +78,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The actual deployed configuration matches the approved architecture.
 - [ ] Current service cost is within the approved numeric cost ceiling.
 
-**Blocking dependencies:** OR-003 and OR-004.
+**Blocking dependency:** None. Final verification must confirm the deployed configuration remains within the US$5/month ceiling and matches ADR-006.
 
 ## AC-006 — Public Hostname/DNS
 
@@ -93,7 +93,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The documentation explicitly states that this is not ownership of a conventional registrable custom domain.
 - [ ] The implementation does not require paid domain registration.
 
-**Blocking dependency:** None for hostname interpretation; final HTTPS/delivery validation remains covered by OR-004.
+**Blocking dependency:** None for the resolved hostname interpretation. Final acceptance verifies FreeDNS/Cloudflare/Azure Storage hostname compatibility.
 
 ## AC-007 — JavaScript Visitor Counter
 
@@ -185,7 +185,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Infrastructure changes are represented as source-controlled changes.
 - [ ] Deployed configuration remains within the approved cost ceiling.
 
-**Blocking dependencies:** OR-003 and OR-004 where they affect final resource selection.
+**Blocking dependency:** None. Final verification must confirm the selected resources remain within the approved US$5/month recurring cloud/service ceiling.
 
 ## AC-013 — Backend GitHub Repository and CI/CD
 
@@ -218,7 +218,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] No Azure credentials or secrets are committed.
 - [ ] Production publication represents the approved `main` state.
 
-**Blocking dependency:** OR-004 for final delivery/cache behavior.
+**Blocking dependency:** None for architecture selection; implementation must handle Cloudflare cache behavior as specified by ADR-006.
 
 ## AC-015 — Public Production Deployment
 
@@ -235,7 +235,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Required infrastructure is represented in source-controlled ARM IaC.
 - [ ] Required backend and frontend deployment workflows have passed their applicable acceptance tests.
 
-**Blocking dependencies:** OR-003, OR-004, OR-005, plus affected P2 API/test decisions.
+**Blocking dependencies:** OR-005, plus affected P2 API/test decisions.
 
 ## AC-016 — Project-Learning Blog Post
 
@@ -259,7 +259,8 @@ The MVP cannot be declared fully accepted until:
 - [ ] AC-001 through AC-016 all pass.
 - [ ] No P0 ambiguity remains.
 - [ ] OR-002 is resolved and its deviation from the literal challenge wording is documented.
-- [ ] OR-003 through OR-005 are explicitly resolved or formally accepted as documented deviations.
+- [ ] OR-001 through OR-004 are resolved and their implementation verification conditions pass.
+- [ ] OR-005 is resolved before full MVP acceptance.
 - [ ] All deliberate deviations from the original challenge are documented.
 - [ ] The numeric cost ceiling is defined and verified.
 - [ ] Visitor-count semantics are verified against the resolved OR-001 definition.

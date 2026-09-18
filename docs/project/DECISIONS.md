@@ -74,11 +74,13 @@ The resume must not imply four-plus years of professional software-engineering e
 
 ---
 
-## D-009 — HTTPS
+## D-009 — HTTPS/CDN Delivery
 
-**Decision:** Use Azure CDN to provide HTTPS for the static website.
+**Decision:** Use Cloudflare Free proxy/CDN to provide the public HTTPS/CDN delivery layer in front of the Azure Storage static website.
 
-**Reason:** HTTPS through Azure CDN is explicitly required by the challenge.
+**Reason:** Azure Front Door Standard has a current US$35/month base fee, while Azure CDN from Microsoft (classic) no longer accepts new profiles/domains. Cloudflare Free provides CDN and Universal SSL at no recurring plan charge.
+
+**Deviation:** The delivery/CDN provider is not Azure CDN. Azure Storage remains the required static website origin.
 
 ---
 
@@ -232,11 +234,11 @@ develop → feature/* → PR → CI → merge → main
 
 ## D-024 — Cost Strategy
 
-**Decision:** Prefer R0/free services and allowances.
+**Decision:** Prefer R0/free services and allowances, with a measurable MVP ceiling of **US$5/month for recurring cloud/service costs**.
 
-If a requirement cannot be fulfilled for free, use the lowest-cost viable option.
+Planned one-time domain registration cost is **US$0** because the MVP uses the approved free-hostname/subdomain interpretation. Any future paid service or domain outside these limits requires an explicit project decision.
 
-**Reason:** Cost minimization is a project constraint.
+**Reason:** Cost minimization is a project constraint and must be objectively testable.
 
 ---
 
@@ -329,4 +331,4 @@ The content will document:
 
 **Deviation:** The original challenge describes pointing a custom DNS domain to the CDN endpoint. The MVP uses a hosted subdomain instead and records this as a deliberate deviation from the literal custom-domain wording.
 
-**Acceptance rule:** The approved hostname must resolve publicly to the approved Azure delivery endpoint, serve the resume over HTTPS through the approved delivery architecture, and require no paid domain registration.
+**Acceptance rule:** The approved hostname must resolve publicly through the approved Cloudflare delivery path to the Azure Storage static website, serve the resume over HTTPS, and require no paid domain registration.

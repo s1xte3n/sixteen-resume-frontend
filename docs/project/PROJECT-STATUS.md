@@ -21,11 +21,11 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure subscription | Complete | Existing subscription                            |
 | Azure region       | Complete | East US                                          |
 | Deployment count   | Complete | One deployment                                   |
-| Cost constraint    | Complete | R0 preferred; lowest possible cost               |
+| Cost constraint    | Complete | US$5/month recurring cloud/service ceiling; US$0 planned domain cost |
 | Security baseline  | Complete | Secrets, HTTPS, least privilege, API separation  |
 | Git workflow       | Complete | develop → feature → PR → CI → merge              |
 | Repository plan    | Complete | Two repositories                                 |
-| DNS approach       | Complete | FreeDNS selected initially                       |
+| DNS approach       | Complete | FreeDNS hostname selected; Cloudflare compatibility verification pending |
 | Certification      | Complete | AI-901 held; AZ-900 deviation documented         |
 | Resume content     | Complete | Source CV supplied                               |
 | Resume positioning | Complete | 4+ years hands-on development                    |
@@ -42,7 +42,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | CSS                        | Not started |
 | JavaScript visitor counter | Not started |
 | Azure Storage              | Not started |
-| Azure CDN                  | Not started |
+| Cloudflare Free delivery | Not started |
 | DNS hostname               | Not started |
 | Cosmos DB                  | Not started |
 | Azure Function             | Not started |
@@ -108,9 +108,11 @@ Status: **Documented deviation**
 
 ## DNS Status
 
-**Provider:** FreeDNS / afraid.org
+**Hostname:** FreeDNS / afraid.org
 
-Status: **Provider selected; hostname not yet created**
+**Delivery:** Cloudflare Free proxy/CDN/HTTPS
+
+Status: **Hostname provider selected; final hostname compatibility with Cloudflare pending verification**
 
 The initial implementation will use a free hosted hostname/subdomain approach. A conventional paid domain can be introduced later if the website is moved toward a production personal-brand deployment.
 
@@ -129,11 +131,11 @@ The blog will cover both technical lessons and the overall project journey.
 
 Target:
 
-**R0 where possible**
+**US$5/month maximum recurring cloud/service cost**
 
-Fallback:
+Planned one-time domain registration:
 
-**Lowest possible cost**
+**US$0**
 
 The project should prioritize free allowances and serverless/pay-per-use services.
 

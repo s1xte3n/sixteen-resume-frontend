@@ -67,7 +67,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/architecture/ADR-003.md` | Cosmos DB persistence | Accepted |
 | `docs/architecture/ADR-004.md` | ARM and CI/CD architecture | Accepted |
 | `docs/architecture/ADR-005.md` | CI/CD security/authentication | Accepted in principle |
-| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Pending validation |
+| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Accepted; hostname compatibility verification required |
 | `docs/architecture/ADR-007.md` | Visitor-count semantics | Pending approval |
 
 ## 7. Canonical Repository Names
@@ -97,11 +97,8 @@ Coverage now includes:
 
 ## 9. Current P1 Blockers
 
-1. OR-001 — Visitor-count semantics.
-2. OR-002 — Free hostname versus custom-domain interpretation.
-3. OR-003 — Numeric cost ceiling.
-4. OR-004 — HTTPS/CDN configuration and cost validation.
-5. OR-005 — Final public resume-content approval.
+1. OR-005 — Final public resume-content approval.
+2. Final FreeDNS hostname compatibility verification for the accepted ADR-006 delivery path.
 6. Repository/branch state normalization where it affects CI/CD evidence.
 
 ## 10. Current P2/P3 Decisions
@@ -155,11 +152,11 @@ When a requirement or decision changes:
 
 ### PRD Gate
 
-**NOT CLOSED.** Every MVP requirement now has acceptance criteria and a verification path, but P1 decisions remain unresolved.
+**NOT CLOSED.** Every MVP requirement has acceptance criteria and a verification path. OR-001 through OR-004 are resolved; OR-005 remains the P1 product-approval blocker.
 
 ### Requirements Gate
 
-**NOT CLOSED.** The traceability system is established, but the following prevent requirements closure: unresolved P1 product decisions, unresolved P2 API/testing/blog decisions where they affect acceptance, and repository/branch-state evidence that must match the canonical Git model.
+**NOT CLOSED.** The traceability system is established. OR-005 remains unresolved, and final hostname compatibility must be verified for the accepted delivery architecture.
 
 ### Architecture Gate
 

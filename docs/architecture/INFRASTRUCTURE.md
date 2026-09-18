@@ -75,7 +75,7 @@ CDN/delivery capability.
 Public delivery endpoint.
 Cache behavior.
 
-The exact Azure service is not architecture-locked until service availability and pricing are validated.
+The delivery architecture is fixed by ADR-006 as Cloudflare Free proxy/CDN → Azure Storage Static Website. Cloudflare is an external delivery dependency; Azure Storage remains the required origin.
 
 See:
 
@@ -83,7 +83,7 @@ ADR-006.md
 
 6. DNS/Hostname
 
-The project currently intends to use FreeDNS/free hostname functionality.
+The project uses the approved FreeDNS/afraid.org hosted hostname/subdomain. The final hostname must be verified for Cloudflare delegation/proxying and HTTPS compatibility before production acceptance.
 
 Required relationship:
 
@@ -227,7 +227,7 @@ Kubernetes.
 Multi-region resources.
 Additional analytics systems.
 
-The final resource SKUs must be validated against the approved numeric cost ceiling before production.
+The final Azure resource SKUs must remain within the approved US$5/month recurring cloud/service ceiling before production acceptance.
 
 16. Infrastructure Failure
 

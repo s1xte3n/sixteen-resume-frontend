@@ -6,12 +6,14 @@ This register contains unresolved, vague, contradictory, duplicated, deferred, o
 
 ## 2. P1 Blocking Gaps
 
+OR-001 through OR-004 are no longer blocking gaps. OR-005 remains the only P1 blocking gap.
+
 | ID | Source | Classification | Affected requirements | Status | Required resolution |
 |---|---|---|---|---|---|
 | GAP-AZ-001 | OR-001 | Ambiguous / unverifiable | REQ-AZ-007..009, REQ-AZ-015 | OPEN | Define the counting unit: page load, API request, session, unique visitor, or another explicit unit. |
-| GAP-AZ-002 | OR-002 / IC-001 | Contradictory | REQ-AZ-006, REQ-AZ-015 | OPEN | Explicitly approve free hostname/subdomain as a project deviation or change scope. |
-| GAP-AZ-003 | OR-003 | Unverifiable | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | OPEN | Define a numeric monthly or annual maximum cost. |
-| GAP-AZ-004 | OR-004 / IC-003 | Unresolved architecture requirement | REQ-AZ-005, REQ-AZ-006, REQ-AZ-014, REQ-AZ-015 | OPEN | Validate delivery service availability, HTTPS/certificate support, DNS compatibility, Storage compatibility, cache behavior, and cost. |
+| GAP-AZ-002 | OR-002 / IC-001 | Contradictory | REQ-AZ-006, REQ-AZ-015 | CLOSED | FreeDNS hosted hostname/subdomain is accepted as the documented project deviation. |
+| GAP-AZ-003 | OR-003 | Unverifiable | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | CLOSED | US$5/month recurring cloud/service ceiling; US$0 planned one-time domain registration. |
+| GAP-AZ-004 | OR-004 / IC-003 | Architecture decision | REQ-AZ-005, REQ-AZ-006, REQ-AZ-014, REQ-AZ-015 | CLOSED — verification condition | Cloudflare Free proxy/CDN → Azure Storage Static Website selected; final FreeDNS hostname compatibility is an implementation verification condition, not an unresolved architecture choice. |
 | GAP-AZ-005 | OR-005 | Content approval | REQ-AZ-001, REQ-AZ-015 | OPEN | Approve the exact public CV-derived content and identifying information. |
 | GAP-AZ-006 | Repository naming/state | Contradictory | REQ-AZ-013, REQ-AZ-014, REQ-AZ-GIT-001 | OPEN | Normalize canonical repository names and branch model against actual GitHub state. |
 

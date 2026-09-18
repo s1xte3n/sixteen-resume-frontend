@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **NOT CLOSED**. OR-003 through OR-005 are P1 closure blockers; OR-001 and OR-002 are resolved.
+> **Current status:** Requirements closure is **NOT CLOSED**. OR-005 is the remaining P1 closure blocker; OR-001 through OR-004 are resolved.
 
 ## 1. Reconciliation Rules
 
@@ -22,7 +22,7 @@ The two documents have distinct roles:
 
 These items must be resolved before affected MVP acceptance and before requirements closure.
 
-**Resolved P1 decisions:** OR-001 and OR-002. The remaining P1 closure blockers are OR-003, OR-004, and OR-005.
+**Resolved P1 decisions:** OR-001 through OR-004. The remaining P1 closure blocker is OR-005.
 
 ### OR-001 — Visitor Definition
 
@@ -52,7 +52,7 @@ Candidate interpretations already identified by the approved requirements are pa
 
 **Production acceptance rule:**
 - The approved FreeDNS hostname resolves publicly.
-- The hostname resolves to the approved Azure delivery endpoint.
+- The hostname resolves through the approved Cloudflare delivery path to the Azure Storage static website origin.
 - The resume is served through that hostname.
 - The hostname supports HTTPS through the approved delivery architecture.
 - No paid domain registration is required.
@@ -62,30 +62,36 @@ Candidate interpretations already identified by the approved requirements are pa
 ### OR-003 — Numeric Cost Ceiling
 
 **Affected requirements:** MVP-005, MVP-006, MVP-012, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-**Question:** What exact maximum project cost is acceptable?
+**Decision:** The MVP recurring cloud/service cost ceiling is **US$5/month**.
 
-The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
+**One-time cost rule:** Planned one-time domain registration cost is **US$0** because the MVP uses the approved free-hostname/subdomain interpretation and does not require paid domain registration.
 
-**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
+Cloudflare Free is budgeted at US$0/month. Azure usage-based services must remain within the US$5/month ceiling. Any future paid service outside this ceiling requires an explicit project decision.
 
 ---
 
 ### OR-004 — HTTPS/CDN Configuration
 
 **Affected requirements:** MVP-005, MVP-015  
-**Status:** Open
+**Status:** Resolved — conditional on hostname compatibility verification
 
-**Question:** Which current Azure delivery configuration satisfies Azure Storage hosting, HTTPS, CDN/delivery capability, public hostname requirements, and the approved cost ceiling?
+**Decision:** Use **Cloudflare Free proxy/CDN → Azure Storage Static Website**.
 
-**Why it matters:** The selected service/configuration determines architecture, pricing, DNS, certificate handling, caching, and acceptance evidence.
+**Rejected alternatives:**
+- Azure Front Door Standard — rejected because the current Standard tier has a US$35/month base fee before usage charges.
+- Azure CDN from Microsoft (classic) — rejected because new profiles/domains are no longer available and the service is on the retirement path.
 
-**Decision required:** Validate the exact production delivery configuration and record the applicable cost assumptions.
+**Deviation:** The delivery/CDN provider is explicitly **not Azure CDN**. The Azure Storage static website remains the origin, while Cloudflare Free provides the public proxy/CDN and HTTPS edge layer.
+
+**Remaining verification condition:** The final FreeDNS/afraid.org hosted hostname must be verified as compatible with Cloudflare proxying, HTTPS, and the Azure Storage static website origin. This verification does not reopen OR-004 as an architecture decision.
+
+**Cost basis:** OR-003 resolves the numeric ceiling at US$5/month recurring cloud/service cost, with planned one-time domain cost at US$0.
 
 ---
 
-### OR-005 — Public Resume Content
+### OR-005 — Public Resume Content### OR-005 — Public Resume Content
 
 **Affected requirements:** MVP-001, MVP-015  
 **Status:** Open pending Project Owner approval
@@ -212,7 +218,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The absence of a numeric ceiling and validated current configuration is tracked by OR-003 and OR-004.
+HTTPS/CDN delivery remains required. OR-003 and OR-004 are resolved; final hostname compatibility is tracked as an implementation verification condition.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -260,7 +266,7 @@ These are retained only to prevent accidental reopening of already-decided proje
 | Azure subscription | Existing subscription. |
 | Azure region | East US. |
 | Deployment count | One deployment environment. |
-| Cost strategy | R0/free where possible; lowest-cost viable option otherwise. Numeric ceiling remains OR-003. |
+| Cost strategy | US$5/month maximum recurring cloud/service cost; US$0 planned one-time domain registration. |
 | Visual design | No predefined preference; simple professional implementation is an implementation direction, not an unresolved product requirement. |
 | Deadline | 30 September 2026. |
 | Project scope | Strictly aligned with the Cloud Resume Challenge; unrelated feature expansion remains out of scope. |

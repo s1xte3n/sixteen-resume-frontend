@@ -37,7 +37,7 @@ Current P1 product decisions:
 
 - Visitor-count semantics.
 - Free hostname/subdomain versus original custom-domain interpretation.
-- Numeric cost ceiling.
+- Numeric cost ceiling: US$5/month maximum recurring cloud/service cost; US$0 planned one-time domain registration.
 - HTTPS/CDN service suitability and cost validation.
 - Final public resume-content approval.
 
@@ -118,13 +118,13 @@ These ideas are explicitly future scope and must not be introduced into MVP impl
 | CI/CD | GitHub Actions |
 | Azure region | East US |
 | Environments | One |
-| Cost | R0/free where possible; otherwise lowest-cost viable option, subject to approval |
+| Cost | US$5/month maximum recurring cloud/service cost; US$0 planned one-time domain registration |
 
 ## 8. Scope Constraints
 
 ### Cost
 
-The project is intended to remain at zero/free cost where possible and otherwise use the lowest-cost viable option. The numeric maximum cost is not yet defined and is tracked as OR-003.
+The project prioritizes free services and has an approved US$5/month maximum recurring cloud/service cost. Planned one-time domain registration cost is US$0.
 
 ### Certification
 
@@ -136,11 +136,11 @@ The supplied CV is the source material. Final public content requires owner appr
 
 ### Delivery
 
-The project must use Azure Storage static website hosting with HTTPS and the approved CDN/delivery direction. Exact configuration remains subject to OR-004.
+The project must use Azure Storage static website hosting with HTTPS and the approved Cloudflare Free CDN/delivery direction. Final hostname compatibility is an implementation verification condition under ADR-006.
 
 ### Domain/DNS
 
-A free hostname/subdomain is the current project direction. Whether this satisfies the original challenge's custom-domain intent remains OR-002.
+A FreeDNS/afraid.org hosted hostname/subdomain is the approved public-hostname interpretation. This is a documented deviation from the original challenge's conventional custom-domain wording; OR-002 is resolved.
 
 ## 9. Scope Governance
 

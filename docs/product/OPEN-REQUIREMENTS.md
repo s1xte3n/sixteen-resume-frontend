@@ -21,8 +21,8 @@ No ambiguity listed here may be silently resolved during implementation.
 |---|---|---|---|
 | OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as the project's scoped DNS/public-hostname interpretation, with an explicit deviation from the challenge's conventional custom-domain wording. | MVP-006, MVP-015 | Resolved |
 
-| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
-| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
+| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Resolved |
+| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Resolved — conditional on hostname compatibility verification |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
 ### OR-001 — Visitor Definition
@@ -59,7 +59,7 @@ No ambiguity listed here may be silently resolved during implementation.
 
 **Production acceptance rule:**
 - The approved FreeDNS hostname resolves publicly.
-- The hostname resolves to the approved Azure delivery endpoint.
+- The hostname resolves through the approved Cloudflare delivery path to the Azure Storage static website origin.
 - The resume is served through that hostname.
 - The hostname supports HTTPS through the approved delivery architecture.
 - No paid domain registration is required.
@@ -69,29 +69,41 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-003 — Numeric Cost Ceiling
 
-**Question:** What exact maximum project cost is acceptable?
+**Decision:** Set the MVP recurring cloud/service cost ceiling at **US$5/month**.
 
-The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
+**One-time cost rule:** Planned one-time domain registration cost is **US$0** because the MVP uses the approved free-hostname/subdomain interpretation and does not require paid domain registration.
 
-**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
+**Cost interpretation:**
+- The ceiling applies to recurring cloud/service charges attributable to the MVP.
+- Cloudflare Free is budgeted at US$0/month.
+- Azure Storage, Azure Functions, and Cosmos DB usage-based charges must remain within the US$5/month ceiling.
+- Any future paid domain or service outside this ceiling requires an explicit project decision before adoption.
 
 **Affected:** MVP-005, MVP-006, MVP-012, MVP-015.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-004 — HTTPS/CDN Configuration
 
-**Question:** Which current Azure delivery configuration satisfies Azure Storage hosting, HTTPS, CDN/delivery capability, public hostname requirements, and the approved cost ceiling?
+**Decision:** Use **Cloudflare Free proxy/CDN → Azure Storage Static Website** for public delivery.
 
-**Why it matters:** The selected service/configuration determines architecture, pricing, DNS, certificate handling, caching, and acceptance evidence.
+**Rejected alternatives:**
+- **Azure Front Door Standard:** rejected because the current Standard tier has a US$35/month base fee before usage charges.
+- **Azure CDN from Microsoft (classic):** rejected because new profiles/domains are no longer available and the service is on the retirement path.
 
-**Decision required:** Validate the exact production delivery configuration and record the applicable cost assumptions.
+**Selected delivery layer:** Cloudflare Free provides the public proxy/CDN and HTTPS edge layer at no recurring plan charge. Azure Storage remains the required static website origin.
+
+**Deviation:** The delivery/CDN provider is explicitly **not Azure CDN**. The project must document this as a delivery-layer deviation from the original challenge implementation guidance.
+
+**Hostname condition:** The final FreeDNS/afraid.org hosted hostname must be verified as compatible with Cloudflare proxying, HTTPS, and the Azure Storage static website origin. This is an implementation verification condition, not an unresolved architecture choice.
+
+**Cost basis:** OR-003 establishes a US$5/month recurring cloud/service ceiling. The selected delivery layer is US$0/month at the Cloudflare Free plan level.
 
 **Affected:** MVP-005, MVP-015.
 
-**Status:** Open.
+**Status:** Resolved — conditional on hostname compatibility verification.
 
-### OR-005 — Public Resume Content
+### OR-005 — Public Resume Content### OR-005 — Public Resume Content
 
 **Question:** Which exact CV-derived information is approved for public publication?
 
@@ -183,7 +195,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The absence of a numeric ceiling and validated current configuration makes this an open P1 decision (OR-003/OR-004).
+HTTPS/CDN delivery remains required, but OR-003 and OR-004 now resolve the numeric ceiling and delivery architecture. Final hostname compatibility is an implementation verification condition.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -255,8 +267,8 @@ The PRD phase is closed only when:
 4. All deliberate deviations from the original challenge are documented.
 5. The numeric cost constraint is defined.
 6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration is validated.
+8. HTTPS/CDN architecture and cost decision are resolved; final hostname compatibility remains an implementation verification condition.
 9. Final public resume content is approved.
 10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: NOT CLOSED.** OR-001 and OR-002 are resolved. OR-003 through OR-005 remain P1 closure blockers.
+**Current status: NOT CLOSED.** OR-001 through OR-004 are resolved. OR-005 remains the only P1 closure blocker.

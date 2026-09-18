@@ -32,8 +32,8 @@ The MVP consists of the complete Azure Cloud Resume Challenge:
 2. Resume written in HTML.
 3. Resume styled with CSS.
 4. Website hosted using Azure Storage static website hosting.
-5. HTTPS using Azure CDN.
-6. Custom DNS hostname pointing to the Azure CDN endpoint.
+5. HTTPS using the approved Cloudflare Free delivery layer.
+6. Public hostname pointing through Cloudflare to the Azure Storage static website.
 7. JavaScript visitor counter.
 8. Visitor count stored in Azure Cosmos DB Table API using serverless capacity.
 9. Azure Function HTTP API between the browser and Cosmos DB.
@@ -103,7 +103,8 @@ The CV still requires editorial updating and conversion into the project's HTML 
 ### Hosting and Delivery
 
 * Azure Storage static website
-* Azure CDN
+* Cloudflare Free proxy/CDN and HTTPS
+* Azure Storage static website origin
 * FreeDNS for the initial free DNS/hostname requirement
 
 ### Backend
@@ -140,8 +141,9 @@ The CV still requires editorial updating and conversion into the project's HTML 
 * Region: East US
 * Deployment environments: one
 * Azure subscription: existing subscription
-* Target cost: R0 where possible
-* Paid services: lowest-cost option where a genuinely free implementation is not possible
+* Target recurring cloud/service cost: US$5/month maximum
+* Planned one-time domain registration cost: US$0
+* Free services are preferred; any paid service outside the ceiling requires explicit approval
 
 The Azure subscription identifier is intentionally not stored in project documentation.
 

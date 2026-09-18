@@ -27,7 +27,7 @@ The system provides:
 
 1. A public HTML/CSS/JavaScript resume.
 2. Azure Storage static website hosting.
-3. HTTPS through the approved Azure delivery/CDN architecture.
+3. HTTPS through the approved Cloudflare Free delivery/CDN architecture.
 4. A public hostname/DNS solution.
 5. A JavaScript visitor counter.
 6. An Azure Function HTTP API.
@@ -105,7 +105,7 @@ Each deployment/runtime identity receives only the permissions required for its 
 
 The architecture prefers free, serverless, or consumption-based services.
 
-The numeric cost ceiling remains an unresolved requirement and must be frozen before final production acceptance.
+The numeric recurring cloud/service cost ceiling is US$5/month. Final production acceptance additionally requires hostname compatibility verification.
 
 ---
 
@@ -121,8 +121,8 @@ The numeric cost ceiling remains an unresolved requirement and must be frozen be
                                |
                                v
                     +----------------------+
-                    | HTTPS / CDN /        |
-                    | Delivery Layer       |
+                    | Cloudflare Free      |
+                    | Proxy / CDN + HTTPS  |
                     +----------+-----------+
                                |
                                v
@@ -218,7 +218,7 @@ Provide HTTPS.
 Provide CDN/delivery capability required by the approved requirements.
 Deliver cached static content where supported.
 
-The exact Azure service/configuration remains subject to ADR-006 validation.
+The delivery layer is fixed by ADR-006 as Cloudflare Free proxy/CDN → Azure Storage Static Website. The final FreeDNS hostname must still pass compatibility verification.
 
 ## 5.4 Public DNS/Hostname
 
@@ -227,9 +227,7 @@ Responsibilities:
 Resolve the approved public hostname.
 Point the hostname to the approved delivery endpoint.
 
-The project currently directs implementation toward a FreeDNS/free-hostname solution.
-
-Whether this satisfies the original challenge's custom-domain interpretation must remain explicitly documented as a project deviation if approved.
+The project uses the approved FreeDNS/afraid.org hosted hostname/subdomain interpretation. Cloudflare proxying requires hostname compatibility verification. This remains a documented deviation from the challenge's conventional custom-domain wording.
 
 ## 5.5 Visitor Counter JavaScript
 

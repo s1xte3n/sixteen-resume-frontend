@@ -29,8 +29,8 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-002 | Resume must be delivered as an HTML webpage without requiring Word/PDF viewing. | P1 | BASELINED | REQ-AZ-001, REQ-AZ-003 | HTML resume | AC-002 | VT-002 |
 | REQ-AZ-003 | HTML resume must have intentional CSS styling and remain readable on mobile and desktop. | P1 | BASELINED | REQ-AZ-002 | HTML, CSS, UI | AC-003 | VT-003 |
 | REQ-AZ-004 | Production static website must use Azure Storage static website hosting. | P1 | BASELINED | REQ-AZ-002, REQ-AZ-003 | Azure Storage, frontend | AC-004 | VT-004 |
-| REQ-AZ-005 | Production delivery must provide HTTPS through the approved CDN/delivery architecture within the approved cost ceiling. | P1 | BLOCKED | REQ-AZ-004, REQ-AZ-006; OR-003, OR-004 | CDN/delivery, certificate, Storage | AC-005 | VT-005 |
-| REQ-AZ-006 | Production website must have an approved public hostname/DNS solution resolving to the intended delivery endpoint. | P1 | BLOCKED | REQ-AZ-005; OR-002 | DNS, delivery | AC-006 | VT-006 |
+| REQ-AZ-005 | Production delivery must provide HTTPS through the approved CDN/delivery architecture within the approved cost ceiling. | P1 | READY | REQ-AZ-004, REQ-AZ-006 | CDN/delivery, certificate, Storage | AC-005 | VT-005 |
+| REQ-AZ-006 | Production website must have an approved public hostname/DNS solution resolving to the intended delivery endpoint. | P1 | READY | REQ-AZ-005 | DNS, delivery | AC-006 | VT-006 |
 | REQ-AZ-007 | Browser JavaScript must request and display the approved visitor-counter result without direct Cosmos DB access. | P1 | BLOCKED | REQ-AZ-008..010; OR-008, OR-009 | JavaScript, API | AC-007 | VT-007 |
 | REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BLOCKED | REQ-AZ-009, REQ-AZ-010; OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
 | REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BLOCKED | REQ-AZ-008, REQ-AZ-010; OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
@@ -49,8 +49,8 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-SEC-001 | Azure credentials and secrets must never be committed to source control. | P0 | BASELINED | CI/CD configuration | Git repositories, Actions | VT-SEC-001 |
 | REQ-AZ-SEC-002 | Browser JavaScript must never directly access Cosmos DB. | P0 | BASELINED | REQ-AZ-009 | Browser, API, Cosmos DB | VT-SEC-002 |
 | REQ-AZ-SEC-003 | Deployment identities must use only permissions required for their responsibilities. | P1 | BASELINED | REQ-AZ-012, REQ-AZ-013, REQ-AZ-014 | GitHub Actions, Azure IAM | VT-SEC-003 |
-| REQ-AZ-SEC-004 | Public production traffic must use HTTPS. | P0 | BLOCKED | REQ-AZ-005; OR-004 | Delivery layer | VT-SEC-004 |
-| REQ-AZ-COST-001 | Services and infrastructure must remain within the approved numeric project cost ceiling. | P1 | BLOCKED | OR-003 | Azure services, delivery | VT-COST-001 |
+| REQ-AZ-SEC-004 | Public production traffic must use HTTPS. | P0 | READY | REQ-AZ-005 | Delivery layer | VT-SEC-004 |
+| REQ-AZ-COST-001 | Services and infrastructure must remain within the approved numeric project cost ceiling of US$5/month recurring cloud/service cost. | P1 | READY | — | Azure services, delivery | VT-COST-001 |
 | REQ-AZ-REG-001 | Azure resources must target East US unless an approved change is recorded. | P2 | BASELINED | ARM configuration | Azure resources | VT-REG-001 |
 | REQ-AZ-GIT-001 | `develop` is development/integration and `main` is production. | P1 | BLOCKED | Repository state normalization | GitHub repositories | VT-GIT-001 |
 | REQ-AZ-DEV-001 | Production infrastructure must be reproducible from source-controlled IaC. | P1 | BASELINED | REQ-AZ-012 | ARM, Azure | VT-IAC-001 |
@@ -67,8 +67,8 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 |---|---|---|---|
 | QF-001 | Visitor semantics resolved: one successfully committed counter operation per top-level resume page load, with concurrency-safe increments. | REQ-AZ-007..009, REQ-AZ-015 | RESOLVED / OR-001 |
 | QF-002 | Free hostname versus original custom-domain interpretation conflicts. | REQ-AZ-006, REQ-AZ-015 | OPEN / OR-002 |
-| QF-003 | Zero/near-zero cost is not measurable without a numeric ceiling. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | OPEN / OR-003 |
-| QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / OR-004 |
+| QF-003 | Numeric cost is constrained by an approved US$5/month recurring cloud/service ceiling. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | RESOLVED / OR-003 |
+| QF-004 | HTTPS/CDN configuration is selected as Cloudflare Free proxy/CDN → Azure Storage Static Website; final hostname compatibility is an implementation verification condition. | REQ-AZ-005, REQ-AZ-015 | RESOLVED / OR-004 |
 | QF-005 | Final public CV subset is not approved. | REQ-AZ-001, REQ-AZ-015 | OPEN / OR-005 |
 | QF-006 | Historical repository names conflict with canonical names. | REQ-AZ-013, REQ-AZ-014 | OPEN |
 | QF-007 | Blog-platform documentation requires normalization. | REQ-AZ-016 | OPEN / OR-007 |
