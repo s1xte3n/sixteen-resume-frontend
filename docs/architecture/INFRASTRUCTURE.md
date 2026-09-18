@@ -95,7 +95,7 @@ Approved Delivery Endpoint
       v
 Azure Storage
 
-The exact hostname and whether it is accepted as the project's interpretation of the custom-domain requirement must be formally recorded before production acceptance.
+The hostname interpretation is resolved as **Public hostname: FreeDNS hosted hostname/subdomain**. The actual hostname value must be provisioned before production acceptance; provisioning is an implementation/deployment step, not an unresolved product decision.
 
 7. Azure Function
 
