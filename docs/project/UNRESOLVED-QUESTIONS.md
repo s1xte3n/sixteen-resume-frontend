@@ -27,7 +27,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 ### OR-001 — Visitor Definition
 
 **Affected requirements:** MVP-007, MVP-008, MVP-009  
-**Status:** Open
+**Status:** Resolved
 
 **Question:** What exactly constitutes one visitor-counter increment?
 
