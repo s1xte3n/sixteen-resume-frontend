@@ -105,7 +105,7 @@ Each deployment/runtime identity receives only the permissions required for its 
 
 The architecture prefers free, serverless, or consumption-based services.
 
-The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is the hard MVP ceiling, with R0/month preferred and explicit exclusions.
+The numeric cost ceiling is resolved: USD $40/month recurring Azure/cloud cost is the hard MVP ceiling, with R0/month preferred and explicit exclusions.
 
 ---
 
@@ -647,8 +647,8 @@ Those would exceed the approved scope.
 The cost policy is:
 
 Prefer R0/month recurring Azure/cloud cost.
-Allow R0–R100/month recurring Azure/cloud cost.
-Block >R100/month recurring Azure/cloud cost.
+Allow R0–USD $40/month recurring Azure/cloud cost.
+Block >USD $40/month recurring Azure/cloud cost.
 Prefer free allowances and serverless/consumption services.
 Minimize persistent resource usage.
 Avoid unnecessary services.
@@ -714,7 +714,7 @@ All P0 architecture/security requirements are baselined.
 P1 architecture decisions are explicitly resolved.
 The CDN/HTTPS architecture is validated.
 The hostname model is approved.
-The cost ceiling is numeric and fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and documented exclusions.
+The cost ceiling is numeric and fixed at USD $40/month recurring Azure/cloud cost, with R0/month preferred and documented exclusions.
 Visitor semantics are defined.
 API contract is defined.
 Repository names are normalized.
