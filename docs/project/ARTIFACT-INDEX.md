@@ -100,9 +100,7 @@ Coverage now includes:
 1. OR-003 — Numeric cost ceiling.
 2. OR-004 — HTTPS/CDN configuration and cost validation.
 3. OR-005 — Final public resume-content approval.
-4. OR-004 — HTTPS/CDN configuration and cost validation.
-5. OR-005 — Final public resume-content approval.
-6. Repository/branch state normalization where it affects CI/CD evidence.
+4. Repository/branch state normalization where it affects CI/CD evidence.
 
 ## 10. Current P2/P3 Decisions
 
