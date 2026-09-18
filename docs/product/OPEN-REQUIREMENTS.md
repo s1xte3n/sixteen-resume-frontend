@@ -19,7 +19,11 @@ No ambiguity listed here may be silently resolved during implementation.
 
 | ID | Decision / ambiguity | Affected requirements | Status |
 |---|---|---|---|
-| OR-002 | Confirm whether a free hostname/subdomain satisfies the original challenge's custom-domain/DNS intent. | MVP-006, MVP-015 | Open |
+| OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as the project's scoped DNS/public-hostname interpretation, with an explicit deviation from the challenge's conventional custom-domain wording. | MVP-006, MVP-015 | Resolved |
+
+| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
+| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
+| OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 | OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
 | OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
@@ -48,17 +52,23 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-002 — Free Hostname vs Custom Domain
 
-**Question:** Does the approved free hostname/subdomain satisfy the original challenge requirement for DNS/custom-domain functionality?
+**Decision:** Accept the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP as the project's scoped public-hostname/DNS interpretation.
 
-**Conflict:** The original challenge describes pointing a custom DNS domain to the CDN endpoint, while the approved project state excludes paid domain purchase and selects FreeDNS/afraid.org as the initial DNS direction.
+**Original challenge requirement:** The challenge describes pointing a custom DNS domain to the CDN endpoint. citeturn0file0
 
-**Why it matters:** DNS acceptance and the claim made about challenge compliance depend on the interpretation.
+**Project constraint:** The MVP must not require paid domain registration.
 
-**Decision required:** Explicitly document whether the free hostname/subdomain is accepted as the project's scoped interpretation and, if so, record the deviation from the literal challenge wording.
+**Deviation:** The MVP does **not** claim ownership of a conventional registrable custom domain. Documentation must use the term **public hostname: FreeDNS hosted hostname/subdomain**.
 
-**Affected:** MVP-006, MVP-015.
+**Production acceptance rule:**
+- The approved FreeDNS hostname resolves publicly.
+- The hostname resolves to the approved Azure delivery endpoint.
+- The resume is served through that hostname.
+- The hostname supports HTTPS through the approved delivery architecture.
+- No paid domain registration is required.
+- The project documentation explicitly records this as a scoped deviation from the literal custom-domain wording.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-003 — Numeric Cost Ceiling
 
@@ -191,7 +201,7 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 1. The Azure subscription must support the required resources.
 2. Required Azure services must remain available and suitable.
 3. Service pricing must remain within the approved numeric cost ceiling once defined.
-4. A suitable free hostname/subdomain mechanism must exist and satisfy OR-002.
+4. The selected FreeDNS hostname/subdomain must be provisioned and satisfy the OR-002 production acceptance rule.
 5. DNS configuration must support the final delivery architecture.
 6. The final delivery configuration must support the selected hostname and HTTPS certificate behavior.
 7. GitHub Actions must support secure deployment authentication.
@@ -230,7 +240,7 @@ These omissions are recorded rather than invented.
 |---|---|---|
 | NTR-001 | Zero/near-zero cost | No numeric ceiling. |
 | NTR-002 | Visitor count | Counting unit undefined. |
-| NTR-003 | Public hostname | Free-hostname/custom-domain interpretation unresolved. |
+| NTR-003 | Public hostname | Final hostname is not yet provisioned; the interpretation is resolved under OR-002. |
 | NTR-004 | HTTPS/CDN | Exact service/configuration and cost not validated. |
 | NTR-005 | Readable resume | No formal accessibility/readability baseline. |
 | NTR-006 | Short project-learning article | No measurable length/content minimum beyond topics. |
@@ -252,4 +262,4 @@ The PRD phase is closed only when:
 9. Final public resume content is approved.
 10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: NOT CLOSED.** OR-001 is resolved. OR-002 through OR-005 remain P1 closure blockers.
+**Current status: NOT CLOSED.** OR-001 and OR-002 are resolved. OR-003 through OR-005 remain P1 closure blockers.
