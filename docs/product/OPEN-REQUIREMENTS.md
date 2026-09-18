@@ -21,7 +21,7 @@ No ambiguity listed here may be silently resolved during implementation.
 |---|---|---|---|
 | OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as the project's scoped DNS/public-hostname interpretation, with an explicit deviation from the challenge's conventional custom-domain wording. | MVP-006, MVP-015 | Resolved |
 
-| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
+| OR-003 | Numeric MVP recurring Azure/cloud cost ceiling is fixed at R100/month, with R0/month preferred and explicit exclusions. | MVP-005, MVP-006, MVP-012, MVP-015 | Resolved |
 | OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
@@ -69,15 +69,23 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-003 — Numeric Cost Ceiling
 
-**Question:** What exact maximum project cost is acceptable?
+**Decision:** The MVP hard ceiling is **R100/month recurring Azure/cloud cost**, with **R0/month** as the preferred target.
 
-The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
+**Cost policy:**
+- **R0/month:** Preferred.
+- **R0–R100/month recurring:** Allowed.
+- **>R100/month recurring:** Blocked.
+- The ceiling applies to recurring Azure/cloud costs attributable to the project.
+- The ceiling excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+- Paid domain registration is out of MVP.
+- Any unexpected Azure/cloud charge must be investigated before project work continues.
+- Cost acceptance must use current billing/pricing evidence and verify the deployed configuration remains within the ceiling.
 
-**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
+**Acceptance invariant:** The measured recurring Azure/cloud cost attributable to the MVP must be `<= R100/month` for production acceptance. A forecast or estimate above R100/month blocks production. An unexpected charge triggers investigation before continuing project work.
 
 **Affected:** MVP-005, MVP-006, MVP-012, MVP-015.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-004 — HTTPS/CDN Configuration
 
@@ -197,7 +205,7 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 
 1. The Azure subscription must support the required resources.
 2. Required Azure services must remain available and suitable.
-3. Service pricing must remain within the approved numeric cost ceiling once defined.
+3. Service pricing must remain within the approved R100/month recurring Azure/cloud cost ceiling.
 4. The selected FreeDNS hostname/subdomain must be provisioned and satisfy the OR-002 production acceptance rule.
 5. DNS configuration must support the final delivery architecture.
 6. The final delivery configuration must support the selected hostname and HTTPS certificate behavior.
@@ -253,10 +261,10 @@ The PRD phase is closed only when:
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
-5. The numeric cost constraint is defined.
+5. The numeric cost constraint is defined as R100/month recurring, with R0/month preferred and explicit exclusions.
 6. Public hostname interpretation is defined.
 8. HTTPS/CDN configuration is validated.
 9. Final public resume content is approved.
 10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: NOT CLOSED.** OR-001 and OR-002 are resolved. OR-003 through OR-005 remain P1 closure blockers.
+**Current status: OR-003 is CLOSED. OR-001, OR-002, and OR-003 are resolved. OR-004 and OR-005 remain P1 closure blockers.**
