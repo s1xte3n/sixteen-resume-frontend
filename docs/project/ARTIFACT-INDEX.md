@@ -97,9 +97,9 @@ Coverage now includes:
 
 ## 9. Current P1 Blockers
 
-1. OR-001 — Visitor-count semantics.
-2. OR-002 — Free hostname versus custom-domain interpretation.
-3. OR-003 — Numeric cost ceiling.
+1. OR-003 — Numeric cost ceiling.
+2. OR-004 — HTTPS/CDN configuration and cost validation.
+3. OR-005 — Final public resume-content approval.
 4. OR-004 — HTTPS/CDN configuration and cost validation.
 5. OR-005 — Final public resume-content approval.
 6. Repository/branch state normalization where it affects CI/CD evidence.
@@ -124,7 +124,7 @@ Coverage now includes:
 | JavaScript visitor counter | Blocked by visitor semantics/API contract/failure UX |
 | Azure Storage | Not started |
 | HTTPS/CDN | Blocked by cost and delivery validation |
-| DNS hostname | Blocked by hostname interpretation |
+| DNS hostname | Interpretation resolved; provisioning not started |
 | Cosmos DB | Not started |
 | Azure Function | Not started |
 | Python implementation | Not started |
