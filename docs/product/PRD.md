@@ -356,7 +356,7 @@ Public read; delivery configuration restricted to authorized project/deployment 
 Certificate lifecycle; cache staleness; service/pricing changes; origin failure.
 
 **Dependencies**  
-MVP-004, MVP-006, OR-003, OR-004.
+MVP-004, MVP-006, OR-004.
 
 **Acceptance Criteria**  
 See AC-005; verification VT-005.
@@ -699,7 +699,7 @@ Deployment identity receives only required resource-management permissions.
 Existing resource state; parameter mismatch; partial deployment; deployment rollback/failure.
 
 **Dependencies**  
-MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013, OR-003, OR-004.
+MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013, OR-004.
 
 **Acceptance Criteria**  
 See AC-012; verification VT-012.
