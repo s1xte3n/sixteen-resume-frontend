@@ -89,9 +89,11 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] DNS resolves to the intended production delivery endpoint.
 - [ ] The resume loads through the approved hostname.
 - [ ] The hostname does not require an unapproved paid domain purchase.
-- [ ] The project-owner interpretation of the original custom-domain/DNS requirement is explicitly recorded.
+- [ ] The project-owner interpretation is recorded as: **Public hostname: FreeDNS hosted hostname/subdomain**.
+- [ ] The documentation explicitly states that this is not ownership of a conventional registrable custom domain.
+- [ ] The implementation does not require paid domain registration.
 
-**Blocking dependency:** OR-002.
+**Blocking dependency:** None for hostname interpretation; final HTTPS/delivery validation remains covered by OR-004.
 
 ## AC-007 — JavaScript Visitor Counter
 
@@ -233,7 +235,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Required infrastructure is represented in source-controlled ARM IaC.
 - [ ] Required backend and frontend deployment workflows have passed their applicable acceptance tests.
 
-**Blocking dependencies:** OR-001, OR-002, OR-003, OR-004, OR-005, plus affected P2 API/test decisions.
+**Blocking dependencies:** OR-003, OR-004, OR-005, plus affected P2 API/test decisions.
 
 ## AC-016 — Project-Learning Blog Post
 
@@ -256,11 +258,12 @@ The MVP cannot be declared fully accepted until:
 
 - [ ] AC-001 through AC-016 all pass.
 - [ ] No P0 ambiguity remains.
-- [ ] OR-002 through OR-005 are explicitly resolved or formally accepted as documented deviations.
+- [ ] OR-002 is resolved and its deviation from the literal challenge wording is documented.
+- [ ] OR-003 through OR-005 are explicitly resolved or formally accepted as documented deviations.
 - [ ] All deliberate deviations from the original challenge are documented.
 - [ ] The numeric cost ceiling is defined and verified.
 - [ ] Visitor-count semantics are verified against the resolved OR-001 definition.
-- [ ] Public hostname interpretation is defined and verified.
+- [ ] Public hostname interpretation is defined as a FreeDNS hosted hostname/subdomain and verified in production.
 - [ ] HTTPS/CDN configuration and cost are validated.
 - [ ] Final public resume content is approved.
 - [ ] No hidden P1 ambiguity remains.
