@@ -42,7 +42,17 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/api/API-CHANGELOG.md` | API contract decisions and version history | Current | Yes |
 | `docs/api/openapi.yaml` | Machine-readable OpenAPI 3.0.3 contract | Current | Yes |
 
-## 5. Architecture Documentation
+## 5. Configuration and Test Data Documentation
+
+| Artifact | Purpose | Status |
+|---|---|---|
+| `docs/config/ENVIRONMENT-VARIABLES.md` | Canonical non-secret environment/configuration inventory | Complete |
+| `docs/config/ENVIRONMENT-MATRIX.md` | Local/dev/test/staging/prod context requirements | Complete |
+| `docs/config/SECRETS-MANAGEMENT.md` | Secret names, sources, rotation, ownership, and handling rules | Complete; values excluded |
+| `docs/config/TEST-DATA.md` | Synthetic API/database test state and lifecycle | Complete |
+| `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
+
+## 6. Architecture Documentation
 
 | Artifact | Purpose | Status |
 |---|---|---|
@@ -60,7 +70,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Pending validation |
 | `docs/architecture/ADR-007.md` | Visitor-count semantics | Pending approval |
 
-## 6. Canonical Repository Names
+## 7. Canonical Repository Names
 
 | Repository | Purpose | Status |
 |---|---|---|
@@ -69,7 +79,7 @@ This document identifies authoritative project documentation, product requiremen
 
 Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must not be used in new requirements.
 
-## 7. Requirements System Status
+## 8. Requirements System Status
 
 **Status: Traceability baseline complete; requirements closure pending.**
 
@@ -85,7 +95,7 @@ Coverage now includes:
 - Executable backlog containing only implementation-ready items.
 - Explicit gap register for unresolved requirements.
 
-## 8. Current P1 Blockers
+## 9. Current P1 Blockers
 
 1. OR-001 — Visitor-count semantics.
 2. OR-002 — Free hostname versus custom-domain interpretation.
@@ -94,7 +104,7 @@ Coverage now includes:
 5. OR-005 — Final public resume-content approval.
 6. Repository/branch state normalization where it affects CI/CD evidence.
 
-## 9. Current P2/P3 Decisions
+## 10. Current P2/P3 Decisions
 
 - OR-006 — Python test framework, intentionally deferred.
 - OR-007 — Blog-platform interpretation/normalization.
@@ -105,7 +115,7 @@ Coverage now includes:
 - OR-012 — DNS propagation/stability expectation.
 - OR-013 — Blog link tab behavior.
 
-## 10. Implementation Artifact Status
+## 11. Implementation Artifact Status
 
 | Artifact | Status |
 |---|---|
@@ -127,7 +137,7 @@ Coverage now includes:
 | Public resume content approval | Pending OR-005 |
 | API contract | Draft; wire contract frozen for v1; acceptance blocked by OR-001 |\n| OpenAPI specification | Current; synchronized with API v1 |\n| Architecture | Proposed; not frozen |
 
-## 11. Governance Rules
+## 12. Governance Rules
 
 When a requirement or decision changes:
 
@@ -141,7 +151,7 @@ When a requirement or decision changes:
 8. Update `PROJECT-STATUS.md` for implementation-state changes.
 9. Never claim completion without evidence.
 
-## 12. Gate Status
+## 13. Gate Status
 
 ### PRD Gate
 
@@ -155,6 +165,6 @@ When a requirement or decision changes:
 
 **NOT FROZEN.** Architecture depends on unresolved visitor semantics, hostname interpretation, cost ceiling, HTTPS/CDN validation, API contract, and related decisions.
 
-## 13. No-Task Rule
+## 14. No-Task Rule
 
 No implementation task is created for a requirement that remains ambiguous, contradictory, or objectively unverifiable. Such requirements remain in `REQUIREMENT-GAPS.md` until formally resolved.
