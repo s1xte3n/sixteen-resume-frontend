@@ -14,8 +14,8 @@ Trace each canonical requirement from user need through contract/UI, acceptance 
 | REQ-AZ-004 | US-001 / UC-001 | Static site delivery | AC-004 | VT-004 | Azure Storage static website | Frontend deployment run + endpoint evidence |
 | REQ-AZ-005 | US-004 / UC-001 | HTTPS/CDN delivery | AC-005 | VT-005 | Approved delivery configuration | Deployment configuration + HTTPS probe + cost evidence |
 | REQ-AZ-006 | US-005 / UC-001 | Public hostname/DNS | AC-006 | VT-006 | DNS + delivery endpoint | DNS resolution + production URL evidence |
-| REQ-AZ-007 | US-003, US-006 / UC-002 | Counter UI + API invocation | AC-007 | VT-007 | Browser JavaScript | Browser network + UI evidence |
-| REQ-AZ-008 | US-007 / UC-002 | Counter persistence behavior | AC-008 | VT-008 | Cosmos DB Table API + Function service layer | Backend tests + persistence evidence |
+| REQ-AZ-007 | US-003, US-006 / UC-002 | Counter UI + one operation per top-level page load | AC-007 | VT-007 | Browser JavaScript | Browser network + UI evidence |
+| REQ-AZ-008 | US-007 / UC-002 | Counter persistence + concurrency-safe increment | AC-008 | VT-008 | Cosmos DB Table API + Function service layer | Backend tests + persistence evidence |
 | REQ-AZ-009 | US-008 / UC-002 | Visitor API contract | AC-009 | VT-009 | Azure Function HTTP endpoint | API test evidence |
 | REQ-AZ-010 | US-009 / UC-002 | Function runtime | AC-010 | VT-010 | Python Azure Function | Backend CI + deployed Function evidence |
 | REQ-AZ-011 | US-010 / UC-003 | Test suite / CI gate | AC-011 | VT-011 | Python tests + GitHub Actions | Passing test-gated workflow run |
