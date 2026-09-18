@@ -2,315 +2,220 @@
 
 ## 1. Purpose
 
-This document maps user stories and use cases to the product requirements defined in `docs/product/PRD.md`.
+This document defines the product personas, user stories, and use cases for the requirements in `docs/product/PRD.md`. Every MVP requirement is mapped to at least one story or use case.
 
----
+## 2. Personas
 
-# 2. Personas
+| Persona | Need |
+|---|---|
+| USR-001 Recruiter | Quickly understand professional background, experience, skills, certifications, and projects. |
+| USR-002 Hiring Manager | Evaluate qualifications and practical engineering evidence. |
+| USR-003 Technical Interviewer | Inspect evidence of software engineering, Azure/cloud, serverless development, IaC, testing, and CI/CD. |
+| USR-004 Public Visitor | Access the public resume, use the visitor counter, and follow project-learning links. |
+| USR-005 Project Owner | Control content, scope, costs, repositories, infrastructure, and production releases. |
 
-## USR-001 — Recruiter
+## 3. User Stories
 
-Needs to quickly understand the project owner's professional background, experience, skills, certifications, and projects.
-
-## USR-002 — Hiring Manager
-
-Needs to evaluate technical qualifications and practical engineering evidence.
-
-## USR-003 — Technical Interviewer
-
-Needs to inspect evidence of software engineering, cloud engineering, serverless development, Infrastructure as Code, testing, and CI/CD practices.
-
-## USR-004 — Public Visitor
-
-Needs to access the public resume and interact with the visitor counter.
-
-## USR-005 — Project Owner
-
-Needs to control resume content, scope, costs, repositories, infrastructure, and production releases.
-
----
-
-# 3. User Stories
-
-| Story ID | User Story | Requirement IDs |
+| ID | User Story | Requirement IDs |
 |---|---|---|
-| US-001 | As a recruiter, I want to open a public resume so I can review professional qualifications. | CR-AZ-MVP-001, CR-AZ-MVP-002, CR-AZ-MVP-004, CR-AZ-MVP-005, CR-AZ-MVP-006 |
-| US-002 | As a visitor, I want intentional styling so the resume is readable as a professional website. | CR-AZ-MVP-003 |
-| US-003 | As a technical interviewer, I want the resume implemented with HTML, CSS, and JavaScript so I can see direct web-development fundamentals. | CR-AZ-MVP-002, CR-AZ-MVP-003, CR-AZ-MVP-007 |
-| US-004 | As a visitor, I want HTTPS delivery so the public site uses secure transport. | CR-AZ-MVP-005 |
-| US-005 | As a visitor, I want a stable public hostname so I can access and share the resume. | CR-AZ-MVP-006 |
-| US-006 | As a visitor, I want a visitor counter so the website demonstrates dynamic behavior. | CR-AZ-MVP-007 |
-| US-007 | As the project owner, I want counter state persisted so page reloads and normal redeployments do not reset the count. | CR-AZ-MVP-008 |
-| US-008 | As the website client, I want an API between the browser and database so database access is not exposed directly. | CR-AZ-MVP-009 |
-| US-009 | As a technical interviewer, I want Python and Azure Functions so the project demonstrates serverless Python development. | CR-AZ-MVP-010 |
-| US-010 | As the project owner, I want automated backend tests so changes can be validated before deployment. | CR-AZ-MVP-011 |
-| US-011 | As a technical interviewer, I want ARM infrastructure as code so Azure resources are reproducible and source controlled. | CR-AZ-MVP-012 |
-| US-012 | As the project owner, I want backend changes tested and deployed through GitHub Actions so production deployment is automated. | CR-AZ-MVP-013 |
-| US-013 | As the project owner, I want frontend changes automatically published so website releases are repeatable. | CR-AZ-MVP-014 |
-| US-014 | As a recruiter, I want a public production URL so I can access the resume without local setup. | CR-AZ-MVP-015 |
-| US-015 | As a technical interviewer, I want a linked project-learning article so I can understand lessons learned from the project. | CR-AZ-MVP-016 |
+| US-001 | As a recruiter, I want to open a public resume so I can review professional qualifications. | MVP-001, MVP-002, MVP-004, MVP-005, MVP-006, MVP-015 |
+| US-002 | As a visitor, I want intentional styling so the resume is readable as a professional website. | MVP-003 |
+| US-003 | As a technical interviewer, I want the resume implemented with HTML, CSS, and JavaScript so I can see direct web fundamentals. | MVP-002, MVP-003, MVP-007 |
+| US-004 | As a visitor, I want HTTPS delivery so the public site uses secure transport. | MVP-005 |
+| US-005 | As a visitor, I want a stable public hostname so I can access and share the resume. | MVP-006 |
+| US-006 | As a visitor, I want a visitor counter so the site demonstrates dynamic behavior. | MVP-007 |
+| US-007 | As the Project Owner, I want counter state persisted so normal page reloads and redeployments do not reset it. | MVP-008 |
+| US-008 | As the website client, I want an API between the browser and database so database access is not exposed directly. | MVP-009 |
+| US-009 | As a technical interviewer, I want Python on Azure Functions so the project demonstrates serverless Python development. | MVP-010 |
+| US-010 | As the Project Owner, I want automated backend tests so changes can be validated before deployment. | MVP-011 |
+| US-011 | As a technical interviewer, I want ARM Infrastructure as Code so Azure resources are reproducible and source controlled. | MVP-012 |
+| US-012 | As the Project Owner, I want backend changes tested and deployed through GitHub Actions so production releases are automated. | MVP-013 |
+| US-013 | As the Project Owner, I want frontend changes automatically published so website releases are repeatable. | MVP-014 |
+| US-014 | As a recruiter, hiring manager, or technical interviewer, I want a public production URL so I can access the resume without local setup. | MVP-015 |
+| US-015 | As a technical interviewer, I want a linked project-learning article so I can understand lessons learned and project decisions. | MVP-016 |
 
----
+## 4. Use Cases
 
-# 4. Use Cases
+### UC-001 — View Resume
 
-## UC-001 — View Resume
+**Primary actor:** Public Visitor  
+**Supporting actors:** DNS/hostname provider, Azure delivery layer, Azure Storage.
 
-### Actor
+**Preconditions**
+- Approved public resume content exists.
+- Production deployment exists.
+- Public hostname and HTTPS delivery are operational.
 
-Public Visitor
-
-### Preconditions
-
-- Public deployment exists.
-- Public hostname resolves.
-- HTTPS delivery is available.
-
-### Trigger
+**Trigger**
 
 Visitor opens the public resume URL.
 
-### Main Flow
-
+**Main flow**
 1. Visitor requests the public hostname.
 2. DNS resolves the hostname.
 3. HTTPS connection is established.
-4. Website assets are delivered.
-5. HTML resume renders.
-6. CSS styles the content.
-7. JavaScript initializes visitor-counter behavior.
+4. Delivery layer retrieves/serves the static website content.
+5. HTML renders.
+6. CSS styles the resume.
+7. JavaScript initializes the counter behavior.
 
-### Success
+**Success**
 
 The approved resume is publicly readable.
 
-### Failure Conditions
+**Failure conditions**
 
-- DNS resolution fails.
-- HTTPS delivery fails.
-- Website assets are unavailable.
-- HTML cannot render.
-- Unapproved content is displayed.
+DNS failure, HTTPS failure, missing assets, rendering failure, or unapproved content exposure.
 
-### Related Requirements
+**Related requirements:** MVP-001 through MVP-007, MVP-015.
 
-- CR-AZ-MVP-001
-- CR-AZ-MVP-002
-- CR-AZ-MVP-003
-- CR-AZ-MVP-004
-- CR-AZ-MVP-005
-- CR-AZ-MVP-006
-- CR-AZ-MVP-007
+### UC-002 — Count Visitor
 
----
+**Primary actor:** Public Visitor  
+**Supporting actors:** Browser JavaScript, Azure Function, Cosmos DB Table API.
 
-## UC-002 — Count Visitor
-
-### Actor
-
-Public Visitor
-
-### Supporting Actors
-
-- JavaScript client
-- Azure Function
-- Cosmos DB Table API
-
-### Preconditions
-
+**Preconditions**
 - Frontend exists.
-- API exists.
-- Azure Function exists.
-- Database exists.
+- Approved API exists.
+- Function and database exist.
 - Required backend permissions exist.
 
-### Trigger
+**Trigger**
 
-Resume page loads.
+The resume page initializes visitor-counter behavior.
 
-### Main Flow
+**Main flow**
+1. JavaScript starts the counter operation.
+2. JavaScript calls the approved counter API.
+3. Azure Function validates the request.
+4. Function reads/updates counter state through Cosmos DB Table API.
+5. Function returns the approved counter response.
+6. JavaScript displays the returned value or approved failure state.
 
-1. JavaScript initializes.
-2. JavaScript sends a request to the approved visitor-counter API.
-3. Azure Function receives the request.
-4. Function validates the request.
-5. Function reads/upserts the counter through Cosmos DB Table API.
-6. Function returns the approved counter response.
-7. JavaScript displays the counter.
+**Success**
 
-### Success
+The counter result is displayed and persistent state is updated according to the approved counting semantics.
 
-The approved visitor-count result is displayed and persisted.
+**Failure conditions**
 
-### Failure Conditions
+API unavailable, function failure, database failure, invalid response, or persistence failure.
 
-- API unavailable.
-- Function unavailable.
-- Database unavailable.
-- Invalid API response.
-- Persistence failure.
+**Open dependencies:** OR-001, OR-008, OR-009.
 
-### Important Open Requirement
+**Related requirements:** MVP-007, MVP-008, MVP-009, MVP-010.
 
-The exact definition of a "visitor" is unresolved.
+### UC-003 — Backend CI/CD
 
-See `OR-001`.
+**Primary actor:** Project Owner / GitHub Actions.
 
-### Related Requirements
-
-- CR-AZ-MVP-007
-- CR-AZ-MVP-008
-- CR-AZ-MVP-009
-- CR-AZ-MVP-010
-
----
-
-## UC-003 — Backend CI/CD
-
-### Actor
-
-Project Owner / GitHub Actions
-
-### Preconditions
-
-- Backend repository exists.
+**Preconditions**
+- Canonical backend repository exists.
 - CI/CD workflow exists.
-- Required secure deployment credentials/configuration exist.
+- Secure deployment authentication is configured.
 
-### Trigger
+**Trigger**
 
-An approved backend or infrastructure change enters the production workflow.
+An approved backend or infrastructure change enters the workflow.
 
-### Main Flow
-
+**Main flow**
 1. Workflow starts.
-2. Backend dependencies are prepared.
-3. Automated tests execute.
-4. Test results are evaluated.
-5. If tests fail, deployment stops.
+2. Test environment is prepared.
+3. Required Python tests execute.
+4. Test result is evaluated.
+5. If required tests fail, deployment stops.
 6. If tests pass, deployment proceeds.
 7. Azure deployment executes.
-8. Workflow reports success/failure.
+8. Workflow reports the outcome.
 
-### Success
+**Success**
 
-Validated backend changes are deployed automatically.
+Validated `main` changes are deployed automatically.
 
-### Failure
+**Failure conditions**
 
-- Tests fail.
-- Workflow fails.
-- Deployment fails.
-- Secure authentication fails.
+Test failure, workflow failure, authentication failure, or Azure deployment failure.
 
-### Related Requirements
+**Related requirements:** MVP-011, MVP-012, MVP-013.
 
-- CR-AZ-MVP-011
-- CR-AZ-MVP-012
-- CR-AZ-MVP-013
+### UC-004 — Frontend CI/CD
 
----
+**Primary actor:** Project Owner / GitHub Actions.
 
-## UC-004 — Frontend CI/CD
-
-### Actor
-
-Project Owner / GitHub Actions
-
-### Preconditions
-
-- Frontend repository exists.
-- Frontend deployment workflow exists.
+**Preconditions**
+- Canonical frontend repository exists.
+- Frontend workflow exists.
 - Secure deployment configuration exists.
 
-### Trigger
+**Trigger**
 
-Approved frontend production change enters the workflow.
+An approved frontend production change enters the workflow.
 
-### Main Flow
-
+**Main flow**
 1. Workflow starts.
 2. Frontend files are validated.
-3. Website artifacts are published.
-4. Required cache invalidation occurs.
-5. Workflow reports the result.
+3. Website artifacts are published to Azure Storage.
+4. Required delivery-layer cache invalidation occurs where applicable.
+5. Workflow reports the outcome.
 
-### Success
+**Success**
 
-The production website reflects the approved frontend change.
+The production website reflects the approved `main` state.
 
-### Failure
+**Failure conditions**
 
-- Workflow failure.
-- Upload failure.
-- Authentication failure.
-- CDN/cache continues serving stale content.
+Validation, upload, authentication, cache invalidation, or workflow failure.
 
-### Related Requirements
+**Related requirements:** MVP-014, MVP-015.
 
-- CR-AZ-MVP-014
-- CR-AZ-MVP-015
+### UC-005 — Review Project Learning
 
----
+**Primary actor:** Recruiter, Hiring Manager, or Technical Interviewer.
 
-## UC-005 — Review Project Learning
+**Preconditions**
+- Required article is publicly published.
+- Resume contains the approved link.
 
-### Actor
-
-Recruiter, Hiring Manager, or Technical Interviewer
-
-### Preconditions
-
-- Blog post is published.
-- Resume contains the correct link.
-
-### Trigger
+**Trigger**
 
 Visitor selects the project-learning link.
 
-### Main Flow
-
+**Main flow**
 1. Visitor reads the resume.
 2. Visitor selects the project-learning link.
 3. Public article opens.
 4. Visitor reads the project-learning content.
 
-### Success
+**Success**
 
-The article is publicly reachable.
+The article is publicly reachable and contains the required project-learning material.
 
-### Failure
+**Failure conditions**
 
-- Link is broken.
-- Article is private.
-- Article has been deleted.
-- URL has changed.
+Broken link, private/deleted article, or incomplete article.
 
-### Related Requirements
+**Related requirements:** MVP-016.
 
-CR-AZ-MVP-016.
+## 5. Story Traceability
 
----
+| Requirement | User Story / Use Case | Verification |
+|---|---|---|
+| MVP-001 | US-001, UC-001 | VT-001 |
+| MVP-002 | US-001, US-003, UC-001 | VT-002 |
+| MVP-003 | US-002, US-003, UC-001 | VT-003 |
+| MVP-004 | US-001, UC-001 | VT-004 |
+| MVP-005 | US-004, UC-001 | VT-005 |
+| MVP-006 | US-005, UC-001 | VT-006 |
+| MVP-007 | US-003, US-006, UC-002 | VT-007 |
+| MVP-008 | US-007, UC-002 | VT-008 |
+| MVP-009 | US-008, UC-002 | VT-009 |
+| MVP-010 | US-009, UC-002, UC-003 | VT-010 |
+| MVP-011 | US-010, UC-003 | VT-011 |
+| MVP-012 | US-011, UC-003 | VT-012 |
+| MVP-013 | US-012, UC-003 | VT-013 |
+| MVP-014 | US-013, UC-004 | VT-014 |
+| MVP-015 | US-014, UC-001, UC-004 | VT-015 |
+| MVP-016 | US-015, UC-005 | VT-016 |
 
-# 5. Story Traceability
+## 6. Scope Note
 
-Every MVP requirement must have at least one user story or use case.
-
-| Requirement | Story / Use Case |
-|---|---|
-| CR-AZ-MVP-001 | US-001, UC-001 |
-| CR-AZ-MVP-002 | US-001, US-003, UC-001 |
-| CR-AZ-MVP-003 | US-002, US-003, UC-001 |
-| CR-AZ-MVP-004 | US-001, UC-001 |
-| CR-AZ-MVP-005 | US-001, US-004, UC-001 |
-| CR-AZ-MVP-006 | US-001, US-005, UC-001 |
-| CR-AZ-MVP-007 | US-003, US-006, UC-002 |
-| CR-AZ-MVP-008 | US-007, UC-002 |
-| CR-AZ-MVP-009 | US-008, UC-002 |
-| CR-AZ-MVP-010 | US-009, UC-002 |
-| CR-AZ-MVP-011 | US-010, UC-003 |
-| CR-AZ-MVP-012 | US-011, UC-003 |
-| CR-AZ-MVP-013 | US-012, UC-003 |
-| CR-AZ-MVP-014 | US-013, UC-004 |
-| CR-AZ-MVP-015 | US-014, UC-001, UC-004 |
-| CR-AZ-MVP-016 | US-015, UC-005 |
+These stories describe the approved product behavior. They do not authorize additional functionality, resolve open requirements, or create implementation tasks.
