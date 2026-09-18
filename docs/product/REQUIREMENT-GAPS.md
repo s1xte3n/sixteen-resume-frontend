@@ -1,404 +1,87 @@
-# Requirement Gaps
+# Requirement Gap Register
 
 ## 1. Purpose
 
-This document contains vague, contradictory, duplicated, deferred, or objectively unverifiable requirements.
+This register contains unresolved, vague, contradictory, duplicated, deferred, or objectively unverifiable requirements derived from the approved PRD. These items are not silently resolved and do not become implementation tasks until their required decisions are closed.
 
-These items are deliberately excluded from the executable feature backlog until resolved.
+## 2. P1 Blocking Gaps
 
----
+| ID | Source | Classification | Affected requirements | Status | Required resolution |
+|---|---|---|---|---|---|
+| GAP-AZ-001 | OR-001 | Ambiguous / unverifiable | REQ-AZ-007..009, REQ-AZ-015 | OPEN | Define the counting unit: page load, API request, session, unique visitor, or another explicit unit. |
+| GAP-AZ-002 | OR-002 / IC-001 | Contradictory | REQ-AZ-006, REQ-AZ-015 | OPEN | Explicitly approve free hostname/subdomain as a project deviation or change scope. |
+| GAP-AZ-003 | OR-003 | Unverifiable | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | OPEN | Define a numeric monthly or annual maximum cost. |
+| GAP-AZ-004 | OR-004 / IC-003 | Unresolved architecture requirement | REQ-AZ-005, REQ-AZ-006, REQ-AZ-014, REQ-AZ-015 | OPEN | Validate delivery service availability, HTTPS/certificate support, DNS compatibility, Storage compatibility, cache behavior, and cost. |
+| GAP-AZ-005 | OR-005 | Content approval | REQ-AZ-001, REQ-AZ-015 | OPEN | Approve the exact public CV-derived content and identifying information. |
+| GAP-AZ-006 | Repository naming/state | Contradictory | REQ-AZ-013, REQ-AZ-014, REQ-AZ-GIT-001 | OPEN | Normalize canonical repository names and branch model against actual GitHub state. |
 
-# 2. P1 Gaps
+## 3. P2 Gaps
 
-## GAP-AZ-001 — Visitor Definition
+| ID | Source | Classification | Affected requirements | Status | Required resolution |
+|---|---|---|---|---|---|
+| GAP-AZ-007 | OR-008 | Ambiguous | REQ-AZ-007..010 | OPEN | Define method, endpoint, inputs, success/error responses, status codes, counter semantics, and CORS behavior. |
+| GAP-AZ-008 | OR-009 | Ambiguous | REQ-AZ-007, REQ-AZ-009 | OPEN | Define visitor-visible counter failure behavior. |
+| GAP-AZ-009 | OR-006 | Deferred | REQ-AZ-011, REQ-AZ-013 | DEFERRED | Select and document the Python test framework before final CI acceptance. |
+| GAP-AZ-010 | OR-007 | Documentation contradiction | REQ-AZ-016 | OPEN | Normalize whether Dev.to and Hashnode are both required, either is acceptable, or one is primary/other optional. |
+| GAP-AZ-011 | OR-010 | Unverifiable | REQ-AZ-001, REQ-AZ-003, REQ-AZ-015 | OPEN | Define supported browser/version baseline. |
+| GAP-AZ-012 | OR-011 | Unspecified | REQ-AZ-015 | OPEN | Define whether a formal availability target is required. |
+| GAP-AZ-013 | OR-012 | Unverifiable | REQ-AZ-006, REQ-AZ-015 | OPEN | Define acceptable DNS propagation/stability expectations. |
 
-**Source:** OR-001
+## 4. P3 Gap
 
-**Affected requirements:**
+| ID | Source | Classification | Affected requirement | Status |
+|---|---|---|---|---|
+| GAP-AZ-014 | OR-013 | Minor UX ambiguity | REQ-AZ-016 | OPEN |
 
-* REQ-AZ-007
-* REQ-AZ-008
-* REQ-AZ-009
-* REQ-AZ-015
+Blog link tab behavior is not defined. It does not block the core product baseline.
 
-**Problem:**
+## 5. Missing / Weakly Testable Requirements
 
-"Visitor" is undefined.
+The source requirements do not currently provide measurable definitions for:
 
-Possible interpretations include:
+- Accessibility target.
+- Performance target.
+- Cache freshness target.
+- Availability SLO.
+- DNS propagation SLA.
+- Rollback expectation.
+- Monitoring/alerting requirement.
+- Exact blog article minimum content/length.
+- Exact minimum resume sections.
+- Counter failure UX.
 
-* Page load
-* API request
-* Browser session
-* Unique visitor
-* Another explicit unit
+These are recorded rather than invented.
 
-**Why it matters:**
+## 6. Deliberate Deviation
 
-The counter cannot be objectively tested until the counting unit is defined.
+### GAP-AZ-015 — AZ-900
 
-**Classification:** Ambiguous / unverifiable
+The original challenge calls for AZ-900 or an advanced Azure certification. The approved project intentionally excludes AZ-900 and permits AI-901 to be displayed as an existing certification.
 
-**Status:** OPEN
+**Classification:** Accepted project deviation.  
+**Status:** ACCEPTED-DEVIATION  
+**Constraint:** The project must not claim literal AZ-900 compliance unless AZ-900 is subsequently obtained.
 
-**No implementation task:** Correct. Do not implement counting semantics until resolved.
+## 7. Documentation Consistency
 
----
+### GAP-AZ-016 — Artifact Index Filename
 
-## GAP-AZ-002 — FreeDNS vs Custom Domain
+Historical documentation referenced `docs/project/OPEN-QUESTIONS.md`, while the canonical project artifact is `docs/project/UNRESOLVED-QUESTIONS.md`.
 
-**Source:** OR-002 / IC-001
+**Classification:** Documentation inconsistency.  
+**Status:** OPEN until all references are normalized.
 
-**Affected requirements:**
+## 8. Duplicate / Overlapping Requirement Findings
 
-* REQ-AZ-006
-* REQ-AZ-015
+No duplicate MVP capability has been introduced by the requirements conversion. Some cross-cutting requirements intentionally overlap MVP behavior, especially HTTPS and browser-to-Cosmos isolation; these are governance/security controls, not duplicate product features.
 
-**Problem:**
+## 9. Gap Closure Rule
 
-The original challenge specifies a custom DNS domain, while project documentation excludes paid domain purchase and selects FreeDNS/free hostname/subdomain.
+A gap closes only when:
 
-**Classification:** Contradictory
-
-**Status:** OPEN
-
-**Required resolution:**
-
-Explicitly state that the free hostname/subdomain is an approved project deviation from the original custom-domain interpretation, or change the scope.
-
-**No implementation task:** Correct. DNS implementation remains blocked.
-
----
-
-## GAP-AZ-003 — Numeric Cost Ceiling
-
-**Source:** OR-003 / NTR-001
-
-**Affected requirements:**
-
-* REQ-AZ-005
-* REQ-AZ-006
-* REQ-AZ-012
-* REQ-AZ-015
-
-**Problem:**
-
-"Zero/near-zero", "R0 where possible", and "lowest possible cost" do not define an objectively testable threshold.
-
-**Classification:** Unverifiable
-
-**Status:** OPEN
-
-**Required resolution:**
-
-Define a maximum cost, for example a monthly or annual amount.
-
-**No implementation task:** Correct.
-
----
-
-## GAP-AZ-004 — HTTPS/CDN Configuration
-
-**Source:** OR-004 / IC-003
-
-**Affected requirements:**
-
-* REQ-AZ-005
-* REQ-AZ-006
-* REQ-AZ-014
-* REQ-AZ-015
-
-**Problem:**
-
-The project direction requires Azure Storage, HTTPS, CDN capability, public hostname, and low cost, but the exact delivery service/configuration has not been validated.
-
-**Classification:** Unresolved architecture requirement
-
-**Status:** OPEN
-
-**Required evidence:**
-
-* Service availability
-* HTTPS/certificate support
-* DNS compatibility
-* Azure Storage compatibility
-* Current pricing
-* Cache behavior
-
-**No implementation task:** Correct.
-
----
-
-## GAP-AZ-005 — Final Public Resume Content
-
-**Source:** OR-005
-
-**Affected requirements:**
-
-* REQ-AZ-001
-* REQ-AZ-015
-
-**Problem:**
-
-The CV is available, but the final public subset has not been explicitly approved.
-
-**Classification:** Content approval gap
-
-**Status:** OPEN
-
-**Required resolution:**
-
-Owner approval of:
-
-* Personal information
-* Contact information
-* Employment history
-* Skills
-* Certifications
-* Education
-* Projects
-* External links
-
-**No implementation task:** Do not treat content publication as complete.
-
----
-
-## GAP-AZ-006 — Repository Naming
-
-**Source:** PRD/project-state inconsistency
-
-**Problem:**
-
-Documentation contains:
-
-* `sixteen-frontend`
-* `sixteen-backend`
-
-and:
-
-* `sixteen-resume-frontend`
-* `sixteen-resume-backend`
-
-The actual requested repository is `sixteen-resume-frontend`.
-
-**Classification:** Contradictory
-
-**Status:** OPEN
-
-**Impact:**
-
-Backend and frontend CI/CD traceability, repository evidence, and artifact references.
-
----
-
-# 3. P2 Gaps
-
-## GAP-AZ-007 — Visitor API Contract
-
-**Source:** OR-008
-
-**Affected requirements:**
-
-* REQ-AZ-009
-* REQ-AZ-010
-
-The following remain undefined:
-
-* HTTP method
-* Endpoint
-* Request inputs
-* Optional/required parameters
-* Success response
-* Error responses
-* Status codes
-* CORS behavior
-* Counter semantics
-
-**Classification:** Ambiguous
-
-**Status:** OPEN
-
----
-
-## GAP-AZ-008 — Counter Failure UX
-
-**Source:** OR-009
-
-**Affected requirements:**
-
-* REQ-AZ-007
-* REQ-AZ-009
-
-Undefined behavior when API/database fails.
-
-Potential behaviors documented by the source material include:
-
-* Hide counter
-* Display unavailable state
-* Display last known value
-* Another approved fallback
-
-**Classification:** Ambiguous
-
-**Status:** OPEN
-
----
-
-## GAP-AZ-009 — Python Test Framework
-
-**Source:** OR-006
-
-**Affected requirements:**
-
-* REQ-AZ-011
-* REQ-AZ-013
-
-The testing requirement is confirmed, but framework selection is intentionally deferred.
-
-**Classification:** Deferred implementation decision
-
-**Status:** DEFERRED
-
----
-
-## GAP-AZ-010 — Blog Platform
-
-**Source:** OR-007
-
-**Problem:**
-
-Project-state documentation says Dev.to and Hashnode are selected, while the open-requirements documentation says the blog platform remains unresolved.
-
-**Classification:** Contradictory documentation
-
-**Status:** OPEN
-
-**Required resolution:**
-
-Normalize whether:
-
-1. Both platforms are mandatory;
-2. Either platform is acceptable;
-3. One is primary and the other optional.
-
----
-
-## GAP-AZ-011 — Browser Support
-
-**Source:** OR-010 / NTR-005
-
-No browser/version baseline is defined.
-
-**Classification:** Unverifiable
-
-**Status:** OPEN
-
----
-
-## GAP-AZ-012 — Availability Target
-
-**Source:** OR-011
-
-No explicit production availability target exists.
-
-**Classification:** Unspecified
-
-**Status:** OPEN
-
----
-
-## GAP-AZ-013 — DNS Propagation
-
-**Source:** OR-012
-
-No acceptable propagation/stability expectation is defined.
-
-**Classification:** Unverifiable
-
-**Status:** OPEN
-
----
-
-# 4. P3 Gaps
-
-## GAP-AZ-014 — Blog Link Behavior
-
-**Source:** OR-013
-
-Undefined whether the blog link opens in the same tab or a new tab.
-
-**Classification:** Minor UX ambiguity
-
-**Status:** OPEN
-
-This does not block the core implementation.
-
----
-
-# 5. Missing Non-Functional Requirements
-
-The approved requirements do not objectively specify:
-
-* Accessibility target
-* Performance target
-* Cache freshness target
-* Availability SLO
-* DNS propagation SLA
-* Rollback expectation
-* Monitoring/alerting requirement
-* Exact blog article length
-* Exact resume section minimum
-* Counter failure UX
-
-These must not be silently invented.
-
----
-
-# 6. Deliberate Deviation
-
-## GAP-AZ-015 — AZ-900
-
-The original challenge calls for AZ-900 or an advanced Azure certification.
-
-The approved project state intentionally uses AI-901.
-
-**Classification:** Deliberate deviation
-
-**Status:** ACCEPTED-DEVIATION
-
-The project must not claim literal AZ-900 compliance unless AZ-900 is subsequently obtained.
-
----
-
-# 7. Documentation Consistency Gap
-
-## GAP-AZ-016 — Artifact Index Filename
-
-The current Artifact Index references:
-
-`docs/project/OPEN-QUESTIONS.md`
-
-The repository currently contains:
-
-`docs/project/UNRESOLVED-QUESTIONS.md`
-
-**Classification:** Documentation inconsistency
-
-**Status:** OPEN
-
-**Required action:** Normalize the filename references.
-
----
-
-# 8. Gap Closure Rule
-
-A gap is closed only when:
-
-1. The decision is explicitly recorded.
+1. The decision or correction is explicitly recorded.
 2. Affected requirements are updated.
-3. Acceptance criteria are updated if necessary.
-4. Traceability is updated.
+3. Acceptance criteria are updated if behavior changes.
+4. Traceability is synchronized.
 5. Dependencies are recalculated.
-6. The executable backlog is updated only after the requirement becomes implementation-ready.
-
-No gap should be silently resolved through implementation assumptions.
+6. The backlog is updated only after the requirement becomes implementation-ready.
