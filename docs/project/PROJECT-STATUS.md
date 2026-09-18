@@ -110,7 +110,7 @@ Status: **Documented deviation**
 
 **Provider:** FreeDNS / afraid.org
 
-Status: **Provider selected; hostname not yet created**
+Status: **Hostname not yet provisioned; OR-002 interpretation resolved**
 
 The initial implementation will use a free hosted hostname/subdomain approach. A conventional paid domain can be introduced later if the website is moved toward a production personal-brand deployment.
 
