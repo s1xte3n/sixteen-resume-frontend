@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **NOT CLOSED**. OR-003 through OR-005 are P1 closure blockers; OR-001 and OR-002 are resolved.
+> **Current status:** Requirements closure is **NOT CLOSED**. OR-004 and OR-005 are P1 closure blockers; OR-001, OR-002, and OR-003 are resolved.
 
 ## 1. Reconciliation Rules
 
@@ -22,20 +22,26 @@ The two documents have distinct roles:
 
 These items must be resolved before affected MVP acceptance and before requirements closure.
 
-**Resolved P1 decisions:** OR-001 and OR-002. The remaining P1 closure blockers are OR-003, OR-004, and OR-005.
+**Resolved P1 decisions:** OR-001, OR-002, and OR-003. The remaining P1 closure blockers are OR-004 and OR-005.
 
 ### OR-001 — Visitor Definition
 
 **Affected requirements:** MVP-007, MVP-008, MVP-009  
-**Status:** Open
+**Status:** Resolved
 
-**Question:** What exactly constitutes one visitor-counter increment?
+**Decision:** A visitor is one successfully committed visitor-counter API operation initiated by a top-level resume page load.
 
-Candidate interpretations already identified by the approved requirements are page load, counter API request, browser session, unique visitor, or another explicitly defined unit.
+**Counting semantics:**
+- The frontend performs exactly one counter request per top-level resume page load.
+- A refresh is a new page load and therefore counts as another visit.
+- The counter does not identify unique humans, browsers, sessions, IP addresses, devices, or users.
+- A successfully committed operation increments the persisted total by exactly one.
+- Failed API/database operations do not increment the persisted count.
+- Duplicate HTTP requests are separate operations unless a future requirement explicitly introduces idempotency.
 
-**Why it matters:** Counter behavior, persistence tests, API behavior, concurrency expectations, and acceptance criteria depend on this definition.
+**Concurrency rule:** The backend must perform an atomic/concurrency-safe increment so concurrent successful requests cannot overwrite each other.
 
-**Decision required:** Select and document one counting unit and the behavior for duplicate/concurrent operations.
+**Acceptance invariant:** If the persisted value is N, then K successfully committed counter operations result in N + K.
 
 ---
 
@@ -62,13 +68,19 @@ Candidate interpretations already identified by the approved requirements are pa
 ### OR-003 — Numeric Cost Ceiling
 
 **Affected requirements:** MVP-005, MVP-006, MVP-012, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-**Question:** What exact maximum project cost is acceptable?
+**Decision:** Set the MVP hard ceiling to **USD $40/month recurring Azure/cloud cost**.
 
-The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
+**Cost policy:**
+- R0/month is preferred.
+- R0–USD $40/month recurring is allowed.
+- >USD $40/month recurring is blocked.
+- Exclude personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+- Paid domain registration is out of MVP.
+- Any unexpected charge must be investigated before project work continues.
 
-**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
+**Acceptance rule:** Current measured or forecast recurring Azure/cloud cost attributable to the MVP must be `<= USD $40/month` for production acceptance.
 
 ---
 
@@ -212,7 +224,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The absence of a numeric ceiling and validated current configuration is tracked by OR-003 and OR-004.
+HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The numeric ceiling is resolved at USD $40/month; HTTPS/CDN configuration validation remains tracked by OR-004.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -260,7 +272,7 @@ These are retained only to prevent accidental reopening of already-decided proje
 | Azure subscription | Existing subscription. |
 | Azure region | East US. |
 | Deployment count | One deployment environment. |
-| Cost strategy | R0/free where possible; lowest-cost viable option otherwise. Numeric ceiling remains OR-003. |
+| Cost strategy | R0/free where possible; hard ceiling USD $40/month recurring Azure/cloud cost. OR-003 resolved. |
 | Visual design | No predefined preference; simple professional implementation is an implementation direction, not an unresolved product requirement. |
 | Deadline | 30 September 2026. |
 | Project scope | Strictly aligned with the Cloud Resume Challenge; unrelated feature expansion remains out of scope. |
