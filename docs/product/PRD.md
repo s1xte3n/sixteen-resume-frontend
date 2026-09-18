@@ -1009,8 +1009,8 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
 5. A numeric cost ceiling is defined.
-6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration and cost are validated.
-9. Final public resume content is approved.
+6. Public hostname interpretation is defined — **resolved by OR-002**.
+7. HTTPS/CDN configuration and cost are validated.
+8. Final public resume content is approved.
 
 No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.
