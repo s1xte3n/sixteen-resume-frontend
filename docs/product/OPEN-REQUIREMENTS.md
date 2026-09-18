@@ -20,9 +20,8 @@ No ambiguity listed here may be silently resolved during implementation.
 | ID | Decision / ambiguity | Affected requirements | Status |
 |---|---|---|---|
 | OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as the project's scoped DNS/public-hostname interpretation, with an explicit deviation from the challenge's conventional custom-domain wording. | MVP-006, MVP-015 | Resolved |
-
-| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
-| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
+| OR-003 | The MVP has a USD $40/month recurring Azure cost ceiling and USD $0 required one-time domain/infrastructure purchase cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Resolved |
+| OR-004 | Azure Front Door Standard is the approved HTTPS/CDN delivery configuration in front of Azure Storage, using an Azure-managed TLS certificate and the approved FreeDNS public hostname. | MVP-005, MVP-015 | Resolved |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
 ### OR-001 — Visitor Definition
@@ -69,27 +68,65 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-003 — Numeric Cost Ceiling
 
-**Question:** What exact maximum project cost is acceptable?
+**Decision:** Adopt a **USD $40/month recurring Azure cost ceiling** for the MVP.
 
-The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
+**One-time cost rule:** The MVP requires **USD $0** in one-time domain/infrastructure purchase costs.
 
-**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
+**Cost interpretation:**
+- Azure recurring service charges are included.
+- Front Door base and usage charges are included.
+- Storage, Functions, Cosmos DB, and delivery-related usage are included.
+- Paid domain registration is excluded by the approved FreeDNS deviation.
+- Any cost expected to exceed the ceiling requires explicit Project Owner approval before deployment.
+
+**Rationale:** The project requires HTTPS and CDN/delivery while prioritizing R0/free services where possible. Azure Front Door Standard is the approved current Azure delivery choice, but Microsoft currently publishes a $35/month Standard base fee before usage charges. A $40/month ceiling makes the requirement objectively testable while retaining the project's lowest-cost direction.
+
+**Pricing qualification:** Azure's published price is subject to region, usage, currency, subscription offer, and billing-program differences. Production must use the actual subscription's current pricing/estimate as the acceptance evidence.
 
 **Affected:** MVP-005, MVP-006, MVP-012, MVP-015.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-004 — HTTPS/CDN Configuration
 
-**Question:** Which current Azure delivery configuration satisfies Azure Storage hosting, HTTPS, CDN/delivery capability, public hostname requirements, and the approved cost ceiling?
+**Decision:** Use **Azure Front Door Standard** in front of the Azure Storage static website.
 
-**Why it matters:** The selected service/configuration determines architecture, pricing, DNS, certificate handling, caching, and acceptance evidence.
+**Approved delivery path:**
 
-**Decision required:** Validate the exact production delivery configuration and record the applicable cost assumptions.
+```text
+FreeDNS public hostname
+        |
+        v
+Azure Front Door Standard
+        |
+        v
+Azure Storage Static Website
+```
+
+**HTTPS:** Use an Azure-managed TLS certificate on the Front Door custom domain and redirect HTTP to HTTPS.
+
+**CDN/delivery:** Azure Front Door Standard provides the required edge/CDN delivery layer.
+
+**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure ceiling is $40/month.
+
+**Service lifecycle:** Front Door Classic is not approved because Microsoft states that it retires on 31 March 2027 and no longer supports new domain onboarding or managed certificates. The MVP must use Standard rather than Classic.
+
+**Alternatives rejected:**
+- Front Door Premium — unnecessary for the MVP and materially higher base cost.
+- Front Door Classic — retiring and unsuitable for new onboarding.
+- Direct Storage delivery — does not satisfy the required CDN/delivery architecture.
+
+**Production acceptance evidence must verify:**
+1. The deployed delivery service is Azure Front Door Standard.
+2. The FreeDNS hostname is successfully associated with the Front Door endpoint.
+3. Azure-managed HTTPS is active.
+4. HTTP redirects to HTTPS.
+5. Azure Storage static website is the origin.
+6. The deployed configuration and projected/observed billing remain within the USD $40/month ceiling.
 
 **Affected:** MVP-005, MVP-015.
 
-**Status:** Open.
+**Status:** Resolved.
 
 ### OR-005 — Public Resume Content
 
@@ -175,7 +212,7 @@ The project has not specified whether the project-learning link opens in the sam
 
 ### IC-001 — Custom Domain vs Free Hostname
 
-The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and currently selects FreeDNS/afraid.org as the DNS direction. This is a genuine interpretation conflict and is tracked as OR-002.
+The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and selects FreeDNS/afraid.org as the DNS direction. This is a deliberate scoped deviation tracked by OR-002.
 
 ### IC-002 — AZ-900
 
@@ -183,7 +220,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The absence of a numeric ceiling and validated current configuration makes this an open P1 decision (OR-003/OR-004).
+HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. OR-003 defines the numeric ceiling as USD $40/month and OR-004 selects Azure Front Door Standard.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -197,7 +234,7 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 
 1. The Azure subscription must support the required resources.
 2. Required Azure services must remain available and suitable.
-3. Service pricing must remain within the approved numeric cost ceiling once defined.
+3. Service pricing must remain within the approved numeric cost ceiling.
 4. The selected FreeDNS hostname/subdomain must be provisioned and satisfy the OR-002 production acceptance rule.
 5. DNS configuration must support the final delivery architecture.
 6. The final delivery configuration must support the selected hostname and HTTPS certificate behavior.
@@ -212,8 +249,6 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 
 The approved sources do not objectively define:
 
-- Numeric cost ceiling and treatment of one-time versus recurring cost.
-- Visitor-count semantics.
 - Exact API request/response contract.
 - API authentication requirements, if any.
 - Exact CORS policy.
@@ -235,10 +270,8 @@ These omissions are recorded rather than invented.
 
 | ID | Requirement | Why not objectively testable yet |
 |---|---|---|
-| NTR-001 | Zero/near-zero cost | No numeric ceiling. |
-| NTR-002 | Visitor count | Counting unit undefined. |
+| NTR-002 | Visitor count | Counting semantics are resolved; final API/implementation evidence remains required. |
 | NTR-003 | Public hostname | Final hostname is not yet provisioned; the interpretation is resolved under OR-002. |
-| NTR-004 | HTTPS/CDN | Exact service/configuration and cost not validated. |
 | NTR-005 | Readable resume | No formal accessibility/readability baseline. |
 | NTR-006 | Short project-learning article | No measurable length/content minimum beyond topics. |
 | NTR-007 | Supported modern browsers | No version matrix. |
@@ -255,8 +288,8 @@ The PRD phase is closed only when:
 4. All deliberate deviations from the original challenge are documented.
 5. The numeric cost constraint is defined.
 6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration is validated.
-9. Final public resume content is approved.
-10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
+7. HTTPS/CDN configuration is validated.
+8. Final public resume content is approved.
+9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: NOT CLOSED.** OR-001 and OR-002 are resolved. OR-003 through OR-005 remain P1 closure blockers.
+**Current status: NOT CLOSED.** OR-001 through OR-004 are resolved. OR-005 remains the P1 closure blocker.
