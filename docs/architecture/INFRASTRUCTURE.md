@@ -290,7 +290,7 @@ The infrastructure intentionally avoids:
 
 Azure Front Door Standard has a published base fee of $35/month, billed hourly, plus usage-based request and data-transfer charges. The remaining $5/month budget covers the project's other Azure resource and delivery usage.
 
-Production must not proceed if the selected subscription pricing or projected usage exceeds the approved ceiling without explicit Project Owner approval.
+The final resource SKUs must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production. R0/month is the preferred target. Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling. Any unexpected Azure/cloud charge must be investigated before continuing project work. A recurring cost above R100/month blocks production.
 
 ## 16. Infrastructure Failure
 

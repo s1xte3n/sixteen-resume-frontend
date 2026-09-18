@@ -330,3 +330,52 @@ The content will document:
 **Deviation:** The original challenge describes pointing a custom DNS domain to the CDN endpoint. The MVP uses a hosted subdomain instead and records this as a deliberate deviation from the literal custom-domain wording.
 
 **Acceptance rule:** The approved hostname must resolve publicly to the approved Azure delivery endpoint, serve the resume over HTTPS through the approved delivery architecture, and require no paid domain registration.
+
+
+---
+
+## D-032 — OR-001 Visitor Semantics
+
+**Decision:** Define a visitor as one successfully committed visitor-counter API operation caused by a top-level resume page load.
+
+**Rules:**
+- The frontend performs exactly one counter request per top-level resume page load.
+- A refresh counts as another visit.
+- The counter does not identify unique humans, browsers, sessions, IP addresses, devices, or users.
+- Failed API/database operations do not increment the persisted count.
+- Concurrent successful operations must not overwrite one another.
+- If the persisted value is N, then K successfully committed counter operations result in N + K.
+
+**Reason:** This provides deterministic, privacy-preserving, static-site-compatible, and testable visitor semantics.
+
+---
+
+## D-033 — OR-002 Public Hostname Interpretation
+
+**Decision:** Use the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP.
+
+**Required wording:** **Public hostname: FreeDNS hosted hostname/subdomain.**
+
+**Constraint:** The project must not claim ownership of a conventional registrable custom domain and must not require paid domain registration.
+
+**Acceptance:** The hostname must resolve publicly to the approved Azure delivery endpoint, serve the resume, support HTTPS through the approved delivery architecture, and require no paid domain registration.
+
+---
+
+## D-034 — OR-003 Cost Ceiling
+
+**Decision:** Set the MVP hard ceiling to **USD $40/month recurring Azure/cloud cost**, with **R0/month** as the preferred target where viable.
+
+**Cost policy:**
+
+| Cost | Decision |
+|---|---|
+| R0/month | Preferred |
+| R0–USD $40/month recurring | Allowed |
+| >USD $40/month recurring | Blocked |
+| Paid domain | Out of MVP |
+| Unexpected charge | Investigate before continuing |
+
+**Exclusions:** Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring Azure/cloud ceiling.
+
+**Reason:** The numeric ceiling must be objectively testable while leaving room for the approved Azure delivery architecture and its usage charges.

@@ -33,7 +33,7 @@ Trace each canonical requirement from user need through contract/UI, acceptance 
 | REQ-AZ-SEC-002 | VT-SEC-002 | Browser network inspection |
 | REQ-AZ-SEC-003 | VT-SEC-003 | GitHub/Azure permission review |
 | REQ-AZ-SEC-004 | VT-SEC-004 | Production HTTPS probe |
-| REQ-AZ-COST-001 | VT-COST-001 | Azure billing/configuration evidence against approved ceiling |
+| REQ-AZ-COST-001 | VT-COST-001 | Azure billing/configuration evidence against the approved USD $40/month recurring ceiling; R0/month preferred and approved exclusions applied |
 | REQ-AZ-REG-001 | VT-REG-001 | ARM resource-location review |
 | REQ-AZ-GIT-001 | VT-GIT-001 | Repository branch evidence |
 | REQ-AZ-DEV-001 | VT-IAC-001 | ARM deployment/reproducibility evidence |
@@ -63,7 +63,7 @@ Trace each canonical requirement from user need through contract/UI, acceptance 
 | VT-SEC-002 | Verify browser has no direct Cosmos DB access. | Security/network | REQ-AZ-SEC-002 |
 | VT-SEC-003 | Verify deployment identities are least privilege. | Security/configuration | REQ-AZ-SEC-003 |
 | VT-SEC-004 | Verify production traffic uses HTTPS. | Security/network | REQ-AZ-SEC-004 |
-| VT-COST-001 | Verify cost against approved numeric ceiling. | Governance | REQ-AZ-COST-001 |
+| VT-COST-001 | Verify recurring Azure/cloud cost is <= USD $40/month, with R0/month preferred, approved exclusions applied, and unexpected charges investigated. | Governance | REQ-AZ-COST-001 |
 | VT-REG-001 | Verify Azure resources target East US. | IaC/configuration | REQ-AZ-REG-001 |
 | VT-GIT-001 | Verify branch model and production branch. | Repository governance | REQ-AZ-GIT-001 |
 | VT-IAC-001 | Verify production infrastructure is source-defined. | IaC | REQ-AZ-DEV-001 |

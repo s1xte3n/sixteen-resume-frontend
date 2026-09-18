@@ -16,7 +16,7 @@
 | Backend repository | `s1xte3n/sixteen-resume-backend` |
 | Development/integration branch | `develop` |
 | Production branch | `main` |
-| Cost direction | Zero/R0 where possible; Azure Front Door Standard is the approved paid delivery exception; total recurring Azure ceiling USD $40/month |
+| Cost policy | Preferred target R0/month; hard ceiling USD $40/month recurring Azure/cloud cost; >USD $40/month recurring is blocked; paid domain is out of MVP |
 | Target completion | 30 September 2026 |
 
 ## 2. Product Purpose
@@ -48,21 +48,24 @@ The following are confirmed project requirements and must not be silently change
 17. Frontend CI/CD must automatically publish website changes.
 18. Azure credentials and secrets must never be committed to source control.
 19. Free or consumption-based options are preferred.
-20. East US is the target Azure region.
-21. `develop` is the development/integration branch.
-22. `main` represents production.
-23. A short project-learning article must be linked from the resume.
-24. The project intentionally excludes AZ-900; AI-901 may be displayed as an existing certification.
-25. The supplied CV is the source material for resume content, subject to final public-content approval.
-26. The project will publish project-learning content on Dev.to and Hashnode, as established in the approved project state.
-27. The project uses one deployment environment.
-28. The existing Azure subscription is the intended subscription; its identifier is not stored in project documentation.
+20. The MVP recurring Azure/cloud cost must not exceed USD $40/month, excluding personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+21. R0/month is the preferred cost target.
+22. Any unexpected Azure/cloud charge must be investigated before project work continues.
+23. East US is the target Azure region.
+24. `develop` is the development/integration branch.
+25. `main` represents production.
+26. A short project-learning article must be linked from the resume.
+27. The project intentionally excludes AZ-900; AI-901 may be displayed as an existing certification.
+28. The supplied CV is the source material for resume content, subject to final public-content approval.
+29. The project will publish project-learning content on Dev.to and Hashnode, as established in the approved project state.
+30. The project uses one deployment environment.
+31. The existing Azure subscription is the intended subscription; its identifier is not stored in project documentation.
 
 ## 4. Assumptions — Not Confirmed Requirements
 
 1. The existing Azure subscription can provision every required service.
 2. Required services and relevant free allowances remain available when implementation starts.
-3. The approved Azure Front Door Standard delivery architecture remains within the approved USD $40/month recurring Azure cost ceiling.
+3. The required delivery architecture can remain within the approved USD $40/month recurring cost ceiling.
 4. A suitable free hostname/subdomain can satisfy the approved interpretation of the DNS requirement.
 5. GitHub Actions can be configured with secure deployment authentication.
 6. The supplied CV contains sufficient material for the initial public resume.
@@ -353,7 +356,7 @@ Public read; delivery configuration restricted to authorized project/deployment 
 Certificate lifecycle; cache staleness; service/pricing changes; origin failure.
 
 **Dependencies**  
-MVP-004, MVP-006, OR-003, OR-004.
+MVP-004, MVP-006, OR-004.
 
 **Acceptance Criteria**  
 See AC-005; verification VT-005.
@@ -696,7 +699,7 @@ Deployment identity receives only required resource-management permissions.
 Existing resource state; parameter mismatch; partial deployment; deployment rollback/failure.
 
 **Dependencies**  
-MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013, OR-003, OR-004.
+MVP-004, MVP-005, MVP-006, MVP-008, MVP-010, MVP-013, OR-004.
 
 **Acceptance Criteria**  
 See AC-012; verification VT-012.
@@ -920,9 +923,14 @@ Blog CMS, comments, subscriptions, analytics dashboard, or multiple unrelated ar
 
 ### Cost
 
-- Project direction is R0/free where possible and lowest-cost viable where free service is unavailable.
-- A numeric maximum cost is still required before final production acceptance (OR-003).
-- Any unavoidable cost requires explicit approval.
+- Preferred target is **R0/month** recurring Azure/cloud cost.
+- The MVP hard ceiling is **USD $40/month recurring Azure/cloud cost**.
+- **R0–USD $40/month** recurring Azure/cloud cost is allowed.
+- **>USD $40/month recurring** Azure/cloud cost is blocked.
+- The ceiling excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+- Paid domain registration is out of MVP.
+- Any unexpected Azure/cloud charge must be investigated before project work continues.
+- Cost compliance must be verified against current billing/pricing evidence before production acceptance.
 
 ### Reliability
 
@@ -967,7 +975,7 @@ The original challenge describes a custom DNS domain. The approved project exclu
 |---|---|---|---|
 | OR-001 | Visitor unit is defined as one successfully committed counter operation initiated by a top-level resume page load. | Counter behavior and tests must implement the approved semantics. | Resolved |
 | OR-002 | Original custom-domain wording conflicts with free-hostname direction. | DNS and production acceptance cannot be final. | Open P1 |
-| OR-003 | Zero/near-zero has no numeric threshold. | Cost acceptance cannot be objective. | Open P1 |
+| OR-003 | Numeric cost ceiling was not previously defined. | Cost acceptance was not objective. | Resolved |
 | OR-004 | Exact current HTTPS/CDN configuration and cost suitability are not validated. | Delivery architecture and acceptance cannot be final. | Open P1 |
 | OR-005 | Exact public CV content has not received final owner approval. | Public-content acceptance cannot be final. | Open P1 |
 | OR-006 | Python test framework is unspecified. | Test implementation details remain open. | Open P2 |
@@ -1008,9 +1016,9 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
-5. A numeric cost ceiling is defined: USD $40/month recurring Azure cost and USD $0 required one-time domain/infrastructure purchase cost.
+5. The MVP recurring Azure/cloud cost ceiling is defined as USD $40/month, with R0/month as the preferred target and explicit exclusions.
 6. Public hostname interpretation is defined.
-7. HTTPS/CDN configuration is defined as Azure Front Door Standard with Azure-managed TLS; production evidence must validate the deployed SKU, hostname, HTTPS, origin, and cost.
+8. HTTPS/CDN configuration and cost are validated against the approved USD $40/month recurring ceiling.
 9. Final public resume content is approved.
 
 No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.

@@ -37,7 +37,6 @@ Current P1 product decisions:
 
 - Visitor-count semantics.
 - Free hostname/subdomain versus original custom-domain interpretation.
-- Numeric cost ceiling.
 - HTTPS/CDN service suitability and cost validation.
 - Final public resume-content approval.
 
@@ -118,13 +117,13 @@ These ideas are explicitly future scope and must not be introduced into MVP impl
 | CI/CD | GitHub Actions |
 | Azure region | East US |
 | Environments | One |
-| Cost | R0/free where possible; otherwise lowest-cost viable option, subject to approval |
+| Cost | R0/month preferred; hard ceiling USD $40/month recurring Azure/cloud cost; >USD $40/month recurring blocked; approved exclusions apply |
 
 ## 8. Scope Constraints
 
 ### Cost
 
-The project is intended to remain at zero/free cost where possible and otherwise use the lowest-cost viable option. The numeric maximum cost is not yet defined and is tracked as OR-003.
+The project targets **R0/month** recurring Azure/cloud cost where viable and permits up to **USD $40/month recurring Azure/cloud cost** for the MVP. Costs above USD $40/month recurring are blocked. The ceiling excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later. Paid domain registration is out of MVP. Any unexpected Azure/cloud charge must be investigated before continuing project work.
 
 ### Certification
 
