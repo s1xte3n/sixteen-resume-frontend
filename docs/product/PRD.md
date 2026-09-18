@@ -16,7 +16,7 @@
 | Backend repository | `s1xte3n/sixteen-resume-backend` |
 | Development/integration branch | `develop` |
 | Production branch | `main` |
-| Cost direction | Zero/R0 where possible; otherwise lowest-cost viable option, subject to explicit approval |
+| Cost direction | Zero/R0 where possible; Azure Front Door Standard is the approved paid delivery exception; total recurring Azure ceiling USD $40/month |
 | Target completion | 30 September 2026 |
 
 ## 2. Product Purpose
@@ -62,7 +62,7 @@ The following are confirmed project requirements and must not be silently change
 
 1. The existing Azure subscription can provision every required service.
 2. Required services and relevant free allowances remain available when implementation starts.
-3. The required delivery architecture can remain within the eventual numeric cost ceiling.
+3. The approved Azure Front Door Standard delivery architecture remains within the approved USD $40/month recurring Azure cost ceiling.
 4. A suitable free hostname/subdomain can satisfy the approved interpretation of the DNS requirement.
 5. GitHub Actions can be configured with secure deployment authentication.
 6. The supplied CV contains sufficient material for the initial public resume.
@@ -983,7 +983,7 @@ The original challenge describes a custom DNS domain. The approved project exclu
 
 The following remain intentionally unspecified because the approved sources do not define them:
 
-- Numeric cost ceiling.
+- Exact live-subscription pricing evidence for the approved delivery configuration.
 - Exact API request/response and CORS contract.
 - API authentication requirement, if any.
 - Counter failure UX.
@@ -1008,9 +1008,9 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
-5. A numeric cost ceiling is defined.
+5. A numeric cost ceiling is defined: USD $40/month recurring Azure cost and USD $0 required one-time domain/infrastructure purchase cost.
 6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration and cost are validated.
+7. HTTPS/CDN configuration is defined as Azure Front Door Standard with Azure-managed TLS; production evidence must validate the deployed SKU, hostname, HTTPS, origin, and cost.
 9. Final public resume content is approved.
 
 No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.
