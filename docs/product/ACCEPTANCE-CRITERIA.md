@@ -2,299 +2,260 @@
 
 ## 1. Purpose
 
-This document defines testable acceptance criteria for every MVP requirement in `docs/product/PRD.md`.
+This document defines objective acceptance criteria and verification IDs for every MVP requirement in `docs/product/PRD.md`.
+
+A checkbox is only considered passed when the stated evidence exists in the final approved configuration. An unresolved P1 decision blocks acceptance of the affected requirement; it is not silently assumed.
 
 ## 2. Global Acceptance Conditions
 
-- Production means the state represented by `main`.
-- Final public resume content must be approved by the project owner.
-- No credentials or secrets may be committed to source control.
-- Acceptance testing must use the final approved configuration.
-- A requirement blocked by an unresolved high-impact decision cannot be considered fully accepted.
+- Production is the state represented by `main`.
+- Final public resume content must be explicitly approved by the Project Owner.
+- No credentials, secrets, tokens, connection strings, or equivalent sensitive deployment material may be committed to source control.
+- Acceptance uses the final approved configuration and public delivery path.
+- Browser-to-Cosmos DB direct access must not exist.
+- A requirement with an unresolved high-impact dependency cannot be marked fully accepted.
 
 ---
 
-# AC-001 — Public Resume Content
+## AC-001 — Public Resume Content
 
-**Requirement:** CR-AZ-MVP-001
+**Requirement:** CR-AZ-MVP-001  
+**Verification:** VT-001 — Public content review
 
-### Acceptance Criteria
+- [ ] The approved public resume URL opens successfully.
+- [ ] The page displays the exact owner-approved resume content.
+- [ ] Every material resume section is traceable to the supplied CV or an explicitly approved addition.
+- [ ] Private/rejected information identified during content review is absent from production.
+- [ ] The resume does not falsely represent AZ-900 as held or as a project requirement.
+- [ ] Owner approval is recorded before production acceptance.
 
-- [ ] The public resume URL opens successfully.
-- [ ] The page displays the approved resume content.
-- [ ] Public resume content can be traced to the supplied CV or explicitly approved additions.
-- [ ] AZ-900 is not falsely represented as a project requirement or completed certification.
-- [ ] Rejected or private content is absent from production.
+**Blocking dependency:** OR-005.
 
----
+## AC-002 — HTML Resume
 
-# AC-002 — HTML Resume
-
-**Requirement:** CR-AZ-MVP-002
-
-### Acceptance Criteria
+**Requirement:** CR-AZ-MVP-002  
+**Verification:** VT-002 — HTML delivery/rendering test
 
 - [ ] The public resume is delivered as an HTML webpage.
-- [ ] A supported modern browser renders the resume without requiring a Word/PDF viewer.
-- [ ] The core resume content is available in HTML.
-- [ ] The product is not dependent on a PDF or Word document for normal resume viewing.
+- [ ] A supported modern browser renders the core resume without requiring a Word/PDF viewer.
+- [ ] Core resume content exists in HTML rather than only as a downloadable document.
+- [ ] Normal resume viewing does not depend on PDF or Word generation.
 
----
+## AC-003 — CSS Styling
 
-# AC-003 — CSS Styling
+**Requirement:** CR-AZ-MVP-003  
+**Verification:** VT-003 — Responsive/style test
 
-**Requirement:** CR-AZ-MVP-003
+- [ ] The resume has intentional CSS styling beyond browser-default raw HTML presentation.
+- [ ] Core content remains readable at the approved mobile viewport baseline.
+- [ ] Core content remains readable at the approved desktop viewport baseline.
+- [ ] CSS failure does not make the underlying resume content inaccessible.
+- [ ] No unapproved frontend framework is required for the MVP styling.
 
-### Acceptance Criteria
+**Blocking dependency:** OR-010 for the final browser/viewport baseline.
 
-- [ ] The resume has intentional styling beyond browser-default raw HTML.
-- [ ] Resume content remains readable on a common mobile viewport.
-- [ ] Resume content remains readable on a common desktop viewport.
-- [ ] CSS failure does not prevent access to the underlying resume content.
+## AC-004 — Azure Storage Static Website
 
----
-
-# AC-004 — Azure Storage Static Website
-
-**Requirement:** CR-AZ-MVP-004
-
-### Acceptance Criteria
+**Requirement:** CR-AZ-MVP-004  
+**Verification:** VT-004 — Hosting/source verification
 
 - [ ] Production static website hosting uses Azure Storage.
-- [ ] HTML files are served from Azure Storage.
-- [ ] CSS assets are served successfully.
-- [ ] JavaScript assets are served successfully.
-- [ ] A successful frontend deployment results in the expected production website content being available.
+- [ ] The production HTML is served through the Azure Storage-backed delivery path.
+- [ ] CSS assets load successfully.
+- [ ] JavaScript assets load successfully.
+- [ ] A successful frontend publication produces the expected website content.
+- [ ] The primary hosting requirement is not satisfied solely by a third-party static host.
 
----
+## AC-005 — HTTPS/CDN Delivery
 
-# AC-005 — HTTPS/CDN Delivery
-
-**Requirement:** CR-AZ-MVP-005
-
-### Acceptance Criteria
+**Requirement:** CR-AZ-MVP-005  
+**Verification:** VT-005 — HTTPS/delivery/cost validation
 
 - [ ] The approved public hostname serves the resume over HTTPS.
-- [ ] The final production delivery configuration contains the approved CDN/delivery layer.
-- [ ] HTTPS certificate handling is operational.
-- [ ] The selected configuration has been validated against the approved cost constraint.
-- [ ] Any required HTTP-to-HTTPS behavior is documented and verified.
+- [ ] The final production path contains the approved CDN/delivery layer.
+- [ ] Certificate handling is operational for the public hostname.
+- [ ] HTTP-to-HTTPS behavior, if used, is documented and verified.
+- [ ] The actual deployed configuration matches the approved architecture.
+- [ ] Current service cost is within the approved numeric cost ceiling.
 
-### Open Dependency
+**Blocking dependencies:** OR-003 and OR-004.
 
-The exact CDN/HTTPS service configuration remains unresolved.
+## AC-006 — Public Hostname/DNS
 
-See `OR-004`.
+**Requirement:** CR-AZ-MVP-006  
+**Verification:** VT-006 — DNS/hostname resolution test
 
----
+- [ ] The approved public hostname resolves successfully from an external network.
+- [ ] DNS resolves to the intended production delivery endpoint.
+- [ ] The resume loads through the approved hostname.
+- [ ] The hostname does not require an unapproved paid domain purchase.
+- [ ] The project-owner interpretation of the original custom-domain/DNS requirement is explicitly recorded.
 
-# AC-006 — Public Hostname/DNS
+**Blocking dependency:** OR-002.
 
-**Requirement:** CR-AZ-MVP-006
+## AC-007 — JavaScript Visitor Counter
 
-### Acceptance Criteria
+**Requirement:** CR-AZ-MVP-007  
+**Verification:** VT-007 — Counter browser-flow test
 
-- [ ] The approved public hostname resolves successfully.
-- [ ] The hostname resolves to the intended production delivery endpoint.
-- [ ] The resume loads through the hostname.
-- [ ] The hostname solution does not introduce an unapproved paid domain.
-- [ ] The free-hostname/subdomain interpretation has been explicitly approved before final acceptance.
+- [ ] On a healthy counter service, JavaScript initiates the approved counter operation.
+- [ ] The browser receives the approved counter result through the API.
+- [ ] Browser network inspection confirms no direct Cosmos DB request occurs.
+- [ ] The displayed value follows the approved visitor-counting semantics.
+- [ ] A normal reload produces behavior consistent with the persisted counter state and approved semantics.
+- [ ] Counter/API failure does not prevent the visitor from reading the resume.
+- [ ] Failure behavior matches the approved counter failure UX once OR-009 is resolved.
 
-### Open Dependency
+**Blocking dependencies:** OR-001, OR-008, OR-009.
 
-The exact hostname/DNS solution remains unresolved.
+## AC-008 — Visitor Counter Persistence
 
-See `OR-002`.
+**Requirement:** CR-AZ-MVP-008  
+**Verification:** VT-008 — Persistence/state test
 
----
+- [ ] A valid initial counter operation creates or initializes persistent state according to the approved model.
+- [ ] A subsequent valid operation produces the expected state transition according to the approved counting semantics.
+- [ ] Counter state survives a normal backend redeployment.
+- [ ] Counter state survives a normal frontend redeployment.
+- [ ] Browser inspection shows no direct database access.
+- [ ] Database failure produces the approved controlled failure state.
+- [ ] Concurrent/duplicate operations are handled according to the approved counter semantics.
 
-# AC-007 — JavaScript Visitor Counter
+**Blocking dependencies:** OR-001 and OR-008.
 
-**Requirement:** CR-AZ-MVP-007
+## AC-009 — Visitor Counter API
 
-### Acceptance Criteria
+**Requirement:** CR-AZ-MVP-009  
+**Verification:** VT-009 — API contract/security test
 
-- [ ] When the counter service is healthy, JavaScript displays the returned counter value.
-- [ ] The counter request is initiated by the website JavaScript.
-- [ ] Browser network inspection confirms that JavaScript communicates with the approved API rather than directly with Cosmos DB.
-- [ ] API failure does not prevent the visitor from reading the resume.
-- [ ] API failure does not expose database credentials.
-- [ ] A normal reload returns a value based on persisted counter state.
+- [ ] A valid frontend request reaches the approved API endpoint.
+- [ ] The endpoint uses the approved HTTP method and request contract.
+- [ ] A valid request returns the approved success response and status behavior.
+- [ ] Invalid requests return the approved controlled error and status behavior.
+- [ ] Database failure returns the approved controlled API failure.
+- [ ] CORS behavior matches the approved contract.
+- [ ] Database credentials/secrets are not returned to the browser.
+- [ ] Browser requests do not directly target Cosmos DB.
 
-### Open Dependency
+**Blocking dependencies:** OR-008 and OR-009.
 
-The exact definition of a visitor is unresolved.
+## AC-010 — Python Azure Function
 
-See `OR-001`.
+**Requirement:** CR-AZ-MVP-010  
+**Verification:** VT-010 — Function/runtime/security test
 
----
+- [ ] Approved counter API handling executes in Azure Functions.
+- [ ] Backend application code is Python.
+- [ ] The Function can perform the required persistence operation through its backend access path.
+- [ ] Function access is limited to required operations.
+- [ ] Runtime and downstream failures return controlled responses.
+- [ ] Error responses do not disclose secrets or sensitive infrastructure information.
 
-# AC-008 — Visitor Counter Persistence
+## AC-011 — Automated Python Tests
 
-**Requirement:** CR-AZ-MVP-008
+**Requirement:** CR-AZ-MVP-011  
+**Verification:** VT-011 — CI test-gate test
 
-### Acceptance Criteria
-
-- [ ] A valid initial counter operation creates or initializes the required persistent state.
-- [ ] A subsequent valid operation reflects the prior state according to the approved counting semantics.
-- [ ] Counter state survives normal backend redeployment.
-- [ ] Counter state survives normal frontend redeployment.
-- [ ] Browser network inspection shows no direct Cosmos DB access.
-- [ ] Database failure produces a controlled failure state.
-
----
-
-# AC-009 — Visitor Counter API
-
-**Requirement:** CR-AZ-MVP-009
-
-### Acceptance Criteria
-
-- [ ] A valid frontend counter request reaches the approved API.
-- [ ] The API returns the required counter result for a valid request.
-- [ ] Invalid requests return a defined controlled error.
-- [ ] Database failure returns a defined controlled API failure.
-- [ ] The API does not expose database credentials.
-- [ ] The browser does not connect directly to Cosmos DB.
-
-### Open Dependency
-
-The exact API request/response contract remains unresolved.
-
-See `OR-008`.
-
----
-
-# AC-010 — Python Azure Function
-
-**Requirement:** CR-AZ-MVP-010
-
-### Acceptance Criteria
-
-- [ ] API request handling is performed by Azure Functions.
-- [ ] Backend implementation uses Python.
-- [ ] The function can communicate with the required persistence layer.
-- [ ] Function permissions are limited to required operations.
-- [ ] Runtime errors return controlled responses.
-- [ ] Error responses do not disclose secrets.
-
----
-
-# AC-011 — Automated Python Tests
-
-**Requirement:** CR-AZ-MVP-011
-
-### Acceptance Criteria
-
-- [ ] Backend CI automatically executes the Python test suite.
-- [ ] A deliberately broken required behavior causes the test workflow to fail.
-- [ ] Passing tests produce a successful test result.
-- [ ] Test execution results are visible in the CI workflow.
+- [ ] The backend CI workflow automatically executes the required Python test suite.
+- [ ] A deliberately broken required behavior causes the required test stage to fail.
+- [ ] Passing tests produce a visible successful result.
+- [ ] Test results are visible in the CI workflow.
 - [ ] Tests can execute repeatedly in the CI environment.
 - [ ] The selected testing framework is documented before final acceptance.
 
-### Open Dependency
+**Blocking dependency:** OR-006.
 
-The Python testing framework is intentionally deferred.
+## AC-012 — ARM Infrastructure as Code
 
-See `OR-006`.
+**Requirement:** CR-AZ-MVP-012  
+**Verification:** VT-012 — IaC provisioning/source-control test
 
----
-
-# AC-012 — ARM Infrastructure as Code
-
-**Requirement:** CR-AZ-MVP-012
-
-### Acceptance Criteria
-
-- [ ] Required Azure project infrastructure is represented by ARM templates.
+- [ ] Required project Azure infrastructure is represented by ARM templates.
 - [ ] ARM templates are stored in source control.
-- [ ] Required infrastructure can be provisioned/configured through the approved IaC process.
-- [ ] No undocumented manual production configuration is required for normal provisioning.
+- [ ] The approved provisioning workflow can apply the required infrastructure from source-controlled definitions.
+- [ ] Normal production provisioning does not require undocumented manual configuration.
 - [ ] Backend resources use the approved Consumption-plan direction.
 - [ ] Infrastructure changes are represented as source-controlled changes.
+- [ ] Deployed configuration remains within the approved cost ceiling.
 
----
+**Blocking dependencies:** OR-003 and OR-004 where they affect final resource selection.
 
-# AC-013 — Backend GitHub Repository and CI/CD
+## AC-013 — Backend GitHub Repository and CI/CD
 
-**Requirement:** CR-AZ-MVP-013
+**Requirement:** CR-AZ-MVP-013  
+**Verification:** VT-013 — Backend CI/CD integration test
 
-### Acceptance Criteria
-
-- [ ] The backend repository is `s1xte3n/sixteen-backend`.
-- [ ] Approved backend changes trigger the intended workflow.
-- [ ] Automated tests execute before production deployment.
+- [ ] The canonical backend repository is `s1xte3n/sixteen-resume-backend`.
+- [ ] The intended integration workflow uses `develop` and production is represented by `main`.
+- [ ] An approved backend/infrastructure change entering the production workflow triggers the intended CI/CD process.
+- [ ] Required tests execute before production deployment.
 - [ ] A failing required test prevents production deployment.
-- [ ] Passing tests allow deployment when deployment prerequisites are valid.
+- [ ] Passing required tests allow deployment to proceed when deployment prerequisites are valid.
 - [ ] Deployment failures are reported by the workflow.
-- [ ] No Azure credentials are committed to the repository.
-- [ ] Production deployment represents the approved `main` branch.
+- [ ] No Azure credentials or secrets are committed.
+- [ ] Production deployment represents the approved `main` state.
 
----
+**Blocking dependencies:** OR-006 and secure CI/CD authentication configuration.
 
-# AC-014 — Frontend GitHub Repository and CI/CD
+## AC-014 — Frontend GitHub Repository and CI/CD
 
-**Requirement:** CR-AZ-MVP-014
+**Requirement:** CR-AZ-MVP-014  
+**Verification:** VT-014 — Frontend publication integration test
 
-### Acceptance Criteria
-
-- [ ] The frontend repository is `s1xte3n/sixteen-frontend`.
-- [ ] Approved frontend production changes trigger the intended workflow.
+- [ ] The canonical frontend repository is `s1xte3n/sixteen-resume-frontend`.
+- [ ] The intended integration workflow uses `develop` and production is represented by `main`.
+- [ ] An approved frontend production change triggers the intended workflow.
 - [ ] Frontend files are automatically published to Azure Storage.
 - [ ] Publication failure causes the workflow to report failure.
-- [ ] Required CDN cache invalidation is handled where applicable.
-- [ ] No Azure credentials are committed to the repository.
-- [ ] Production publication represents the approved `main` branch.
+- [ ] Required delivery-layer cache invalidation is handled where the final architecture requires it.
+- [ ] No Azure credentials or secrets are committed.
+- [ ] Production publication represents the approved `main` state.
 
----
+**Blocking dependency:** OR-004 for final delivery/cache behavior.
 
-# AC-015 — Public Production Deployment
+## AC-015 — Public Production Deployment
 
-**Requirement:** CR-AZ-MVP-015
+**Requirement:** CR-AZ-MVP-015  
+**Verification:** VT-015 — End-to-end production acceptance test
 
-### Acceptance Criteria
-
-- [ ] The public hostname resolves successfully.
+- [ ] The approved public hostname resolves successfully.
 - [ ] The resume loads over HTTPS.
-- [ ] The resume content is the approved production content.
-- [ ] The visitor counter can complete the approved frontend → API → persistence flow.
+- [ ] The public content exactly matches the approved production content.
+- [ ] The visitor counter completes the approved frontend → API → persistence flow.
 - [ ] Production corresponds to the approved `main` state.
-- [ ] Cost validation passes the approved cost threshold.
-- [ ] Repository review confirms that no Azure credentials or secrets are committed.
-- [ ] Required Azure infrastructure is represented in source-controlled IaC.
+- [ ] The deployed configuration passes the approved numeric cost threshold.
+- [ ] Repository review confirms no credentials or secrets are committed.
+- [ ] Required infrastructure is represented in source-controlled ARM IaC.
+- [ ] Required backend and frontend deployment workflows have passed their applicable acceptance tests.
 
----
+**Blocking dependencies:** OR-001, OR-002, OR-003, OR-004, OR-005, plus affected P2 API/test decisions.
 
-# AC-016 — Project-Learning Blog Post
+## AC-016 — Project-Learning Blog Post
 
-**Requirement:** CR-AZ-MVP-016
+**Requirement:** CR-AZ-MVP-016  
+**Verification:** VT-016 — Public article/link test
 
-### Acceptance Criteria
-
-- [ ] The resume contains a project-learning article link.
-- [ ] The link opens from an external browser session.
+- [ ] The resume contains the approved project-learning article link(s).
+- [ ] Each required link opens from an external browser session.
 - [ ] The article is publicly reachable.
-- [ ] The article describes lessons learned from the project.
-- [ ] The final article URL is recorded in project documentation.
-- [ ] The final publishing platform is documented.
+- [ ] The article covers technical lessons learned, implementation, problems encountered, solutions/decisions, and the broader project journey.
+- [ ] Final article URL(s) are recorded in project documentation.
+- [ ] Final publishing platform(s) are documented.
+- [ ] No general-purpose blog application is introduced into the product.
 
-### Open Dependency
+**Source-of-truth note:** the approved project state specifies Dev.to and Hashnode; older product documentation marked the platform undecided. This inconsistency must be normalized in `OPEN-REQUIREMENTS.md`/project documentation before final acceptance.
 
-The blog platform remains unresolved.
-
-See `OR-007`.
-
----
-
-# 3. MVP Acceptance Gate
+## 3. MVP Acceptance Gate
 
 The MVP cannot be declared fully accepted until:
 
-- [ ] All 16 MVP requirements have passing acceptance criteria.
-- [ ] Visitor-count semantics are explicitly defined.
-- [ ] Public hostname interpretation is explicitly defined.
-- [ ] Numeric cost ceiling is explicitly defined.
-- [ ] HTTPS/CDN configuration and cost have been validated.
-- [ ] Final public resume content has been approved.
-- [ ] No P0/P1 ambiguity remains hidden.
+- [ ] AC-001 through AC-016 all pass.
+- [ ] No P0 ambiguity remains.
+- [ ] OR-001 through OR-005 are explicitly resolved or formally accepted as documented deviations.
+- [ ] All deliberate deviations from the original challenge are documented.
+- [ ] The numeric cost ceiling is defined and verified.
+- [ ] Visitor-count semantics are defined and verified.
+- [ ] Public hostname interpretation is defined and verified.
+- [ ] HTTPS/CDN configuration and cost are validated.
+- [ ] Final public resume content is approved.
+- [ ] No hidden P1 ambiguity remains.
