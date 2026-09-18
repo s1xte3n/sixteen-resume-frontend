@@ -1,4 +1,3 @@
-```markdown
 # Azure Cloud Resume Challenge — Security Architecture
 
 ## 1. Security Objectives
