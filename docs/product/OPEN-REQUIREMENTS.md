@@ -2,177 +2,86 @@
 
 ## 1. Purpose
 
-This document records unresolved product decisions, ambiguities, contradictions, hidden dependencies, missing requirements, and requirements that are not yet objectively testable.
+This document is the authoritative product-level register of unresolved decisions, ambiguities, contradictions, hidden dependencies, missing requirements, and requirements that are not yet objectively testable.
 
-No ambiguity in this document should be silently resolved during implementation.
+No ambiguity listed here may be silently resolved during implementation.
 
----
-
-# 2. Priority Definitions
+## 2. Priority Definitions
 
 | Priority | Meaning |
 |---|---|
-| P0 | Critical; blocks safe/product-valid progress |
-| P1 | High impact; must be resolved before affected MVP acceptance |
-| P2 | Important; may be resolved during implementation if it does not block acceptance |
-| P3 | Minor refinement |
+| P0 | Critical; blocks safe or product-valid progress. |
+| P1 | High impact; must be resolved before affected MVP acceptance. |
+| P2 | Important; may be resolved during implementation if it does not block acceptance. |
+| P3 | Minor refinement. |
 
----
+## 3. P1 Open Decisions
 
-# 3. Open Decisions
+| ID | Decision / ambiguity | Affected requirements | Status |
+|---|---|---|---|
+| OR-001 | Define what counts as a visitor: page load, API request, browser session, unique visitor, or another unit. | MVP-007, MVP-008, MVP-009 | Open |
+| OR-002 | Confirm whether a free hostname/subdomain satisfies the original challenge's custom-domain/DNS intent. | MVP-006, MVP-015 | Open |
+| OR-003 | Define the numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
+| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
+| OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
-| ID | Priority | Decision / Ambiguity | Affected Requirements | Status |
-|---|---:|---|---|---|
-| OR-001 | P1 | Define what counts as a visitor: page load, request, unique visitor, session, or another unit. | MVP-007, MVP-008, MVP-009 | Open |
-| OR-002 | P1 | Confirm whether a free hostname/subdomain satisfies the original challenge's custom-domain/DNS intent. | MVP-006, MVP-015 | Open |
-| OR-003 | P1 | Define a numeric maximum acceptable project cost. | MVP-005, MVP-006, MVP-012, MVP-015 | Open |
-| OR-004 | P1 | Validate exact HTTPS/CDN service configuration and current cost suitability. | MVP-005, MVP-015 | Open |
-| OR-005 | P1 | Approve exact public resume content from the supplied CV. | MVP-001, MVP-015 | Open |
-| OR-006 | P2 | Select Python testing framework. | MVP-011, MVP-013 | Intentionally deferred |
-| OR-007 | P2 | Select blog platform. | MVP-016 | Open |
-| OR-008 | P2 | Define visitor-counter API request/response contract. | MVP-009, MVP-010 | Open |
-| OR-009 | P2 | Define user-visible behavior when counter API/database fails. | MVP-007, MVP-009 | Open |
-| OR-010 | P2 | Define supported browser/version baseline. | MVP-001, MVP-003, MVP-015 | Open |
-| OR-011 | P2 | Define production availability expectation/SLO, if any. | MVP-015 | Open |
-| OR-012 | P2 | Define DNS propagation/stability expectation. | MVP-006, MVP-015 | Open |
-| OR-013 | P3 | Define whether blog link opens in same tab or new tab. | MVP-016 | Open |
+### OR-001 — Visitor Definition
 
----
+**Question:** What exactly constitutes one visitor-counter increment?
 
-# 4. P1 Requirements
+Candidate interpretations already identified by the approved requirements are page load, counter API request, browser session, unique visitor, or another explicitly defined unit.
 
-## OR-001 — Visitor Definition
+**Why it matters:** Counter behavior, persistence tests, API behavior, concurrency expectations, and acceptance criteria depend on this definition.
 
-### Question
+**Decision required:** Select and document one counting unit and the behavior for duplicate/concurrent operations.
 
-What exactly constitutes a visitor?
+**Affected:** MVP-007, MVP-008, MVP-009.
 
-Possible interpretations include:
+**Status:** Open.
 
-- Every page load.
-- Every counter API request.
-- Every browser session.
-- Every unique visitor.
-- Another explicitly defined unit.
+### OR-002 — Free Hostname vs Custom Domain
 
-### Why It Matters
+**Question:** Does the approved free hostname/subdomain satisfy the original challenge requirement for DNS/custom-domain functionality?
 
-Without this definition, the visitor counter cannot be objectively tested.
+**Conflict:** The original challenge describes pointing a custom DNS domain to the CDN endpoint, while the approved project state excludes paid domain purchase and selects FreeDNS/afraid.org as the initial DNS direction.
 
-### Affected Requirements
+**Why it matters:** DNS acceptance and the claim made about challenge compliance depend on the interpretation.
 
-- CR-AZ-MVP-007
-- CR-AZ-MVP-008
-- CR-AZ-MVP-009
+**Decision required:** Explicitly document whether the free hostname/subdomain is accepted as the project's scoped interpretation and, if so, record the deviation from the literal challenge wording.
 
-### Status
+**Affected:** MVP-006, MVP-015.
 
-Open.
+**Status:** Open.
 
----
+### OR-003 — Numeric Cost Ceiling
 
-## OR-002 — Free Hostname vs Custom Domain
+**Question:** What exact maximum project cost is acceptable?
 
-### Question
+The current direction is R0/free where possible and the lowest-cost viable option otherwise, but this is not objectively testable without a numeric threshold.
 
-Does the approved free hostname/subdomain satisfy the original challenge requirement for DNS/custom-domain functionality?
+**Decision required:** Define a maximum such as `$0`, `$X/month`, `$X/year`, or another explicit measurable limit, and state whether one-time costs are included.
 
-### Conflict
+**Affected:** MVP-005, MVP-006, MVP-012, MVP-015.
 
-The original challenge describes pointing a custom DNS domain to the CDN endpoint.
+**Status:** Open.
 
-The approved project state explicitly excludes purchasing a paid domain.
+### OR-004 — HTTPS/CDN Configuration
 
-### Why It Matters
+**Question:** Which current Azure delivery configuration satisfies Azure Storage hosting, HTTPS, CDN/delivery capability, public hostname requirements, and the approved cost ceiling?
 
-The implementation cannot be considered compliant with the approved project interpretation until the intended meaning is documented.
+**Why it matters:** The selected service/configuration determines architecture, pricing, DNS, certificate handling, caching, and acceptance evidence.
 
-### Affected Requirements
+**Decision required:** Validate the exact production delivery configuration and record the applicable cost assumptions.
 
-- CR-AZ-MVP-006
-- CR-AZ-MVP-015
+**Affected:** MVP-005, MVP-015.
 
-### Status
+**Status:** Open.
 
-Open.
+### OR-005 — Public Resume Content
 
----
+**Question:** Which exact CV-derived information is approved for public publication?
 
-## OR-003 — Numeric Cost Ceiling
-
-### Question
-
-What exact maximum cost is acceptable?
-
-The project currently states:
-
-> Zero/near-zero cost.
-
-This is not objectively testable without a numeric threshold.
-
-### Required Decision
-
-Define one of:
-
-- `$0`
-- `$X/month`
-- `$X/year`
-- another explicit threshold.
-
-### Affected Requirements
-
-- CR-AZ-MVP-005
-- CR-AZ-MVP-006
-- CR-AZ-MVP-012
-- CR-AZ-MVP-015
-
-### Status
-
-Open.
-
----
-
-## OR-004 — HTTPS/CDN Configuration
-
-### Question
-
-Which current Azure delivery configuration satisfies:
-
-- Azure Storage hosting;
-- HTTPS;
-- CDN/delivery requirement;
-- public hostname;
-- cost constraint?
-
-### Why It Matters
-
-The exact service configuration affects architecture, pricing, DNS, certificate handling, caching, and acceptance testing.
-
-### Affected Requirements
-
-- CR-AZ-MVP-005
-- CR-AZ-MVP-015
-
-### Status
-
-Open.
-
----
-
-## OR-005 — Public Resume Content
-
-### Question
-
-Which exact information from the supplied CV is approved for public publication?
-
-### Why It Matters
-
-The CV may contain information that should not necessarily become publicly accessible.
-
-### Required Decision
-
-Owner review of:
-
+**Decision review must cover:**
 - Personal information.
 - Contact information.
 - Professional history.
@@ -183,278 +92,158 @@ Owner review of:
 - External links.
 - Any other identifying information.
 
-### Affected Requirements
+**Why it matters:** A supplied CV is source material, not automatic authorization to publish every field publicly.
 
-- CR-AZ-MVP-001
-- CR-AZ-MVP-015
+**Affected:** MVP-001, MVP-015.
 
-### Status
+**Status:** Open pending Project Owner approval.
 
-Open.
+## 4. P2 Open Requirements
 
----
+| ID | Requirement / ambiguity | Affected requirements | Status |
+|---|---|---|---|
+| OR-006 | Select Python testing framework. | MVP-011, MVP-013 | Intentionally deferred until test implementation is prepared. |
+| OR-007 | Normalize the blog platform requirement across product/project documents. Approved project state says Dev.to + Hashnode; older product docs said undecided. | MVP-016 | Open documentation inconsistency. |
+| OR-008 | Define visitor-counter API method, endpoint purpose, request/response, status codes, error contract, semantics, and CORS. | MVP-009, MVP-010 | Open |
+| OR-009 | Define user-visible behavior when counter API/database fails. | MVP-007, MVP-009 | Open |
+| OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Open |
+| OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Open |
+| OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Open |
 
-# 5. P2 Requirements
+### OR-006 — Python Testing Framework
 
-## OR-006 — Python Testing Framework
+The approved requirement requires automated Python tests but does not select a framework. The choice remains intentionally deferred. Final acceptance requires a documented framework and repeatable CI execution.
 
-### Question
+### OR-007 — Blog Platform Normalization
 
-Which Python testing framework will be used?
+The approved project state specifies both Dev.to and Hashnode and describes the content scope as technical lessons, implementation, problems, solutions/decisions, and the broader project journey. Earlier product documentation treated the platform as undecided. The approved project-state decision must be reflected consistently in product documentation before final acceptance.
 
-### Status
+### OR-008 — Visitor API Contract
 
-Intentionally deferred.
+The final contract must define at minimum:
 
-### Affected Requirements
-
-- CR-AZ-MVP-011
-- CR-AZ-MVP-013
-
----
-
-## OR-007 — Blog Platform
-
-### Question
-
-Which platform will host the required project-learning article?
-
-### Status
-
-Open.
-
-### Affected Requirement
-
-CR-AZ-MVP-016.
-
----
-
-## OR-008 — Visitor API Contract
-
-### Question
-
-What is the exact API contract?
-
-At minimum, the final specification must define:
-
-- HTTP method.
-- Endpoint purpose.
-- Request inputs.
-- Required/optional parameters.
-- Successful response.
-- Error responses.
+- HTTP method(s).
+- Endpoint purpose/path.
+- Request inputs and required/optional fields.
+- Successful response schema.
+- Error response schema.
 - HTTP status behavior.
 - Counter semantics.
 - CORS behavior.
 
-### Status
+This is not silently specified here because the approved sources do not provide the final contract.
 
-Open.
+### OR-009 — Counter Failure UX
 
----
+Possible behaviors already identified are hiding the counter, displaying an unavailable state, displaying a last-known value, or another approved fallback. No option is selected.
 
-## OR-009 — Counter Failure UX
+The chosen behavior must not prevent access to the resume.
 
-### Question
+### OR-010 — Browser Support
 
-What should the visitor see if the API or database is unavailable?
+The requirements say supported modern browsers/common desktop and mobile viewports but do not provide a version matrix. A final compatibility test baseline is required before objective acceptance.
 
-Possible product behaviors include:
+### OR-011 — Availability Target
 
-- Hide the counter.
-- Display an unavailable state.
-- Display the last known value.
-- Display another approved fallback.
+No formal availability SLO is currently approved. The product must not claim an uptime target that is not defined by the project.
 
-No option is currently selected.
+### OR-012 — DNS Propagation
 
-### Status
+DNS acceptance needs a defined expectation for propagation/stability if timing is to be tested objectively.
 
-Open.
+## 5. P3 Open Requirements
 
----
+### OR-013 — Blog Link Behavior
 
-## OR-010 — Browser Support
+The project has not specified whether the project-learning link opens in the same tab or a new tab. This is a minor UX detail and does not block requirements closure unless explicitly promoted.
 
-### Question
+## 6. Contradictions
 
-Which browsers and versions are supported?
+### IC-001 — Custom Domain vs Free Hostname
 
-### Status
+The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and currently selects FreeDNS/afraid.org as the DNS direction. This is a genuine interpretation conflict and is tracked as OR-002.
 
-Open.
+### IC-002 — AZ-900
 
----
+The original challenge specifies AZ-900 or an advanced Azure certification. The approved project explicitly excludes AZ-900 and documents AI-901 as the existing certification. This is a deliberate project deviation, not an unresolved ambiguity.
 
-## OR-011 — Availability Target
+### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-### Question
+HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The absence of a numeric ceiling and validated current configuration makes this an open P1 decision (OR-003/OR-004).
 
-Is an explicit availability target required?
+### IC-004 — Blog Platform Documentation
 
-Examples could include:
+Approved project-state documentation specifies Dev.to + Hashnode, while older product documentation marked the platform undecided. The approved project-state decision should be treated as the current direction, but the documents must be normalized before final acceptance.
 
-- No formal SLO.
-- Monthly availability target.
-- Another documented expectation.
+### IC-005 — Repository Naming in Historical Documentation
 
-### Status
+Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the approved repository names are `sixteen-resume-frontend` and `sixteen-resume-backend`. The PRD and acceptance criteria now use the approved names. Other project artifacts must be synchronized as part of requirements/documentation governance.
 
-Open.
+## 7. Hidden Dependencies
 
----
-
-## OR-012 — DNS Propagation
-
-### Question
-
-What DNS propagation/stability behavior is acceptable during deployment?
-
-### Status
-
-Open.
-
----
-
-# 6. P3 Requirements
-
-## OR-013 — Blog Link Behavior
-
-### Question
-
-Should the project-learning link open in:
-
-- The same browser tab.
-- A new browser tab.
-- Another explicitly defined behavior?
-
-### Status
-
-Open.
-
----
-
-# 7. Contradictions
-
-## IC-001 — Custom Domain vs Free Hostname
-
-The original challenge describes a custom DNS domain.
-
-The approved project state excludes paid domain purchase and prefers a free hostname/subdomain.
-
-This is a genuine requirement conflict and must be explicitly interpreted.
-
----
-
-## IC-002 — AZ-900
-
-The original challenge requires AZ-900 or an advanced Azure certification.
-
-The approved project explicitly excludes AZ-900.
-
-This is a deliberate project deviation rather than an unresolved ambiguity.
-
----
-
-## IC-003 — CDN/HTTPS vs Zero Cost
-
-The project requires HTTPS/CDN functionality while simultaneously targeting zero/near-zero cost.
-
-The actual current service configuration and pricing must be validated.
-
----
-
-# 8. Hidden Dependencies
-
-The following dependencies could affect MVP acceptance:
-
-1. Azure subscription must support required resources.
+1. The Azure subscription must support the required resources.
 2. Required Azure services must remain available and suitable.
-3. Azure service pricing must remain within the approved cost threshold.
-4. A suitable free hostname/subdomain mechanism must exist.
-5. GitHub Actions must support secure deployment authentication.
-6. Public resume content requires owner approval.
-7. A public blog platform must be available.
-8. DNS configuration must support the chosen delivery architecture.
-9. CDN/delivery configuration must support the selected hostname.
-10. Backend API must support the frontend's final visitor-counter contract.
+3. Service pricing must remain within the approved numeric cost ceiling once defined.
+4. A suitable free hostname/subdomain mechanism must exist and satisfy OR-002.
+5. DNS configuration must support the final delivery architecture.
+6. The final delivery configuration must support the selected hostname and HTTPS certificate behavior.
+7. GitHub Actions must support secure deployment authentication.
+8. Final public resume content requires owner approval.
+9. The public article must remain reachable at final acceptance.
+10. The backend API must implement the final counter contract consumed by the frontend.
+11. Counter semantics determine persistence and concurrency test behavior.
+12. The selected test framework determines CI test execution details.
 
----
+## 8. Missing Requirements
 
-# 9. Missing Requirements
+The approved sources do not objectively define:
 
-The current project requirements do not objectively define:
-
-- Visitor-counting semantics.
-- API request/response contract.
-- API authentication requirements.
-- Exact CORS behavior.
-- Numeric cost ceiling.
-- Browser support matrix.
-- Availability target.
+- Numeric cost ceiling and treatment of one-time versus recurring cost.
+- Visitor-count semantics.
+- Exact API request/response contract.
+- API authentication requirements, if any.
+- Exact CORS policy.
+- Counter failure UX.
+- Browser/version matrix.
 - Accessibility target.
 - Performance target.
 - Cache freshness target.
-- DNS propagation expectations.
-- Blog article length/content minimum.
-- Exact required resume sections.
-- Rollback expectations.
-- Counter failure UX.
-- Monitoring/alerting requirements.
+- Availability/SLO target.
+- DNS propagation expectation.
+- Minimum measurable article length/content beyond the approved topics.
+- Exact required resume section list.
+- Formal rollback requirement.
+- Monitoring/alerting target.
 
-These have intentionally not been invented.
+These omissions are recorded rather than invented.
 
----
+## 9. Requirements That Are Not Yet Objectively Testable
 
-# 10. Requirements That Cannot Yet Be Tested Objectively
+| ID | Requirement | Why not objectively testable yet |
+|---|---|---|
+| NTR-001 | Zero/near-zero cost | No numeric ceiling. |
+| NTR-002 | Visitor count | Counting unit undefined. |
+| NTR-003 | Public hostname | Free-hostname/custom-domain interpretation unresolved. |
+| NTR-004 | HTTPS/CDN | Exact service/configuration and cost not validated. |
+| NTR-005 | Readable resume | No formal accessibility/readability baseline. |
+| NTR-006 | Short project-learning article | No measurable length/content minimum beyond topics. |
+| NTR-007 | Supported modern browsers | No version matrix. |
+| NTR-008 | Production availability | No SLO/target. |
+| NTR-009 | DNS stability | No propagation/stability threshold. |
 
-## NTR-001 — Zero/Near-Zero Cost
+## 10. Requirements Closure Rule
 
-No numeric threshold exists.
+The PRD phase is closed only when:
 
-## NTR-002 — Visitor Count
-
-The counting unit is undefined.
-
-## NTR-003 — Public Hostname
-
-The exact hostname mechanism/provider is not selected.
-
-## NTR-004 — Short Blog Post
-
-No measurable length or content structure is specified.
-
-## NTR-005 — Readable Resume
-
-No explicit accessibility/readability baseline is defined.
-
-## NTR-006 — Production-Style
-
-"Production-style" is descriptive rather than independently testable.
-
-The product therefore relies on concrete requirements such as:
-
-- IaC.
-- Automated testing.
-- CI/CD.
-- HTTPS.
-- Security.
-- Public deployment.
-- Source control.
-- Serverless architecture.
-
----
-
-# 11. Requirements Closure Rule
-
-The PRD phase is complete only when:
-
-1. Every MVP feature has testable acceptance criteria.
+1. Every MVP feature has testable acceptance criteria and a verification ID.
 2. No P0 ambiguity remains.
-3. No P1 ambiguity is hidden.
+3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
 5. The numeric cost constraint is defined.
 6. Visitor-count semantics are defined.
 7. Public hostname interpretation is defined.
 8. HTTPS/CDN configuration is validated.
 9. Final public resume content is approved.
+10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
+
+**Current status: NOT CLOSED.** The requirements are fully exposed and traceable at the PRD level, but OR-001 through OR-005 remain P1 closure blockers.
