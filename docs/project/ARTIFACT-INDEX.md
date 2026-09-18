@@ -32,7 +32,19 @@ This document identifies authoritative project documentation, requirements artif
 | `docs/product/FEATURE-BACKLOG.md`     | Implementation-ready backlog                                     | Create  | Yes             |
 | `docs/product/DEPENDENCY-MATRIX.md`   | Requirement sequencing and dependency relationships              | Create  | Yes             |
 | `docs/product/REQUIREMENT-GAPS.md`    | Ambiguous, contradictory, unverifiable, and missing requirements | Create  | Yes             |
-
+| `docs/architecture/ARCHITECTURE.md`   | Complete logical/system architecture                             | Proposed| Yes             |
+| `docs/architecture/DATA-MODEL.md`     | Persistent data model                                            | Proposed| Yes             |
+| `docs/architecture/SECURITY-ARCHITECTURE.md` | Security boundaries and controls | Proposed | Yes |
+| `docs/architecture/INFRASTRUCTURE.md` | Azure resource/environment architecture | Proposed | Yes |
+| `docs/architecture/OBSERVABILITY.md` | Operational telemetry and failure signals | Proposed | Yes |
+| `docs/architecture/ADR-INDEX.md` | Architecture decision catalogue | Proposed | Yes |
+| `docs/architecture/ADR-001.md` | Static frontend architecture | Accepted | Yes |
+| `docs/architecture/ADR-002.md` | Function/API boundary | Accepted | Yes |
+| `docs/architecture/ADR-003.md` | Cosmos DB persistence | Accepted | Yes |
+| `docs/architecture/ADR-004.md` | ARM and CI/CD architecture | Accepted | Yes |
+| `docs/architecture/ADR-005.md` | CI/CD security/authentication | Accepted in principle | Yes |
+| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Pending validation | Yes |
+| `docs/architecture/ADR-007.md` | Visitor-count semantics | Pending approval | Yes |
 ---
 
 # 4. Requirements Governance
@@ -109,6 +121,13 @@ Repository naming must be normalized because some older project documentation re
 | Blog — Dev.to                  | Not started                               |
 | Blog — Hashnode                | Not started                               |
 | Public resume content approval | Pending                                   |
+| System architecture            | Proposed                                  |
+| Data model                     | Proposed                                  |
+| Security architecture          | Proposed                                  |
+| Infrastructure architecture    | Proposed                                  |
+| Observability architecture     | Proposed                                  |
+| ADRs                           | Proposed                                  |
+| Production implementation      | Not started                               |
 
 ---
 
@@ -157,6 +176,25 @@ When a requirement changes:
 8. Update this artifact index.
 
 No artifact may claim completion without corresponding evidence.
+
+## Architecture Status
+
+**Status: Architecture drafted — implementation not yet frozen**
+
+The system architecture has been designed from the canonical requirements baseline.
+
+Implementation must not be considered architecture-frozen until the following requirements are resolved:
+
+1. Visitor-count semantics.
+2. Free hostname/custom-domain interpretation.
+3. Numeric cost ceiling.
+4. HTTPS/CDN configuration and cost validation.
+5. Final public resume content.
+6. Repository naming normalization.
+7. API request/response contract.
+8. CI/CD authentication mechanism.
+
+The architecture may guide non-blocking preparation, but affected implementation boundaries must not be finalized while these decisions remain unresolved.
 
 ---
 
