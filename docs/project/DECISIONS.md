@@ -312,4 +312,21 @@ The content will document:
 
 **Architecture Addressed:** ADR-002, ADR-003, ADR-007.
 
-**Constraint:** The exact definition of a visitor and duplicate/concurrent increment semantics remain unresolved under OR-001 and are intentionally not invented by this API contract.
+**Constraint:** Visitor semantics are resolved under OR-001. Duplicate HTTP requests are separate counter operations unless a future requirement explicitly introduces idempotency semantics; concurrent successful operations must not lose increments.
+
+
+---
+
+## D-031 — OR-002 Public Hostname Interpretation
+
+**Decision:** Resolve OR-002 by accepting the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP.
+
+**Reason:** The project explicitly excludes paid domain registration while requiring a public hostname. The FreeDNS approach satisfies the scoped MVP hostname requirement without claiming ownership of a conventional registrable custom domain.
+
+**Required wording:**
+
+> Public hostname: FreeDNS hosted hostname/subdomain.
+
+**Deviation:** The original challenge describes pointing a custom DNS domain to the CDN endpoint. The MVP uses a hosted subdomain instead and records this as a deliberate deviation from the literal custom-domain wording.
+
+**Acceptance rule:** The approved hostname must resolve publicly to the approved Azure delivery endpoint, serve the resume over HTTPS through the approved delivery architecture, and require no paid domain registration.
