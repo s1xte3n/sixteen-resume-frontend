@@ -435,7 +435,12 @@ Counter API request and response.
 **Business Rules**  
 - JavaScript must retrieve/display the counter through the approved API.
 - Browser JavaScript must not access Cosmos DB directly.
-- The exact visitor-counting unit must be explicitly defined before final acceptance.
+- A visitor-counter operation is one successfully committed counter operation initiated by a top-level resume page load.
+- The frontend performs exactly one counter request per top-level resume page load.
+- A page refresh is a new page load and therefore creates another counter operation.
+- The counter does not identify unique humans, browsers, sessions, IP addresses, devices, or users.
+- A failed API/database operation must not increment persisted state.
+- Concurrent successful operations must not overwrite one another; the backend must use a concurrency-safe atomic logical increment.
 
 **Success State**  
 The approved counter result is displayed when the counter service succeeds.
@@ -450,7 +455,7 @@ Public invocation only to the extent required by the approved API contract.
 Refreshes; duplicate requests; concurrent requests; timeouts; malformed API response.
 
 **Dependencies**  
-MVP-008, MVP-009, MVP-010, OR-001, OR-008, OR-009.
+MVP-008, MVP-009, MVP-010, OR-008, OR-009.
 
 **Acceptance Criteria**  
 See AC-007; verification VT-007.
@@ -960,7 +965,7 @@ The original challenge describes a custom DNS domain. The approved project exclu
 
 | ID | Issue | Impact | Status |
 |---|---|---|---|
-| OR-001 | Visitor unit is undefined. | Counter behavior and tests cannot be final. | Open P1 |
+| OR-001 | Visitor unit is defined as one successfully committed counter operation initiated by a top-level resume page load. | Counter behavior and tests must implement the approved semantics. | Resolved |
 | OR-002 | Original custom-domain wording conflicts with free-hostname direction. | DNS and production acceptance cannot be final. | Open P1 |
 | OR-003 | Zero/near-zero has no numeric threshold. | Cost acceptance cannot be objective. | Open P1 |
 | OR-004 | Exact current HTTPS/CDN configuration and cost suitability are not validated. | Delivery architecture and acceptance cannot be final. | Open P1 |
@@ -979,7 +984,6 @@ The original challenge describes a custom DNS domain. The approved project exclu
 The following remain intentionally unspecified because the approved sources do not define them:
 
 - Numeric cost ceiling.
-- Visitor-count unit.
 - Exact API request/response and CORS contract.
 - API authentication requirement, if any.
 - Counter failure UX.
@@ -1005,8 +1009,7 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
 5. A numeric cost ceiling is defined.
-6. Visitor-count semantics are defined.
-7. Public hostname interpretation is defined.
+6. Public hostname interpretation is defined.
 8. HTTPS/CDN configuration and cost are validated.
 9. Final public resume content is approved.
 
