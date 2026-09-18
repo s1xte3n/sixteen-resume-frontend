@@ -150,3 +150,29 @@ The numeric cost ceiling remains an unresolved requirement and must be frozen be
                     | Azure Cosmos DB       |
                     | Table API             |
                     +----------------------+
+
+The deployment/control plane is separate:
+
+Frontend Repository
+        |
+        v
+GitHub Actions
+        |
+        +--------------------> Azure Storage
+        |
+        +--------------------> Delivery cache invalidation
+        
+
+Backend Repository
+        |
+        v
+GitHub Actions
+        |
+        +--> Python tests
+        |
+        +--> ARM deployment
+        |
+        +--> Azure Function deployment
+        |
+        +--> Cosmos DB infrastructure
+```
