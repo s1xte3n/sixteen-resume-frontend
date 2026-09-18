@@ -76,12 +76,12 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Certificate handling is operational for the public hostname.
 - [ ] HTTP-to-HTTPS behavior, if used, is documented and verified.
 - [ ] The actual deployed configuration matches the approved architecture.
-- [ ] Current recurring Azure/cloud cost attributable to the MVP is **<= R100/month**.
+- [ ] Current recurring Azure/cloud cost attributable to the MVP is **<= USD $40/month**.
 - [ ] **R0/month** is recorded as the preferred target where viable.
 - [ ] The cost calculation excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
 - [ ] No paid domain registration is required for MVP acceptance.
 - [ ] Any unexpected Azure/cloud charge identified during validation has been investigated before acceptance continues.
-- [ ] A forecast or measured recurring Azure/cloud cost **> R100/month** blocks production acceptance.
+- [ ] A forecast or measured recurring Azure/cloud cost **> USD $40/month** blocks production acceptance.
 
 **Blocking dependency:** OR-004 for delivery architecture; OR-003 is resolved.
 
@@ -235,7 +235,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The public content exactly matches the approved production content.
 - [ ] The visitor counter completes the approved frontend → API → persistence flow.
 - [ ] Production corresponds to the approved `main` state.
-- [ ] The deployed configuration passes the approved **R100/month recurring Azure/cloud cost ceiling**.
+- [ ] The deployed configuration passes the approved **USD $40/month recurring Azure/cloud cost ceiling**.
 - [ ] The cost evidence records R0/month as the preferred target and applies the approved exclusions.
 - [ ] Any unexpected Azure/cloud charge has been investigated before acceptance.
 - [ ] Repository review confirms no credentials or secrets are committed.
