@@ -78,7 +78,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 ### OR-004 — HTTPS/CDN Configuration
 
 **Affected requirements:** MVP-005, MVP-015  
-**Status:** Resolved
+**Status:** Open
 
 **Decision:** Use **Azure Front Door Standard** in front of the Azure Storage static website.
 
