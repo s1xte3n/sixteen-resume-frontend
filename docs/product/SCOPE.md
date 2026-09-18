@@ -2,71 +2,73 @@
 
 ## 1. Purpose
 
-This document defines the product scope for the Cloud Resume Challenge — Azure and separates confirmed MVP scope from future priorities and explicit exclusions.
+This document defines the approved product boundary for the Cloud Resume Challenge — Azure. It separates committed MVP scope from non-MVP priorities and future ideas. It does not silently resolve unresolved requirements.
 
----
+## 2. MVP Scope
 
-# 2. MVP Scope
+The MVP contains these 16 requirements:
 
-The MVP consists of the following requirements:
+| ID | MVP capability | Priority |
+|---|---|---:|
+| CR-AZ-MVP-001 | Public resume content | P1 |
+| CR-AZ-MVP-002 | HTML resume | P1 |
+| CR-AZ-MVP-003 | CSS styling | P1 |
+| CR-AZ-MVP-004 | Azure Storage static website | P1 |
+| CR-AZ-MVP-005 | HTTPS/CDN delivery | P1 |
+| CR-AZ-MVP-006 | Public hostname/DNS | P1 |
+| CR-AZ-MVP-007 | JavaScript visitor counter | P1 |
+| CR-AZ-MVP-008 | Cosmos DB Table API persistence | P1 |
+| CR-AZ-MVP-009 | Visitor-counter API | P1 |
+| CR-AZ-MVP-010 | Python Azure Function | P1 |
+| CR-AZ-MVP-011 | Automated Python tests | P1 |
+| CR-AZ-MVP-012 | ARM Infrastructure as Code | P1 |
+| CR-AZ-MVP-013 | Backend GitHub repository and CI/CD | P1 |
+| CR-AZ-MVP-014 | Frontend GitHub repository and CI/CD | P1 |
+| CR-AZ-MVP-015 | Public production deployment | P0 |
+| CR-AZ-MVP-016 | Project-learning blog post | P2 |
 
-1. Public resume content.
-2. HTML resume.
-3. CSS styling.
-4. Azure Storage static website hosting.
-5. HTTPS/CDN delivery.
-6. Public hostname/DNS.
-7. JavaScript visitor counter.
-8. Cosmos DB Table API persistence.
-9. Visitor-counter API.
-10. Python Azure Function.
-11. Automated Python tests.
-12. ARM infrastructure as code.
-13. Backend GitHub repository and CI/CD.
-14. Frontend GitHub repository and CI/CD.
-15. Public production deployment.
-16. Project-learning blog post.
+All MVP requirements have detailed specifications in `PRD.md` and acceptance criteria in `ACCEPTANCE-CRITERIA.md`.
 
-Each MVP requirement has a corresponding requirement ID in `PRD.md` and acceptance criteria in `ACCEPTANCE-CRITERIA.md`.
+## 3. P1 Scope
 
----
+P1 is the committed MVP-critical scope unless explicitly marked as an unresolved product decision. P1 open decisions must be closed before affected requirements can be accepted.
 
-# 3. P1 Scope
+Current P1 product decisions:
 
-P1 represents potential post-MVP improvements that are related to the product purpose but are not required for MVP completion.
+- Visitor-count semantics.
+- Free hostname/subdomain versus original custom-domain interpretation.
+- Numeric cost ceiling.
+- HTTPS/CDN service suitability and cost validation.
+- Final public resume-content approval.
 
-Potential P1 scope:
+Potential post-MVP P1 improvements, requiring explicit scope approval, include:
 
-- Enhanced resume presentation within the existing product purpose.
+- Enhanced resume presentation within the existing purpose.
 - Additional approved project evidence.
 - Additional public project links.
-- Defined user-facing visitor-counter failure messaging.
-- Improved documentation of operational behavior.
-- Additional resume sections if justified by the final resume-content review.
+- Defined user-facing visitor-counter failure messaging if not already required to close MVP behavior.
+- Improved operational documentation.
+- Additional resume sections following an approved content review.
 
-P1 features require explicit approval before entering the implementation scope.
+## 4. P2 Scope
 
----
+P2 items are not required to complete the MVP unless explicitly promoted through scope governance.
 
-# 4. P2 Scope
-
-Potential P2 scope:
+Potential P2 work includes:
 
 - Additional public content sections.
 - Additional project-learning articles.
-- Non-identifying website analytics.
-- Additional deployment environments.
+- Non-identifying website analytics, subject to privacy review and explicit approval.
 - Additional operational reporting.
 - Expanded technical project documentation.
 - Additional cloud-service demonstrations.
+- Minor UX refinements such as browser baseline and blog-link behavior.
 
-These are future possibilities and are not MVP commitments.
+Current P2 unresolved decisions are tracked in `OPEN-REQUIREMENTS.md`.
 
----
+## 5. P3 / Future Ideas
 
-# 5. P3 / Future Ideas
-
-Potential P3/future ideas include:
+Potential future ideas include:
 
 - General portfolio/CMS functionality.
 - Resume administration interface.
@@ -75,98 +77,74 @@ Potential P3/future ideas include:
 - Internationalized resume content.
 - Additional interactive website functionality.
 - Public content-management workflows.
-- Automated content publishing.
+- Automated content publishing beyond the approved project-learning requirement.
 
-These ideas must not be introduced into MVP without an explicit scope decision.
+These ideas are explicitly future scope and must not be introduced into MVP implementation without a scope change.
 
----
+## 6. Explicit Exclusions
 
-# 6. Explicit Exclusions
-
-The following are explicitly outside the current product scope:
-
-- AZ-900 certification.
+- AZ-900 certification as a project requirement.
 - Paid domain purchase unless separately approved.
-- Unrelated application or portfolio features.
 - Unapproved recurring or one-time costs.
 - Direct browser-to-Cosmos DB access.
-- Manual production infrastructure configuration as the intended workflow.
-- Visitor accounts.
+- Visitor accounts/authentication.
 - Public resume editing.
+- Admin dashboards.
 - General CMS functionality.
-- Unrelated personal analytics or tracking.
-- Replacing HTML/CSS/JavaScript with a frontend framework without a scope change.
-- Replacing Python/Azure Functions without a scope change.
-- Replacing Cosmos DB Table API without a scope change.
-- Replacing ARM IaC without a scope change.
-- A general-purpose blog platform as part of this application.
+- Contact forms.
+- E-commerce and payments.
+- Unrelated personal analytics/tracking.
+- Multiple deployment environments.
+- Additional cloud providers.
+- Frontend frameworks replacing plain HTML/CSS/JavaScript without scope approval.
+- Replacing Python/Azure Functions without scope approval.
+- Replacing Cosmos DB Table API without scope approval.
+- Replacing ARM templates without scope approval.
+- A general-purpose blog application.
+- Functionality unrelated to demonstrating the approved Cloud Resume Challenge objectives.
 
----
+## 7. Confirmed Technology Direction
 
-# 7. Scope Constraints
+| Area | Approved direction |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
+| Static hosting | Azure Storage static website |
+| Delivery | HTTPS + CDN/delivery layer + public hostname/DNS |
+| API | Azure Functions HTTP trigger |
+| Backend language | Python |
+| Persistence | Azure Cosmos DB Table API |
+| IaC | ARM templates |
+| Source control | GitHub, separate frontend/backend repositories |
+| CI/CD | GitHub Actions |
+| Azure region | East US |
+| Environments | One |
+| Cost | R0/free where possible; otherwise lowest-cost viable option, subject to approval |
 
-## Cost
+## 8. Scope Constraints
 
-The project is intended to remain at zero or near-zero cost.
+### Cost
 
-A numeric cost ceiling has not yet been defined.
+The project is intended to remain at zero/free cost where possible and otherwise use the lowest-cost viable option. The numeric maximum cost is not yet defined and is tracked as OR-003.
 
-Any unavoidable cost requires explicit approval.
+### Certification
 
-## Certification
+AI-901 may be displayed as an existing certification. AZ-900 is intentionally excluded and must not be claimed as satisfied.
 
-AZ-900 is not part of this project.
+### Content
 
-The existing AI-901 certification may appear on the resume where appropriate but does not become a substitute project requirement.
-
-## Technology
-
-The approved technology direction is:
-
-### Frontend
-
-- HTML
-- CSS
-- JavaScript
-
-### Backend
-
-- Python
-- Azure Functions
-
-### Database
-
-- Azure Cosmos DB
-- Table API
-
-### Infrastructure
-
-- ARM templates
-
-### Hosting
-
-- Azure Storage static website
+The supplied CV is the source material. Final public content requires owner approval.
 
 ### Delivery
 
-- HTTPS
-- CDN
-- Public hostname/DNS
+The project must use Azure Storage static website hosting with HTTPS and the approved CDN/delivery direction. Exact configuration remains subject to OR-004.
 
-### Source Control
+### Domain/DNS
 
-- GitHub
-- Separate frontend/backend repositories
+A free hostname/subdomain is the current project direction. Whether this satisfies the original challenge's custom-domain intent remains OR-002.
 
-### CI/CD
+## 9. Scope Governance
 
-- GitHub Actions
-
----
-
-# 8. Scope Change Rules
-
-A proposed feature is a scope change if it:
+A proposal is a scope change if it:
 
 - introduces a new product capability;
 - changes an approved technology requirement;
@@ -176,7 +154,7 @@ A proposed feature is a scope change if it:
 - changes the public deployment model;
 - removes an approved MVP requirement.
 
-Scope changes must identify:
+A scope change must document:
 
 1. User value.
 2. Affected requirements.
@@ -186,38 +164,23 @@ Scope changes must identify:
 6. Acceptance criteria.
 7. Impact on MVP completion.
 
-No feature becomes part of the product solely because it is technically useful.
+Technical usefulness alone does not add a feature to scope.
 
----
+## 10. MVP Completion Definition
 
-# 9. Current Scope Boundary
+MVP scope is complete only when:
 
-The product is a focused Cloud Resume Challenge implementation.
+- all 16 MVP requirements are implemented;
+- AC-001 through AC-016 pass;
+- no P0/P1 ambiguity remains hidden;
+- all deliberate challenge deviations are documented;
+- approved production constraints are satisfied;
+- public deployment is operational;
+- final public resume content is approved;
+- product/project documentation agrees with the implemented state.
 
-It is not currently a general-purpose personal portfolio platform.
+## 11. Current Scope Status
 
-The project should prioritize evidence of:
+**Status: Scope baseline complete; MVP closure blocked by unresolved product decisions.**
 
-- Azure cloud engineering.
-- Serverless development.
-- Backend development.
-- Infrastructure as Code.
-- Automated testing.
-- CI/CD.
-- Secure cloud deployment.
-- Practical software engineering.
-
-Features unrelated to those objectives require explicit scope approval.
-
----
-
-# 10. Scope Completion
-
-MVP scope is considered complete when:
-
-- Every MVP requirement is implemented.
-- Every MVP requirement has passing acceptance criteria.
-- No P0/P1 ambiguity remains hidden.
-- Approved production constraints are satisfied.
-- Public deployment is operational.
-- Documentation accurately represents the final scope.
+The scope is intentionally not marked fully closed because the approved sources still contain P1 decisions and a product/project documentation inconsistency regarding the blog platform.
