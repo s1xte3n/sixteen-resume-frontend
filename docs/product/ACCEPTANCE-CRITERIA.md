@@ -76,9 +76,14 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Certificate handling is operational for the public hostname.
 - [ ] HTTP-to-HTTPS behavior, if used, is documented and verified.
 - [ ] The actual deployed configuration matches the approved architecture.
-- [ ] Current service cost is within the approved numeric cost ceiling.
+- [ ] Current recurring Azure/cloud cost attributable to the MVP is **<= R100/month**.
+- [ ] **R0/month** is recorded as the preferred target where viable.
+- [ ] The cost calculation excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+- [ ] No paid domain registration is required for MVP acceptance.
+- [ ] Any unexpected Azure/cloud charge identified during validation has been investigated before acceptance continues.
+- [ ] A forecast or measured recurring Azure/cloud cost **> R100/month** blocks production acceptance.
 
-**Blocking dependencies:** OR-003 and OR-004.
+**Blocking dependency:** OR-004 for delivery architecture; OR-003 is resolved.
 
 ## AC-006 — Public Hostname/DNS
 
@@ -230,12 +235,14 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The public content exactly matches the approved production content.
 - [ ] The visitor counter completes the approved frontend → API → persistence flow.
 - [ ] Production corresponds to the approved `main` state.
-- [ ] The deployed configuration passes the approved numeric cost threshold.
+- [ ] The deployed configuration passes the approved **R100/month recurring Azure/cloud cost ceiling**.
+- [ ] The cost evidence records R0/month as the preferred target and applies the approved exclusions.
+- [ ] Any unexpected Azure/cloud charge has been investigated before acceptance.
 - [ ] Repository review confirms no credentials or secrets are committed.
 - [ ] Required infrastructure is represented in source-controlled ARM IaC.
 - [ ] Required backend and frontend deployment workflows have passed their applicable acceptance tests.
 
-**Blocking dependencies:** OR-003, OR-004, OR-005, plus affected P2 API/test decisions.
+**Blocking dependencies:** OR-004, OR-005, plus affected P2 API/test decisions. OR-003 is resolved.
 
 ## AC-016 — Project-Learning Blog Post
 
