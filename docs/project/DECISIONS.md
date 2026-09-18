@@ -1,1 +1,291 @@
+// DECISIONS.md
 
+# Azure Cloud Resume Challenge — Decisions
+
+## D-001 — Project Purpose
+
+**Decision:** Build a personal cloud resume and portfolio website.
+
+**Reason:** The project is intended to demonstrate practical software engineering, Azure, serverless, IaC, testing, and CI/CD skills while serving as the user's personal online resume.
+
+---
+
+## D-002 — Target Audience
+
+**Decision:** Target both recruiters/hiring managers and technical reviewers.
+
+**Reason:** The resume must communicate professional value quickly while the implementation must also provide enough technical evidence for engineering reviewers.
+
+---
+
+## D-003 — MVP Scope
+
+**Decision:** The MVP is the complete Azure Cloud Resume Challenge.
+
+**Reason:** The user explicitly wants to follow the challenge requirements without adding unrelated features.
+
+---
+
+## D-004 — Scope Discipline
+
+**Decision:** Do not add functionality beyond the challenge unless explicitly requested later.
+
+**Reason:** Prevent scope creep and keep the project focused on demonstrating the required Azure capabilities.
+
+---
+
+## D-005 — Certification
+
+**Decision:** Display the existing Microsoft Certified: Azure AI Fundamentals (AI-901) certification.
+
+**Reason:** AI-901 is the Azure certification currently held by the user.
+
+**Deviation:** The challenge specifically requires AZ-900. AI-901 does not satisfy that literal requirement.
+
+**Documentation rule:** The project must describe this as a deviation and must not claim AZ-900 compliance.
+
+---
+
+## D-006 — Resume Experience Positioning
+
+**Decision:** Describe the user as having **4+ years of hands-on software development experience**.
+
+**Reason:** The user graduated in May 2022 and has continuously worked on substantial personal software projects since then.
+
+**Important distinction:** Professional employment remains represented separately as IT Operator at Gijima Holdings from June 2022 to present.
+
+The resume must not imply four-plus years of professional software-engineering employment.
+
+---
+
+## D-007 — Frontend Technology
+
+**Decision:** Use plain HTML, CSS, and JavaScript.
+
+**Reason:** These technologies are explicitly required by the challenge and demonstrate the underlying web fundamentals without introducing unnecessary frontend framework complexity.
+
+---
+
+## D-008 — Static Website Hosting
+
+**Decision:** Use Azure Storage static website hosting.
+
+**Reason:** Azure Storage is explicitly required by the challenge.
+
+---
+
+## D-009 — HTTPS
+
+**Decision:** Use Azure CDN to provide HTTPS for the static website.
+
+**Reason:** HTTPS through Azure CDN is explicitly required by the challenge.
+
+---
+
+## D-010 — DNS
+
+**Decision:** Use FreeDNS / afraid.org for the initial zero-cost DNS/hostname implementation.
+
+**Reason:** The user requested a free solution where possible.
+
+**Constraint:** This provides a free hosted hostname/subdomain approach rather than ownership of a conventional registrable domain.
+
+**Future option:** A paid custom domain can replace this when the project is productionized.
+
+---
+
+## D-011 — Visitor Counter
+
+**Decision:** Implement the visitor counter using frontend JavaScript calling an Azure Function HTTP API.
+
+**Reason:** The challenge requires a JavaScript visitor counter and explicitly prohibits direct browser communication with Cosmos DB.
+
+---
+
+## D-012 — Database
+
+**Decision:** Use Azure Cosmos DB Table API with serverless capacity.
+
+**Reason:** This is the database approach recommended by the challenge and minimizes cost for the project's expected workload.
+
+---
+
+## D-013 — API
+
+**Decision:** Use an Azure Function with an HTTP trigger as the API between the website and Cosmos DB.
+
+**Reason:** This satisfies the challenge requirement and keeps database credentials/access outside browser-side JavaScript.
+
+---
+
+## D-014 — Backend Language
+
+**Decision:** Use Python for the Azure Function.
+
+**Reason:** Python is explicitly required/recommended by the challenge and provides an opportunity to demonstrate Python backend development and Azure SDK usage.
+
+---
+
+## D-015 — Testing
+
+**Decision:** Include automated tests for the Python backend.
+
+**Reason:** Testing is an explicit challenge requirement and provides validation before deployment.
+
+---
+
+## D-016 — Infrastructure as Code
+
+**Decision:** Use an Azure Resource Manager (ARM) template.
+
+**Reason:** The challenge explicitly requires ARM-based infrastructure as code and prohibits relying on manual Azure Portal configuration as the source of truth.
+
+---
+
+## D-017 — Azure Functions Hosting Plan
+
+**Decision:** Use the Consumption plan.
+
+**Reason:** The challenge explicitly requires a Consumption plan and it is appropriate for the project's low-volume workload and cost objective.
+
+---
+
+## D-018 — Backend Repository
+
+**Decision:** Create a dedicated GitHub repository named:
+
+`	sixteen-resume-backend`
+
+**Reason:** The challenge requires a separate backend repository.
+
+---
+
+## D-019 — Frontend Repository
+
+**Decision:** Create a dedicated GitHub repository named:
+
+`	sixteen-resume-frontend`
+
+**Reason:** The challenge requires a separate website repository.
+
+---
+
+## D-020 — CI/CD
+
+**Decision:** Use GitHub Actions for both repositories.
+
+**Backend workflow:**
+
+```text
+Push / Pull Request
+        ↓
+Python tests
+        ↓
+Build/package
+        ↓
+Deploy infrastructure/application
+```
+
+Deployment should only proceed when the required checks pass.
+
+**Frontend workflow:**
+
+```text
+Push
+ ↓
+Validate/build if applicable
+ ↓
+Upload website to Azure Storage
+ ↓
+Purge CDN cache if required
+```
+
+---
+
+## D-021 — Git Workflow
+
+**Decision:** Use:
+
+```text
+develop → feature/* → PR → CI → merge → main
+```
+
+**Reason:** The user wants a structured Git workflow with protected branches and CI validation.
+
+---
+
+## D-022 — Deployment Environments
+
+**Decision:** Use one deployment environment.
+
+**Reason:** The user explicitly requested one deployment and the challenge does not require multiple environments.
+
+---
+
+## D-023 — Azure Region
+
+**Decision:** Use East US.
+
+**Reason:** The user selected East US as the target Azure region.
+
+---
+
+## D-024 — Cost Strategy
+
+**Decision:** Prefer R0/free services and allowances.
+
+If a requirement cannot be fulfilled for free, use the lowest-cost viable option.
+
+**Reason:** Cost minimization is a project constraint.
+
+---
+
+## D-025 — Security
+
+**Decision:** Apply the following baseline:
+
+* No credentials in source control.
+* Secrets stored through appropriate GitHub/Azure mechanisms.
+* Least-privilege access.
+* HTTPS.
+* Cosmos DB accessed through the backend API rather than browser JavaScript.
+* Infrastructure and deployment configuration maintained in source control.
+
+**Reason:** These controls are necessary for a responsible public cloud portfolio project.
+
+---
+
+## D-026 — Blog Platforms
+
+**Decision:** Publish project-related content on both Dev.to and Hashnode.
+
+**Reason:** The user wants both platforms used.
+
+The content will document:
+
+* Technical lessons.
+* Implementation decisions.
+* Problems and solutions.
+* The overall project journey.
+
+---
+
+## D-027 — Existing AWS Cloud Resume Challenge
+
+**Decision:** Treat the existing AWS Cloud Resume Challenge project as prior experience and source material, not as a replacement for this Azure project.
+
+**Reason:** The Azure challenge must be implemented independently to demonstrate Azure-specific capabilities.
+
+---
+
+## D-028 — Project Deadline
+
+**Decision:** Target completion by 30 September 2026.
+
+---
+
+## D-029 — Production Intent
+
+**Decision:** Build the MVP as a portfolio/learning project while keeping the resulting website suitable for eventual use as the user's production personal website.
+
+**Reason:** This allows the project to remain within challenge scope while providing a practical long-term outcome.
