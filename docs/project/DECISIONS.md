@@ -289,3 +289,27 @@ The content will document:
 **Decision:** Build the MVP as a portfolio/learning project while keeping the resulting website suitable for eventual use as the user's production personal website.
 
 **Reason:** This allows the project to remain within challenge scope while providing a practical long-term outcome.
+
+
+---
+
+## D-030 — Visitor Counter API Contract
+
+**Decision:** Define a versioned public HTTP API as `POST /api/v1/visitor-count` with an empty JSON request and a JSON response containing the persisted `count`.
+
+**Reason:** The browser requires an explicit API boundary to the Python Azure Function, while the API must not expose Cosmos DB access or unrelated application functionality.
+
+**Contract controls:**
+
+- No end-user authentication.
+- Production CORS uses an explicit resume-origin allowlist.
+- Success response field: `count`, non-negative integer.
+- Canonical errors use `code`, `message`, and UUID v4 `requestId`.
+- v1 has no pagination, filtering, sorting, reset, delete, admin, or analytics operations.
+- Breaking wire changes require a new API major version.
+
+**Requirement Addressed:** REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-010.
+
+**Architecture Addressed:** ADR-002, ADR-003, ADR-007.
+
+**Constraint:** The exact definition of a visitor and duplicate/concurrent increment semantics remain unresolved under OR-001 and are intentionally not invented by this API contract.

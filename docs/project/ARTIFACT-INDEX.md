@@ -29,7 +29,20 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/product/DEPENDENCY-MATRIX.md` | Requirement dependencies and sequencing | Current | Yes |
 | `docs/product/REQUIREMENT-GAPS.md` | Vague, contradictory, deferred, or unverifiable requirements | Current | Yes |
 
-## 4. Architecture Documentation
+## 4. API Documentation
+
+| Artifact | Purpose | Status | Source of Truth |
+|---|---|---|---|
+| `docs/api/API-CONTRACT.md` | Canonical visitor-counter HTTP interface contract | Draft; implementation-ready wire contract, acceptance blocked by OR-001 | Yes |
+| `docs/api/API-ENDPOINTS.md` | Public endpoint inventory | Current | Yes |
+| `docs/api/API-SCHEMAS.md` | Reusable request/response/error schemas | Current | Yes |
+| `docs/api/API-ERRORS.md` | Canonical HTTP/error-code contract | Current | Yes |
+| `docs/api/API-VARIABLES.md` | Path/query/header/body variable definitions | Current | Yes |
+| `docs/api/API-EXAMPLES.md` | Representative HTTP examples | Current | Yes |
+| `docs/api/API-CHANGELOG.md` | API contract decisions and version history | Current | Yes |
+| `docs/api/openapi.yaml` | Machine-readable OpenAPI 3.0.3 contract | Current | Yes |
+
+## 5. Architecture Documentation
 
 | Artifact | Purpose | Status |
 |---|---|---|
@@ -47,7 +60,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Pending validation |
 | `docs/architecture/ADR-007.md` | Visitor-count semantics | Pending approval |
 
-## 5. Canonical Repository Names
+## 6. Canonical Repository Names
 
 | Repository | Purpose | Status |
 |---|---|---|
@@ -56,7 +69,7 @@ This document identifies authoritative project documentation, product requiremen
 
 Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must not be used in new requirements.
 
-## 6. Requirements System Status
+## 7. Requirements System Status
 
 **Status: Traceability baseline complete; requirements closure pending.**
 
@@ -72,7 +85,7 @@ Coverage now includes:
 - Executable backlog containing only implementation-ready items.
 - Explicit gap register for unresolved requirements.
 
-## 7. Current P1 Blockers
+## 8. Current P1 Blockers
 
 1. OR-001 — Visitor-count semantics.
 2. OR-002 — Free hostname versus custom-domain interpretation.
@@ -81,18 +94,18 @@ Coverage now includes:
 5. OR-005 — Final public resume-content approval.
 6. Repository/branch state normalization where it affects CI/CD evidence.
 
-## 8. Current P2/P3 Decisions
+## 9. Current P2/P3 Decisions
 
 - OR-006 — Python test framework, intentionally deferred.
 - OR-007 — Blog-platform interpretation/normalization.
-- OR-008 — Visitor API contract.
+- OR-008 — Visitor API contract: **resolved by API v1 contract; acceptance remains blocked by OR-001**.
 - OR-009 — Counter failure UX.
 - OR-010 — Browser support baseline.
 - OR-011 — Availability target.
 - OR-012 — DNS propagation/stability expectation.
 - OR-013 — Blog link tab behavior.
 
-## 9. Implementation Artifact Status
+## 10. Implementation Artifact Status
 
 | Artifact | Status |
 |---|---|
@@ -112,9 +125,9 @@ Coverage now includes:
 | Production deployment | Blocked by P1 requirements |
 | Blog content | Not started |
 | Public resume content approval | Pending OR-005 |
-| Architecture | Proposed; not frozen |
+| API contract | Draft; wire contract frozen for v1; acceptance blocked by OR-001 |\n| OpenAPI specification | Current; synchronized with API v1 |\n| Architecture | Proposed; not frozen |
 
-## 10. Governance Rules
+## 11. Governance Rules
 
 When a requirement or decision changes:
 
@@ -128,7 +141,7 @@ When a requirement or decision changes:
 8. Update `PROJECT-STATUS.md` for implementation-state changes.
 9. Never claim completion without evidence.
 
-## 11. Gate Status
+## 12. Gate Status
 
 ### PRD Gate
 
@@ -142,6 +155,6 @@ When a requirement or decision changes:
 
 **NOT FROZEN.** Architecture depends on unresolved visitor semantics, hostname interpretation, cost ceiling, HTTPS/CDN validation, API contract, and related decisions.
 
-## 12. No-Task Rule
+## 13. No-Task Rule
 
 No implementation task is created for a requirement that remains ambiguous, contradictory, or objectively unverifiable. Such requirements remain in `REQUIREMENT-GAPS.md` until formally resolved.
