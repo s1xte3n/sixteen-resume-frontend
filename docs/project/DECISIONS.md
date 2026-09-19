@@ -379,3 +379,42 @@ The content will document:
 **Exclusions:** Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring Azure/cloud ceiling.
 
 **Reason:** The numeric ceiling must be objectively testable while leaving room for the approved Azure delivery architecture and its usage charges.
+
+
+---
+
+## D-035 — OR-004 HTTPS/CDN Architecture Resolution
+
+**Decision:** Freeze the HTTPS/CDN architecture at capability level while leaving the exact Azure edge service/SKU as an implementation choice.
+
+**Required path:**
+
+```text
+Browser
+   |
+   | HTTPS
+   v
+Public Hostname
+   |
+   v
+Azure CDN / approved Azure edge-delivery service
+   |
+   v
+Azure Storage Static Website
+```
+
+**Implementation acceptance conditions:**
+
+- HTTPS is supported.
+- Certificate management is supported.
+- The public hostname can resolve to the selected edge endpoint.
+- Azure Storage remains the origin.
+- Configuration can be represented in IaC where applicable.
+- Recurring Azure/cloud cost remains <= R100/month for the complete MVP.
+- The selected service is available and suitable for the required deployment architecture.
+
+**Reason:** This resolves OR-004 without prematurely locking the project to a specific Azure edge service whose current availability, lifecycle, pricing, or hostname compatibility may change.
+
+**Requirement:** REQ-AZ-005, REQ-AZ-006, REQ-AZ-015.
+
+**Constraint:** A specific service may only be selected after validating it against these frozen conditions.
