@@ -5,14 +5,11 @@
 ### Request
 
 ```http
-POST /api/v1/visitor-count HTTP/1.1
+GET /api/visitors HTTP/1.1
 Host: api.example.invalid
 Origin: https://resume.example.invalid
-Content-Type: application/json
 Accept: application/json
 X-Request-ID: 7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10
-
-{}
 ```
 
 ### Response
@@ -26,38 +23,13 @@ Content-Type: application/json
 }
 ```
 
-## 2. Invalid request body
+## 2. Unsupported method
 
 ### Request
 
 ```http
-POST /api/v1/visitor-count HTTP/1.1
-Content-Type: application/json
-
-{"visitorId":"abc"}
-```
-
-### Response
-
-```http
-HTTP/1.1 400 Bad Request
-Content-Type: application/json
-
-{
-  "error": {
-    "code": "BAD_REQUEST",
-    "message": "The request body is invalid.",
-    "requestId": "7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10"
-  }
-}
-```
-
-## 3. Unsupported method
-
-### Request
-
-```http
-GET /api/v1/visitor-count HTTP/1.1
+POST /api/visitors HTTP/1.1
+Host: api.example.invalid
 Accept: application/json
 ```
 
@@ -76,9 +48,7 @@ Content-Type: application/json
 }
 ```
 
-## 4. Persistence dependency unavailable
-
-### Response
+## 3. Persistence dependency unavailable
 
 ```http
 HTTP/1.1 503 Service Unavailable
@@ -93,7 +63,7 @@ Content-Type: application/json
 }
 ```
 
-## 5. Timeout
+## 4. Timeout
 
 ```http
 HTTP/1.1 504 Gateway Timeout
@@ -112,4 +82,4 @@ Content-Type: application/json
 
 Examples use reserved `.invalid` hostnames and synthetic UUIDs. They are documentation examples only.
 
-The response count is illustrative; exact increment behavior remains blocked by OR-001.
+The response count is illustrative; OR-001 defines the increment semantics and OR-007 requires concurrency-safe persistence.

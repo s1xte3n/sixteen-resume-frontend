@@ -14,6 +14,8 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | `ACCEPTED-DEVIATION` | Deliberate project deviation from the original challenge. |
 | `CLOSED` | Implementation and verification evidence demonstrate acceptance. |
 
+> **Step 7 status rule:** `BASELINED` means the requirement is unblocked and sufficiently defined for implementation. It does **not** mean implemented or accepted. Final acceptance still requires the applicable acceptance/verification evidence and any explicitly retained implementation gate.
+
 | Priority | Meaning |
 |---|---|
 | P0 | Critical product/security requirement. |
@@ -25,21 +27,21 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 
 | ID | Requirement | Priority | Status | Dependencies | Affected components | Acceptance | Verification |
 |---|---|---:|---|---|---|---|---|
-| REQ-AZ-001 | Approved CV-derived resume content must be publicly readable without exposing rejected/private information. | P1 | BLOCKED | REQ-AZ-002..006; OR-005 | Resume content, HTML, production site | AC-001 | VT-001 |
+| REQ-AZ-001 | Approved CV-derived resume content must be publicly readable without exposing rejected/private information. | P1 | BASELINED | REQ-AZ-002..006; OR-005 | Resume content, HTML, production site | AC-001 | VT-001 |
 | REQ-AZ-002 | Resume must be delivered as an HTML webpage without requiring Word/PDF viewing. | P1 | BASELINED | REQ-AZ-001, REQ-AZ-003 | HTML resume | AC-002 | VT-002 |
 | REQ-AZ-003 | HTML resume must have intentional CSS styling and remain readable on mobile and desktop. | P1 | BASELINED | REQ-AZ-002 | HTML, CSS, UI | AC-003 | VT-003 |
 | REQ-AZ-004 | Production static website must use Azure Storage static website hosting. | P1 | BASELINED | REQ-AZ-002, REQ-AZ-003 | Azure Storage, frontend | AC-004 | VT-004 |
-| REQ-AZ-005 | Production delivery must provide HTTPS through the approved CDN/delivery architecture within the approved cost ceiling. | P1 | BLOCKED | REQ-AZ-004, REQ-AZ-006; OR-004 | CDN/delivery, certificate, Storage | AC-005 | VT-005 |
-| REQ-AZ-006 | Production website must have an approved public hostname/DNS solution resolving to the intended delivery endpoint. | P1 | BLOCKED | REQ-AZ-005; OR-002 | DNS, delivery | AC-006 | VT-006 |
-| REQ-AZ-007 | Browser JavaScript must request and display the approved visitor-counter result without direct Cosmos DB access. | P1 | BLOCKED | REQ-AZ-008..010; OR-008, OR-009 | JavaScript, API | AC-007 | VT-007 |
-| REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BLOCKED | REQ-AZ-009, REQ-AZ-010; OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
-| REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BLOCKED | REQ-AZ-008, REQ-AZ-010; OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
+| REQ-AZ-005 | Production delivery must provide HTTPS through the approved CDN/delivery architecture within the approved cost ceiling. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-006; OR-004 | CDN/delivery, certificate, Storage | AC-005 | VT-005 |
+| REQ-AZ-006 | Production website must have an approved public hostname/DNS solution resolving to the intended delivery endpoint. | P1 | BASELINED | REQ-AZ-005; OR-002 | DNS, delivery | AC-006 | VT-006 |
+| REQ-AZ-007 | Browser JavaScript must request and display the approved visitor-counter result without direct Cosmos DB access. | P1 | BASELINED | REQ-AZ-008..010; OR-008, OR-009 | JavaScript, API | AC-007 | VT-007 |
+| REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BASELINED | REQ-AZ-009, REQ-AZ-010; OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
+| REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BASELINED | REQ-AZ-008, REQ-AZ-010; OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
 | REQ-AZ-010 | Visitor-counter processing must run on Python Azure Functions with only required data-access permissions. | P1 | BASELINED | REQ-AZ-008, REQ-AZ-009 | Function, Python | AC-010 | VT-010 |
 | REQ-AZ-011 | Automated Python tests must execute before production backend deployment and results must be visible in CI. | P1 | DEFERRED | REQ-AZ-010, REQ-AZ-013; OR-006 | Tests, GitHub Actions | AC-011 | VT-011 |
 | REQ-AZ-012 | Required Azure infrastructure must be represented in source-controlled ARM templates and provisionable without undocumented manual production configuration. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-005, REQ-AZ-008, REQ-AZ-010 | ARM, Azure resources | AC-012 | VT-012 |
-| REQ-AZ-013 | Backend code and infrastructure must use the canonical dedicated GitHub repository and CI/CD workflow that tests before production deployment. | P1 | BLOCKED | REQ-AZ-011, REQ-AZ-012; repository state/authentication | Backend repo, Actions, Azure | AC-013 | VT-013 |
-| REQ-AZ-014 | Frontend code must use the canonical dedicated GitHub repository and CI/CD workflow that publishes approved production changes to Azure Storage. | P1 | BLOCKED | REQ-AZ-004, REQ-AZ-005; repository/delivery configuration | Frontend repo, Actions, Storage/CDN | AC-014 | VT-014 |
-| REQ-AZ-015 | Public production deployment must integrate approved resume, HTTPS, hostname, counter, IaC, security controls, and cost constraint. | P0 | BLOCKED | REQ-AZ-001..014; OR-001, OR-002, OR-004, OR-005 | Entire product | AC-015 | VT-015 |
+| REQ-AZ-013 | Backend code and infrastructure must use the canonical dedicated GitHub repository and CI/CD workflow that tests before production deployment. | P1 | BASELINED | REQ-AZ-011, REQ-AZ-012; repository state/authentication | Backend repo, Actions, Azure | AC-013 | VT-013 |
+| REQ-AZ-014 | Frontend code must use the canonical dedicated GitHub repository and CI/CD workflow that publishes approved production changes to Azure Storage. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-005; repository/delivery configuration | Frontend repo, Actions, Storage/CDN | AC-014 | VT-014 |
+| REQ-AZ-015 | Public production deployment must integrate approved resume, HTTPS, hostname, counter, IaC, security controls, and cost constraint. | P0 | BASELINED | REQ-AZ-001..014; OR-001, OR-002, OR-004, OR-005 | Entire product | AC-015 | VT-015 |
 | REQ-AZ-016 | Resume must link to a publicly reachable project-learning article describing lessons learned. | P2 | DEFERRED | REQ-AZ-001; OR-007 | Resume, external article | AC-016 | VT-016 |
 
 ## 4. Cross-Cutting Requirements
@@ -68,8 +70,8 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | QF-001 | Visitor semantics resolved: one successfully committed counter operation per top-level resume page load, with concurrency-safe increments. | REQ-AZ-007..009, REQ-AZ-015 | RESOLVED / OR-001 |
 | QF-002 | Free hostname versus original custom-domain interpretation is a deliberate scoped deviation. | REQ-AZ-006, REQ-AZ-015 | RESOLVED / OR-002 |
 | QF-003 | Numeric cost ceiling was previously undefined. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | RESOLVED / OR-003 |
-| QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / OR-004 |
-| QF-005 | Final public CV subset is not approved. | REQ-AZ-001, REQ-AZ-015 | OPEN / OR-005 |
+| QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / implementation validation remains |
+| QF-005 | Final public CV subset is not approved. | REQ-AZ-001, REQ-AZ-015 | OPEN / acceptance approval remains |
 | QF-006 | Historical repository names conflict with canonical names. | REQ-AZ-013, REQ-AZ-014 | OPEN |
 | QF-007 | Blog-platform documentation requires normalization. | REQ-AZ-016 | OPEN / OR-007 |
 | QF-008 | Artifact-index filename references must use `UNRESOLVED-QUESTIONS.md`. | Documentation | OPEN |
@@ -77,6 +79,7 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 ## 7. Requirement Rules
 
 - No requirement with unresolved P0/P1 ambiguity may enter the executable backlog.
+- `BASELINED` requirements are implementation-ready; unresolved implementation validation or acceptance gates must remain explicitly documented and must not be represented as implementation completion.
 - A requirement is not `CLOSED` merely because its implementation exists; acceptance and verification evidence are required.
 - Acceptance criteria remain the source of behavioral pass/fail conditions.
 - `VT-*` verification IDs are the canonical verification IDs for this requirements phase.
