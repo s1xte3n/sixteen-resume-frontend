@@ -98,7 +98,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The documentation explicitly states that this is not ownership of a conventional registrable custom domain.
 - [ ] The implementation does not require paid domain registration.
 
-**Blocking dependency:** None for hostname interpretation; final HTTPS/delivery validation remains covered by OR-004.
+**Blocking dependency:** None for hostname interpretation; final HTTPS/delivery implementation must satisfy the resolved ADR-006 conditions.
 
 ## AC-007 — JavaScript Visitor Counter
 
