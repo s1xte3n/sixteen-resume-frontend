@@ -218,7 +218,7 @@ Provide HTTPS.
 Provide CDN/delivery capability required by the approved requirements.
 Deliver cached static content where supported.
 
-The exact Azure service/configuration remains unresolved and subject to ADR-006 validation.
+The exact Azure service/configuration is an implementation choice governed by ADR-006's resolved acceptance conditions.
 
 ## 5.4 Public DNS/Hostname
 
@@ -675,7 +675,6 @@ The following decisions materially affect architecture or acceptance and must be
 P1
 Visitor-count semantics.
 Free hostname/subdomain versus custom-domain interpretation.
-Exact HTTPS/CDN architecture and pricing.
 Final public resume content.
 Repository naming normalization.
 P2
@@ -712,7 +711,7 @@ Architecture is considered implementation-ready only when:
 
 All P0 architecture/security requirements are baselined.
 P1 architecture decisions are explicitly resolved.
-The CDN/HTTPS architecture is validated.
+The HTTPS/CDN capability architecture is frozen under ADR-006.
 The hostname model is approved.
 The cost ceiling is numeric and fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and documented exclusions.
 Visitor semantics are defined.
