@@ -418,3 +418,55 @@ Azure Storage Static Website
 **Requirement:** REQ-AZ-005, REQ-AZ-006, REQ-AZ-015.
 
 **Constraint:** A specific service may only be selected after validating it against these frozen conditions.
+
+---
+
+## D-036 — OR-006 Visitor API Contract
+
+**Decision:** The visitor API has exactly one MVP responsibility: `GET /api/visitors`.
+
+The successful response contains the current visitor count.
+
+The browser has no Cosmos DB credentials and no direct Cosmos DB access. Azure Functions remains the application/API boundary.
+
+---
+
+## D-037 — OR-007 Counter Persistence Behavior
+
+**Decision:** Use one logical counter record. For each successful counter operation, the backend reads the current count, atomically increments it, persists it, and returns the resulting count.
+
+The implementation must prevent concurrent lost updates.
+
+---
+
+## D-038 — OR-008 CI/CD Deployment Authority
+
+**Decision:** GitHub Actions is the deployment mechanism. Production deployment from a developer laptop is not a valid production release.
+
+**Backend:** checkout → install dependencies → run tests → validate infrastructure → deploy.
+
+**Frontend:** checkout → validate website → publish to Azure Storage → purge/invalidate edge cache when required.
+
+---
+
+## D-039 — OR-009 Production Release Workflow
+
+**Decision:** `main` represents production.
+
+**Workflow:**
+
+```
+feature/*
+    ↓
+Pull Request
+    ↓
+CI
+    ↓
+develop
+    ↓
+production release
+    ↓
+main
+```
+
+The frontend repository now has a `develop` branch created from `main` to establish the approved development/production branch model.
