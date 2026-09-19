@@ -7,7 +7,7 @@
 | Contract | Visitor Counter HTTP API |
 | Contract version | 1.0.0 |
 | API version | v1 |
-| Status | Draft — implementation-ready interface; OR-001 visitor semantics resolved |
+| Status | Frozen MVP interface; OR-001, OR-006 and OR-007 resolved |
 | Runtime | Python on Azure Functions |
 | Persistence | Azure Cosmos DB Table API |
 | Public caller | Resume browser JavaScript |
@@ -24,12 +24,13 @@ The following are frozen for implementation:
 - Public API requires no end-user authentication.
 - Production browser access is restricted by CORS to the approved resume origin; the production origin remains a deployment variable until OR-002/OR-004 are closed.
 - The request has no body.
+- The request does not require `Content-Type`.
 - Successful response is JSON with one required `count` field.
 - Error response is JSON with `error.code`, `error.message`, and `error.requestId`; `error.details` is optional.
 - `requestId` is UUID v4.
 - Error `timestamp` is RFC 3339 UTC when supplied in `details`; clients must not depend on it.
 - Count is a non-negative JSON integer.
-- Unknown request fields are rejected if a JSON body is supplied.
+- Query parameters, path parameters, and request bodies are not accepted.
 - No pagination, filtering, or sorting is supported.
 - No API operation exposes Cosmos DB identifiers, credentials, connection strings, or tokens.
 - No reset, delete, admin, analytics, authentication, or profile operations are part of v1.
@@ -76,7 +77,7 @@ None.
 | Header | Required | Value |
 |---|---:|---|
 | `Origin` | Browser-generated | Production resume origin; validated by CORS |
-| `Content-Type` | Yes | `application/json` |
+| `Content-Type` | No | Not required for the bodyless GET request |
 | `Accept` | Recommended | `application/json` |
 | `X-Request-ID` | No | Client correlation ID; if absent, server generates UUID v4 |
 
