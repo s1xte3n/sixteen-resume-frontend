@@ -8,11 +8,8 @@
 GET /api/visitors HTTP/1.1
 Host: api.example.invalid
 Origin: https://resume.example.invalid
-Content-Type: application/json
 Accept: application/json
 X-Request-ID: 7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10
-
-{}
 ```
 
 ### Response
@@ -31,31 +28,8 @@ Content-Type: application/json
 ### Request
 
 ```http
-GET /api/visitors HTTP/1.1
-Accept: application/json
-```
-
-### Response
-
-```http
-HTTP/1.1 400 Bad Request
-Content-Type: application/json
-
-{
-  "error": {
-    "code": "BAD_REQUEST",
-    "message": "The request body is invalid.",
-    "requestId": "7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10"
-  }
-}
-```
-
-## 3. Unsupported method
-
-### Request
-
-```http
 POST /api/visitors HTTP/1.1
+Host: api.example.invalid
 Accept: application/json
 ```
 
@@ -74,9 +48,7 @@ Content-Type: application/json
 }
 ```
 
-## 4. Persistence dependency unavailable
-
-### Response
+## 3. Persistence dependency unavailable
 
 ```http
 HTTP/1.1 503 Service Unavailable
@@ -91,7 +63,7 @@ Content-Type: application/json
 }
 ```
 
-## 5. Timeout
+## 4. Timeout
 
 ```http
 HTTP/1.1 504 Gateway Timeout
