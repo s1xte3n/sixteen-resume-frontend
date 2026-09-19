@@ -19,8 +19,8 @@
 
 The following are frozen for implementation:
 
-- API base path: `/api/v1`.
-- Counter operation: `POST /api/v1/visitor-count`.
+- API base path: `/api`.
+- Counter operation: `GET /api/visitors`.
 - Public API requires no end-user authentication.
 - Production browser access is restricted by CORS to the approved resume origin; the production origin remains a deployment variable until OR-002/OR-004 are closed.
 - The request has no body.
@@ -162,14 +162,14 @@ The final origin is intentionally not frozen until the public hostname/delivery 
 
 ## 5. Versioning and Compatibility
 
-- URL versioning is used: `/api/v1`.
-- v1 field names and casing are immutable after release.
+- The MVP endpoint path is fixed as `/api/visitors`.
+- The response field `count` and its type are immutable for the MVP.
 - Additive response fields may be introduced only as backward-compatible changes and must not alter the meaning of existing fields.
 - Existing fields cannot be renamed, removed, or change type in v1.
 - New required request fields are not backward compatible and require v2.
 - Enum additions are compatible only where clients are specified to tolerate unknown values; v1 has no request enums.
 - HTTP status meanings in this document are contractual.
-- Breaking changes require a new major API version.
+- Breaking changes to the MVP wire contract require an explicit contract update and corresponding verification.
 - Documentation-only corrections that do not change wire behavior do not require a version increment.
 - Contract version follows semantic versioning; API major version is independent of documentation patch/minor revisions.
 
