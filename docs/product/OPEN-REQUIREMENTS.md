@@ -22,7 +22,7 @@ No ambiguity listed here may be silently resolved during implementation.
 | OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as the project's scoped DNS/public-hostname interpretation, with an explicit deviation from the challenge's conventional custom-domain wording. | MVP-006, MVP-015 | Resolved |
 
 | OR-003 | Numeric MVP recurring Azure/cloud cost ceiling is fixed at R100/month, with R0/month preferred and explicit exclusions. | MVP-005, MVP-006, MVP-012, MVP-015 | Resolved |
-| OR-004 | Validate the exact HTTPS/CDN delivery configuration and current cost suitability. | MVP-005, MVP-015 | Open |
+| OR-004 | Freeze the HTTPS/CDN architecture at capability level; exact edge service remains an implementation choice subject to fixed acceptance conditions. | MVP-005, MVP-015 | Resolved |
 | OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
 
 ### OR-001 — Visitor Definition
@@ -89,7 +89,37 @@ No ambiguity listed here may be silently resolved during implementation.
 
 ### OR-004 — HTTPS/CDN Configuration
 
-**Decision:** The exact Azure HTTPS/CDN delivery service remains **unresolved pending validation**.
+**Decision:** Resolve OR-004 by freezing the HTTPS/CDN architecture at capability level while deliberately leaving the exact Azure edge service as an implementation choice.
+
+Required architecture:
+
+```text
+Browser
+   |
+   | HTTPS
+   v
+Public Hostname
+   |
+   v
+Azure CDN / approved Azure edge-delivery service
+   |
+   v
+Azure Storage Static Website
+```
+
+The selected implementation must satisfy all of these acceptance conditions:
+
+- HTTPS is supported.
+- Certificate management is supported.
+- The public hostname can resolve to the edge endpoint.
+- Azure Storage remains the origin.
+- Configuration can be represented in IaC where applicable.
+- Recurring Azure/cloud cost remains <= R100/month for the complete MVP.
+- The service is available and suitable for the required deployment architecture.
+
+The exact Azure service/SKU is therefore not architecture-locked. It is selected during implementation validation against these frozen conditions.
+
+**Status:** Resolved.
 
 **Required delivery capability:**
 - Azure-managed HTTPS/CDN delivery in front of Azure Storage static website hosting.
@@ -112,8 +142,6 @@ No ambiguity listed here may be silently resolved during implementation.
 8. Compliance with the R100/month ceiling.
 
 **Affected:** MVP-005, MVP-015.
-
-**Status:** Open.
 
 ### OR-005 — Public Resume Content
 
@@ -207,7 +235,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The numeric ceiling is resolved at R100/month; validation of the exact HTTPS/CDN configuration remains tracked by OR-004.
+HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The numeric ceiling is resolved at R100/month; the exact edge service remains an implementation selection governed by the resolved OR-004 acceptance conditions.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -275,8 +303,8 @@ The PRD phase is closed only when:
 4. All deliberate deviations from the original challenge are documented.
 5. The numeric cost constraint is defined as R100/month recurring, with R0/month preferred and explicit exclusions.
 6. Public hostname interpretation is defined.
-7. HTTPS/CDN configuration is validated.
+7. HTTPS/CDN capability architecture is resolved and the selected implementation is validated against its fixed acceptance conditions.
 8. Final public resume content is approved.
 9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: OR-001, OR-002, and OR-003 are resolved. OR-004 and OR-005 remain P1 closure blockers.**
+**Current status: OR-001, OR-002, OR-003, and OR-004 are resolved. OR-005 remains a P1 closure blocker.**
