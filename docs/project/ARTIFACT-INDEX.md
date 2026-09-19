@@ -181,3 +181,19 @@ When a requirement or decision changes:
 ## 14. No-Task Rule
 
 No implementation task is created for a requirement that remains ambiguous, contradictory, or objectively unverifiable. Such requirements remain in `REQUIREMENT-GAPS.md` until formally resolved.
+
+
+## 15. Testing Artifacts
+
+| Artifact | Purpose | Status |
+|---|---|---|
+| docs/testing/TEST-STRATEGY.md | Complete test approach, coverage, execution, evidence, and quality gates | Complete — implementation evidence pending |
+| docs/testing/TEST-MATRIX.md | Canonical Requirement ID ↔ Test ID matrix | Complete |
+| docs/testing/TEST-DATA-PLAN.md | Synthetic fixtures, setup, isolation, cleanup, and assertions | Complete |
+| docs/testing/TEST-CASES.md | Detailed executable test cases TC-001 through TC-110 | Complete — execution pending |
+| docs/testing/TEST-PRIORITIES.md | P0/P1/P2/P3 definitions and execution order | Complete |
+| docs/testing/RELEASE-GATES.md | Merge, deployment, and production release gates | Complete |
+| tests/postman/sixteen-resume-API.postman_collection.json | Executable VC-001 API contract/negative/security tests | Complete — execution evidence pending |
+| tests/postman/sixteen-resume-environment-template.json | Safe non-secret Postman variables | Complete |
+
+**Testing phase:** strategy and test design complete; execution evidence pending implementation. No Python, Azure Function, Cosmos DB, ARM, CI/CD, production HTTPS/CDN, DNS, or end-to-end tests are claimed as passed.
