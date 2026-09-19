@@ -12,6 +12,8 @@ The candidate public HTML resume is:
 
 `docs/product/public-resume-content.html`
 
+The candidate is intentionally limited to the currently approved public contact/link surface: GitHub and LinkedIn. Phone and email details remain excluded until explicitly approved.
+
 It is derived from the supplied CV and the approved project editorial decisions.
 
 ## Approved Editorial Rules
@@ -36,6 +38,7 @@ The current candidate HTML contains the required positioning and certification w
 - Professional experience: **IT Operator — Gijima Holdings**, **June 2022 – Present**.
 - Certification: **Microsoft Certified: Azure AI Fundamentals (AI-901)**.
 - GitHub and LinkedIn links are explicitly present.
+- No phone number or email address is published in the candidate HTML because those contact details are not explicitly approved by the current content decision.
 - The document contains no AZ-900 claim.
 - Project content is presented as technical-project experience rather than professional employment.
 
