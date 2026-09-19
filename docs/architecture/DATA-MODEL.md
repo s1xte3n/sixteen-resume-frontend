@@ -161,16 +161,16 @@ Function cold starts.
 
 A deployment must not reset the counter.
 
-13. Open Data Decisions
+13. Resolved Data Decisions
 
-The following must be resolved before the data model is implementation-locked:
+The following decisions are frozen for MVP implementation:
 
-What exactly constitutes a visitor?
-Is counting based on page loads, API operations, sessions, or another approved unit?
-What should happen if the counter entity does not yet exist?
-What concurrency behavior is required by the selected semantics?
+- **Visitor unit:** one successfully committed counter operation caused by a top-level resume page load (OR-001).
+- **Logical state:** one visitor-counter record (OR-007).
+- **Update sequence:** read current count → atomically increment → persist → return the resulting count (OR-007).
+- **Concurrency:** concurrent successful operations must not lose increments. The implementation must use an appropriate concurrency-safe conditional update/retry strategy (OR-001, OR-007).
+- **Missing entity:** initialization of the single counter record must preserve the same increment invariant and must not introduce a second logical counter.
+- **Deployment persistence:** frontend/backend deployments must not reset or recreate the counter state.
 
-The first item is P1 and blocks final counter acceptance.
+No visitor-identifying or analytics fields are approved.
 
-
----
