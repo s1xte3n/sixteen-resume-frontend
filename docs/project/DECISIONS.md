@@ -364,15 +364,15 @@ The content will document:
 
 ## D-034 — OR-003 Cost Ceiling
 
-**Decision:** Set the MVP hard ceiling to **USD $40/month recurring Azure/cloud cost**, with **R0/month** as the preferred target where viable.
+**Decision:** Set the MVP hard ceiling to **R100/month recurring Azure/cloud cost**, with **R0/month** as the preferred target where viable.
 
 **Cost policy:**
 
 | Cost | Decision |
 |---|---|
 | R0/month | Preferred |
-| R0–USD $40/month recurring | Allowed |
-| >USD $40/month recurring | Blocked |
+| R0–R100/month recurring | Allowed |
+| >R100/month recurring | Blocked |
 | Paid domain | Out of MVP |
 | Unexpected charge | Investigate before continuing |
 
