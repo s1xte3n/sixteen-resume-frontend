@@ -61,17 +61,17 @@ These items must be resolved before affected MVP acceptance and before requireme
 **Affected requirements:** MVP-005, MVP-006, MVP-012, MVP-015  
 **Status:** Resolved
 
-**Decision:** Set the MVP hard ceiling to **USD $40/month recurring Azure/cloud cost**.
+**Decision:** Set the MVP hard ceiling to **R100/month recurring Azure/cloud cost**.
 
 **Cost policy:**
 - R0/month is preferred.
-- R0–USD $40/month recurring is allowed.
-- >USD $40/month recurring is blocked.
+- R0–R100/month recurring is allowed.
+- >R100/month recurring is blocked.
 - Exclude personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
 - Paid domain registration is out of MVP.
 - Any unexpected charge must be investigated before project work continues.
 
-**Acceptance rule:** Current measured or forecast recurring Azure/cloud cost attributable to the MVP must be `<= USD $40/month` for production acceptance.
+**Acceptance rule:** Current measured or forecast recurring Azure/cloud cost attributable to the MVP must be `<= R100/month` for production acceptance.
 
 ---
 
@@ -80,7 +80,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 **Affected requirements:** MVP-005, MVP-015  
 **Status:** Open
 
-**Decision:** Use **Azure Front Door Standard** in front of the Azure Storage static website.
+**Decision:** Use **Azure-managed HTTPS/CDN delivery layer** in front of the Azure Storage static website.
 
 **Approved delivery path:**
 
@@ -88,7 +88,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 FreeDNS public hostname
         |
         v
-Azure Front Door Standard
+Azure-managed HTTPS/CDN delivery layer
         |
         v
 Azure Storage Static Website
@@ -96,7 +96,7 @@ Azure Storage Static Website
 
 **HTTPS:** Use an Azure-managed TLS certificate on the Front Door custom domain and redirect HTTP to HTTPS.
 
-**CDN/delivery:** Azure Front Door Standard provides the required edge/CDN delivery layer.
+**CDN/delivery:** Azure-managed HTTPS/CDN delivery layer provides the required edge/CDN delivery layer.
 
 **Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure ceiling is $40/month.
 
@@ -235,7 +235,7 @@ The original challenge specifies AZ-900 or an advanced Azure certification. The 
 
 ### IC-003 — CDN/HTTPS vs Zero/Near-Zero Cost
 
-HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The numeric ceiling is resolved at USD $40/month; HTTPS/CDN configuration validation remains tracked by OR-004.
+HTTPS/CDN delivery is required while the project targets R0/free where possible and lowest-cost viable otherwise. The numeric ceiling is resolved at R100/month; HTTPS/CDN configuration validation remains tracked by OR-004.
 
 ### IC-004 — Blog Platform Documentation
 
@@ -273,9 +273,9 @@ These are retained only to prevent accidental reopening of already-decided proje
 | Item | Current decision/context |
 |---|---|
 | DNS provider | FreeDNS / afraid.org selected initially; hostname must be provisioned and verified against the OR-002 acceptance rule. |
-| Delivery service | Azure Front Door Standard. |
-| HTTPS certificate | Azure-managed TLS certificate on the Front Door custom domain. |
-| Cost ceiling | USD $40/month recurring Azure cost; USD $0 one-time domain/infrastructure purchase required by MVP. |
+| Delivery service | Unresolved; Azure-managed HTTPS/CDN delivery layer required, exact service pending OR-004 validation. |
+| HTTPS certificate | Subject to the selected delivery service and OR-004 validation. |
+| Cost ceiling | R100/month recurring Azure cost; USD $0 one-time domain/infrastructure purchase required by MVP. |
 | Azure certification | AI-901 is held and is the documented certification deviation from the literal AZ-900 challenge requirement. |
 | Resume source | Complete CV supplied; public publication approval remains OR-005. |
 | Resume positioning | 4+ years of hands-on software development experience, with professional employment represented separately as IT Operator — Gijima Holdings. |
@@ -286,7 +286,7 @@ These are retained only to prevent accidental reopening of already-decided proje
 | Azure subscription | Existing subscription. |
 | Azure region | East US. |
 | Deployment count | One deployment environment. |
-| Cost strategy | R0/free where possible; hard ceiling USD $40/month recurring Azure/cloud cost. OR-003 resolved. |
+| Cost strategy | R0/free where possible; hard ceiling R100/month recurring Azure/cloud cost. OR-003 resolved. |
 | Visual design | No predefined preference; simple professional implementation is an implementation direction, not an unresolved product requirement. |
 | Deadline | 30 September 2026. |
 | Project scope | Strictly aligned with the Cloud Resume Challenge; unrelated feature expansion remains out of scope. |
