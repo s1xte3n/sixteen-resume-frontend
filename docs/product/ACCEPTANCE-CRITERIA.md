@@ -4,7 +4,7 @@
 
 This document defines objective acceptance criteria and verification IDs for every MVP requirement in `docs/product/PRD.md`.
 
-A checkbox is only considered passed when the stated evidence exists in the final approved configuration. An unresolved P1 decision blocks acceptance of the affected requirement; it is not silently assumed.
+A checkbox is only considered passed when the stated evidence exists in the final approved configuration. An unresolved P1 decision blocks acceptance of the affected requirement; it is not silently assumed. A resolved capability decision may still have an implementation validation gate.
 
 ## 2. Global Acceptance Conditions
 
@@ -83,7 +83,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Any unexpected Azure/cloud charge identified during validation has been investigated before acceptance continues.
 - [ ] A forecast or measured recurring Azure/cloud cost **> R100/month** blocks production acceptance.
 
-**Blocking dependency:** OR-004 for delivery architecture; OR-003 is resolved.
+**Architecture dependency:** ADR-006 is resolved. Production acceptance additionally requires implementation evidence that the selected edge service satisfies the frozen ADR-006 conditions; OR-003 is resolved.
 
 ## AC-006 — Public Hostname/DNS
 
