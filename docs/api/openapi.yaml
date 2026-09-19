@@ -4,19 +4,19 @@ info:
   version: 1.0.0
   description: |
     Canonical v1 interface contract for the public visitor counter.
-    The exact definition of a visitor and increment semantics remains blocked
-    by OR-001 and must not be invented by an implementation.
+    Visitor semantics are resolved by OR-001. The API operation performs one
+    successfully committed counter operation and returns the resulting count.
 servers:
   - url: https://api.example.invalid
     description: Documentation placeholder; production origin is not yet frozen.
 paths:
-  /api/v1/visitor-count:
-    post:
-      operationId: performVisitorCount
+  /api/visitors:
+    get:
+      operationId: getVisitorCount
       summary: Perform the approved visitor-count operation
       description: |
-        Performs the approved counter operation and returns the resulting
-        persisted count. The exact visitor-count semantics are pending OR-001.
+        Performs the approved visitor-count operation and returns the resulting
+        persisted count. The request has no body.
       tags:
         - Visitor Counter
       parameters:
@@ -27,12 +27,6 @@ paths:
           schema:
             type: string
             format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VisitorCountRequest'
       responses:
         '200':
           description: Counter operation succeeded.
@@ -88,13 +82,10 @@ paths:
         - REQ-AZ-008
         - REQ-AZ-009
         - REQ-AZ-010
+        - OR-006
+        - OR-007
 components:
   schemas:
-    VisitorCountRequest:
-      type: object
-      additionalProperties: false
-      maxProperties: 0
-      description: Empty request object.
     VisitorCountResponse:
       type: object
       additionalProperties: false
