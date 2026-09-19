@@ -23,7 +23,7 @@ The following are frozen for implementation:
 - Counter operation: `POST /api/v1/visitor-count`.
 - Public API requires no end-user authentication.
 - Production browser access is restricted by CORS to the approved resume origin; the production origin remains a deployment variable until OR-002/OR-004 are closed.
-- Request body is empty.
+- The request has no body.
 - Successful response is JSON with one required `count` field.
 - Error response is JSON with `error.code`, `error.message`, and `error.requestId`; `error.details` is optional.
 - `requestId` is UUID v4.
@@ -43,7 +43,7 @@ OR-001 is resolved. The API operation uses the approved visitor semantics: one s
 ### Identity
 
 **Contract ID:** VC-001  
-**Method/path:** `POST /api/v1/visitor-count`  
+**Method/path:** `GET /api/visitors`  
 **Purpose:** Perform the approved visitor-count operation and return the resulting persisted count.
 
 ### Authentication
@@ -84,13 +84,7 @@ The server must validate `X-Request-ID` as a UUID v4 if it accepts the header. I
 
 ### Request body
 
-The request body is an empty JSON object:
-
-```json
-{}
-```
-
-A body is required to use `application/json`; unknown properties are rejected.
+The request has no body. Query parameters and path parameters are not accepted.
 
 ### Success
 
@@ -140,10 +134,9 @@ There is one application-owned counter. There is no user or tenant isolation mod
 
 ### Validation
 
-- HTTP method must be POST.
+- HTTP method must be GET.
 - Production transport must be HTTPS.
-- Content type must be `application/json`.
-- Body must be `{}`.
+- No request body is accepted.
 - Request ID, when supplied, must be UUID v4.
 - No query/path parameters are accepted.
 - Request must not contain database or authentication fields.
@@ -160,7 +153,7 @@ On persistence failure, the API returns a canonical dependency/server error and 
 Production CORS:
 
 - Allow only the final approved resume origin.
-- Allow method: `POST`.
+- Allow method: `GET`.
 - Allow request headers: `Content-Type`, `Accept`, `X-Request-ID`.
 - Do not use `*` as the production allowed origin.
 - Do not allow credentials unless a new approved requirement introduces authenticated browser behavior.
@@ -195,6 +188,9 @@ The final origin is intentionally not frozen until the public hostname/delivery 
 Before production acceptance, resolve:
 
 1. OR-004 — HTTPS/CDN and final production origin.
-2. OR-009 — counter failure UX if it changes client-visible behavior.
+2. OR-005 — final public resume content approval.
+3. OR-010 — browser support baseline.
+4. OR-011 — availability target, if required.
+5. OR-012 — DNS propagation/stability expectation.
 
 No unresolved gate may be silently implemented as a new requirement.
