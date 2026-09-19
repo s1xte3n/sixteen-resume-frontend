@@ -8,21 +8,21 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 
 | Requirement | Depends on | Dependency type | Blocking? | Sequence |
 |---|---|---|---|---:|
-| REQ-AZ-001 | OR-005; REQ-AZ-002..006 | Content/product | Yes | 1 |
+| REQ-AZ-001 | OR-005; REQ-AZ-002..006 | Content/product | No — implementation-ready; owner approval remains an acceptance gate | 1 |
 | REQ-AZ-002 | REQ-AZ-001 | Content/UI | Yes | 2 |
 | REQ-AZ-003 | REQ-AZ-002 | UI | Yes | 3 |
 | REQ-AZ-004 | REQ-AZ-002, REQ-AZ-003 | Hosting | Yes | 4 |
-| REQ-AZ-005 | REQ-AZ-004, REQ-AZ-006; OR-004 | Delivery/cost | Yes | 7 |
-| REQ-AZ-006 | REQ-AZ-005; OR-002 | DNS/delivery | Yes | 6 |
-| REQ-AZ-007 | REQ-AZ-008..010; OR-001, OR-008, OR-009 | Application | Yes | 12 |
-| REQ-AZ-008 | REQ-AZ-009, REQ-AZ-010; OR-001, OR-008 | Persistence/API | Yes | 11 |
-| REQ-AZ-009 | REQ-AZ-010; OR-008 | API | Yes | 10 |
+| REQ-AZ-005 | REQ-AZ-004, REQ-AZ-006; OR-004 | No — implementation-ready; edge/cost validation remains | 7 |
+| REQ-AZ-006 | REQ-AZ-005; OR-002 | No — implementation-ready; hostname creation/validation remains | 6 |
+| REQ-AZ-007 | REQ-AZ-008..010; OR-001, OR-008, OR-009 | No — implementation-ready; atomic persistence evidence remains | 12 |
+| REQ-AZ-008 | REQ-AZ-009, REQ-AZ-010; OR-001, OR-008 | No — implementation-ready; atomic persistence evidence remains | 11 |
+| REQ-AZ-009 | REQ-AZ-010; OR-008 | No — implementation-ready; approved API contract remains the implementation source | 10 |
 | REQ-AZ-010 | REQ-AZ-011 | Backend/test governance | No for foundation; yes for final CI-gated acceptance | 9 |
 | REQ-AZ-011 | REQ-AZ-010, REQ-AZ-013; OR-006 | Test/CI | Yes | 13 |
 | REQ-AZ-012 | REQ-AZ-004, REQ-AZ-008, REQ-AZ-010; approved architecture | IaC | Yes | 14 |
-| REQ-AZ-013 | REQ-AZ-011, REQ-AZ-012; repository/authentication state | Backend CI/CD | Yes | 15 |
-| REQ-AZ-014 | REQ-AZ-004, REQ-AZ-005; repository/delivery state | Frontend CI/CD | Yes | 16 |
-| REQ-AZ-015 | REQ-AZ-001..014; OR-001..OR-005 | End-to-end | Yes | 18 |
+| REQ-AZ-013 | REQ-AZ-011, REQ-AZ-012; repository/authentication state | No — implementation-ready; CI/CD implementation remains | 15 |
+| REQ-AZ-014 | REQ-AZ-004, REQ-AZ-005; repository/delivery state | No — implementation-ready; CI/CD implementation remains | 16 |
+| REQ-AZ-015 | REQ-AZ-001..014; OR-001..OR-005 | No — implementation-ready; production deployment remains | 18 |
 | REQ-AZ-016 | REQ-AZ-001; OR-007 | Content/external | No | 17 |
 
 ## 3. Cross-Cutting Dependencies
@@ -43,11 +43,11 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 
 | Decision | Blocks |
 |---|---|
-| OR-001 Visitor semantics | REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-015 |
-| OR-002 Hostname interpretation | REQ-AZ-006, REQ-AZ-015 |
+| OR-001 Visitor semantics | None — resolved; implementation must still satisfy the defined semantics |
+| OR-002 Hostname interpretation | None — resolved; hostname provisioning/validation remains |
 | OR-003 Numeric cost ceiling | None — resolved |
-| OR-004 HTTPS/CDN configuration | REQ-AZ-005, REQ-AZ-006, REQ-AZ-014, REQ-AZ-015 |
-| OR-005 Public resume approval | REQ-AZ-001, REQ-AZ-015 |
+| OR-004 HTTPS/CDN configuration | None — resolved; edge-service/cost validation remains |
+| OR-005 Public resume approval | None as a requirements-definition blocker; final owner approval remains an acceptance gate |
 | OR-006 Test framework | REQ-AZ-011, REQ-AZ-013 |
 | OR-007 Blog publication interpretation | REQ-AZ-016 |
 | OR-008 API contract | REQ-AZ-007..010 |
@@ -57,7 +57,7 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 ## 5. Recommended Sequencing
 
 ### Phase A — Requirements closure
-1. Resolve remaining P1 decisions OR-004 and OR-005; OR-001 through OR-003 are resolved.
+1. OR-001 through OR-005 are resolved at the requirements-definition level; retain their documented implementation/acceptance gates.
 2. Resolve OR-008 and OR-009 sufficiently for objective counter acceptance.
 3. Resolve repository/branch naming and actual repository state.
 4. Normalize OR-007 against the approved Dev.to/Hashnode decision.

@@ -29,7 +29,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] The resume does not falsely represent AZ-900 as held or as a project requirement.
 - [ ] Owner approval is recorded before production acceptance.
 
-**Blocking dependency:** OR-005.
+**Acceptance gate:** OR-005 is resolved at the requirements-definition level; final owner approval remains required before production acceptance.
 
 ## AC-002 — HTML Resume
 
@@ -115,7 +115,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Counter/API failure does not prevent the visitor from reading the resume.
 - [ ] Failure behavior matches the approved counter failure UX once OR-009 is resolved.
 
-**Blocking dependencies:** OR-008, OR-009.
+**Implementation gates:** OR-008 and OR-009 are resolved; implementation must satisfy the approved API contract and counter failure behavior.
 
 ## AC-008 — Visitor Counter Persistence
 
@@ -133,7 +133,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Failed API/database operations do not change the persisted count.
 - [ ] Conditional update conflicts are retried safely or otherwise resolved without lost increments.
 
-**Blocking dependency:** OR-008.
+**Implementation gate:** OR-008 is resolved; implementation must satisfy the approved atomic persistence semantics.
 
 ## AC-009 — Visitor Counter API
 
@@ -149,7 +149,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Database credentials/secrets are not returned to the browser.
 - [ ] Browser requests do not directly target Cosmos DB.
 
-**Blocking dependencies:** OR-008 and OR-009.
+**Implementation gates:** OR-008 and OR-009 are resolved; implementation must satisfy the approved API contract and failure behavior.
 
 ## AC-010 — Python Azure Function
 
@@ -175,7 +175,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Tests can execute repeatedly in the CI environment.
 - [ ] The selected testing framework is documented before final acceptance.
 
-**Blocking dependency:** OR-006.
+**Implementation gate:** OR-006 remains deferred for final CI acceptance; implementation planning may proceed without treating it as a requirements-definition blocker.
 
 ## AC-012 — ARM Infrastructure as Code
 
@@ -190,7 +190,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Infrastructure changes are represented as source-controlled changes.
 - [ ] Deployed configuration remains within the approved cost ceiling.
 
-**Blocking dependencies:** OR-003 and OR-004 where they affect final resource selection.
+**Implementation gates:** OR-003 and OR-004 are resolved at the requirements-definition level; final resource selection and delivery validation remain implementation gates.
 
 ## AC-013 — Backend GitHub Repository and CI/CD
 
@@ -207,7 +207,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] No Azure credentials or secrets are committed.
 - [ ] Production deployment represents the approved `main` state.
 
-**Blocking dependencies:** OR-006 and secure CI/CD authentication configuration.
+**Implementation/acceptance gates:** secure CI/CD authentication and the selected test framework remain required for final acceptance; the requirement is unblocked for implementation.
 
 ## AC-014 — Frontend GitHub Repository and CI/CD
 
@@ -223,7 +223,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] No Azure credentials or secrets are committed.
 - [ ] Production publication represents the approved `main` state.
 
-**Blocking dependency:** OR-004 for final delivery/cache behavior.
+**Implementation gate:** OR-004 is resolved; final delivery/cache behavior must still be implemented and verified.
 
 ## AC-015 — Public Production Deployment
 
@@ -242,7 +242,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Required infrastructure is represented in source-controlled ARM IaC.
 - [ ] Required backend and frontend deployment workflows have passed their applicable acceptance tests.
 
-**Blocking dependencies:** OR-004, OR-005, plus affected P2 API/test decisions. OR-003 is resolved.
+**Acceptance/implementation gates:** OR-004 and OR-005 are resolved at the requirements-definition level; final edge validation, owner content approval, CI/CD implementation, and applicable P2 decisions still require evidence before production acceptance.
 
 ## AC-016 — Project-Learning Blog Post
 

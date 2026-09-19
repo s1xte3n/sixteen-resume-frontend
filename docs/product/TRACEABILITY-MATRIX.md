@@ -73,4 +73,4 @@ Trace each canonical requirement from user need through contract/UI, acceptance 
 
 All canonical requirements have IDs, priorities, dependencies, affected components, acceptance criteria, and verification IDs. Implementation and release evidence are intentionally pending because implementation has not been completed.
 
-Blocked requirements remain traceable; they are not treated as implementation-ready.
+Requirements unblocked by Step 7 are now implementation-ready. This does not claim implementation, verification evidence, or production acceptance; those remain pending.
