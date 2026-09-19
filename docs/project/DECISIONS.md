@@ -295,26 +295,9 @@ The content will document:
 
 ## D-030 — Visitor Counter API Contract
 
-**Decision:** Define a versioned public HTTP API as `POST /api/v1/visitor-count` with an empty JSON request and a JSON response containing the persisted `count`.
+**Status:** Superseded by D-036 / OR-006.
 
-**Reason:** The browser requires an explicit API boundary to the Python Azure Function, while the API must not expose Cosmos DB access or unrelated application functionality.
-
-**Contract controls:**
-
-- No end-user authentication.
-- Production CORS uses an explicit resume-origin allowlist.
-- Success response field: `count`, non-negative integer.
-- Canonical errors use `code`, `message`, and UUID v4 `requestId`.
-- v1 has no pagination, filtering, sorting, reset, delete, admin, or analytics operations.
-- Breaking wire changes require a new API major version.
-
-**Requirement Addressed:** REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-010.
-
-**Architecture Addressed:** ADR-002, ADR-003, ADR-007.
-
-**Constraint:** Visitor semantics are resolved under OR-001. Duplicate HTTP requests are separate counter operations unless a future requirement explicitly introduces idempotency semantics; concurrent successful operations must not lose increments.
-
-
+The earlier draft defined `POST /api/v1/visitor-count`. The approved MVP contract is now `GET /api/visitors`, with a successful response containing the current visitor count.
 ---
 
 ## D-031 — OR-002 Public Hostname Interpretation
