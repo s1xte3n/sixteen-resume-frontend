@@ -15,7 +15,7 @@ This index identifies the architecture decisions governing the Azure Cloud Resum
 | ADR-003 | Cosmos DB Table API for counter persistence | Accepted | REQ-AZ-008 |
 | ADR-004 | ARM + GitHub Actions deployment architecture | Accepted | REQ-AZ-011..014 |
 | ADR-005 | Least-privilege secure CI/CD authentication | Accepted in principle | REQ-AZ-SEC-001..003 |
-| ADR-006 | HTTPS/CDN delivery architecture | **Pending validation** | REQ-AZ-005, REQ-AZ-006, REQ-AZ-015 |
+| ADR-006 | Capability-based HTTPS/CDN delivery architecture; exact edge service selected during implementation validation | Accepted | REQ-AZ-005, REQ-AZ-006, REQ-AZ-015 |
 | ADR-007 | Visitor-count semantics | **Pending approval** | REQ-AZ-007..009 |
 
 ---
@@ -44,7 +44,7 @@ A product requirement must be explicitly decided before architecture can be froz
 
 Before implementation of affected components:
 
-- ADR-006 must be resolved.
+- ADR-006 must be implemented against its frozen acceptance conditions.
 - ADR-007 must be resolved.
 - Repository naming must be normalized.
 - Cost ceiling must be defined.
