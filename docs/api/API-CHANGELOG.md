@@ -5,8 +5,8 @@
 ### Added
 
 - Defined v1 public visitor-counter interface.
-- Defined `POST /api/v1/visitor-count`.
-- Defined empty request body.
+- Defined `GET /api/visitors`.
+- Defined a bodyless counter request.
 - Frozen success response field `count`.
 - Frozen canonical error envelope and error codes.
 - Frozen UUID v4 request correlation ID format.
@@ -17,7 +17,6 @@
 
 ### Explicitly not resolved
 
-- OR-001: exact definition of a visitor and increment/duplicate semantics.
 - OR-002: free hostname/subdomain interpretation versus literal custom-domain requirement.
 - OR-004: final HTTPS/CDN configuration and production origin.
 - OR-009: final visitor-counter failure UX where client behavior is affected.
@@ -30,12 +29,19 @@ These are documented blockers and are not silently resolved by this contract.
 |---|---|---|
 | API boundary | REQ-AZ-009, ADR-002 | Azure Function is the sole browser-to-database application boundary |
 | API versioning | Compatibility governance | URL version `v1` |
-| State-changing operation | REQ-AZ-007..009 | `POST /api/v1/visitor-count` |
+| Visitor-count operation | REQ-AZ-007..009, OR-006 | `GET /api/visitors` |
 | Error envelope | VT-009 | Stable `code/message/requestId` structure |
 | Correlation ID | Observability/security architecture | UUID v4 request correlation |
 | Public auth | REQ-AZ-007 | No end-user authentication |
 | CORS | REQ-AZ-007, REQ-AZ-SEC-002 | Production origin allowlist; no wildcard |
-| Semantics | ADR-007 | Explicitly left pending OR-001 |
+| Semantics | ADR-007, OR-007 | Resolved; concurrency-safe increment required |
+
+## 1.1 — 2026-09-19
+
+### Changed
+
+- Superseded the earlier `POST /api/v1/visitor-count` draft with the approved `GET /api/visitors` MVP contract.
+- Recorded OR-006 and OR-007 as resolved implementation decisions.
 
 ## Compatibility policy
 
