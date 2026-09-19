@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **NOT CLOSED**. OR-004 and OR-005 are P1 closure blockers; OR-001, OR-002, and OR-003 are resolved.
+> **Current status:** Requirements closure is **NOT CLOSED**. OR-004 and OR-005 remain P1 closure blockers; OR-001 through OR-009 are resolved.
 
 ## 1. Reconciliation Rules
 
@@ -137,52 +137,59 @@ Azure Storage Static Website
 
 These remain open in the authoritative register and may be resolved during implementation only where doing so does not bypass an affected acceptance or closure requirement.
 
-### OR-006 — Python Testing Framework
-
-**Affected requirements:** MVP-011, MVP-013  
-**Status:** Intentionally deferred until test implementation is prepared.
-
-The approved requirement requires automated Python tests but does not select a framework. Final acceptance requires a documented framework and repeatable CI execution.
-
----
-
-### OR-007 — Blog Platform Normalization
-
-**Affected requirements:** MVP-016  
-**Status:** Open documentation inconsistency.
-
-The approved project state specifies both Dev.to and Hashnode and describes the content scope as technical lessons, implementation, problems, solutions/decisions, and the broader project journey. Earlier product documentation treated the platform as undecided. The approved project-state decision must be reflected consistently in product documentation before final acceptance.
-
----
-
-### OR-008 — Visitor API Contract
+### OR-006 — Backend/API Contract
 
 **Affected requirements:** MVP-009, MVP-010  
-**Status:** Open
+**Status:** Resolved
 
-The final contract must define at minimum:
+The visitor API has exactly one MVP responsibility: `GET /api/visitors`.
 
-- HTTP method(s).
-- Endpoint purpose/path.
-- Request inputs and required/optional fields.
-- Successful response schema.
-- Error response schema.
-- HTTP status behavior.
-- Counter semantics.
-- CORS behavior.
+The successful response contains the current visitor count.
 
-This must remain aligned with the approved API/interface contract when finalized.
+The browser has no Cosmos DB credentials and no direct Cosmos DB access. Azure Functions remains the backend/API boundary.
 
 ---
 
-### OR-009 — Counter Failure UX
+### OR-007 — Persistence Behavior
 
-**Affected requirements:** MVP-007, MVP-009  
-**Status:** Open
+**Affected requirements:** MVP-008, MVP-009  
+**Status:** Resolved
 
-Possible behaviors already identified are hiding the counter, displaying an unavailable state, displaying a last-known value, or another approved fallback. No option is selected.
+Use one logical visitor-counter record.
 
-The chosen behavior must not prevent access to the resume.
+For each successful counter operation, the backend reads the current count, atomically increments it, persists it, and returns the resulting count.
+
+The implementation must protect against concurrent lost updates.
+
+---
+
+### OR-008 — CI/CD Deployment Authority
+
+**Affected requirements:** MVP-013, MVP-014  
+**Status:** Resolved
+
+GitHub Actions is the deployment mechanism. Production deployment from a developer laptop is not a valid production release.
+
+The backend pipeline is:
+
+`checkout → install dependencies → run tests → validate infrastructure → deploy`
+
+The frontend pipeline is:
+
+`checkout → validate website → publish to Azure Storage → purge/invalidate edge cache when required`
+
+---
+
+### OR-009 — Production Release
+
+**Affected requirements:** MVP-013, MVP-014, MVP-015  
+**Status:** Resolved
+
+`main` represents production.
+
+The intended workflow is:
+
+`feature/* → Pull Request → CI → develop → production release → main`
 
 ---
 
