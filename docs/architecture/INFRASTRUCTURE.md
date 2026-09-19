@@ -1,4 +1,3 @@
-```markdown
 # Azure Cloud Resume Challenge — Infrastructure Architecture
 
 ## 1. Infrastructure Objectives
@@ -58,7 +57,7 @@ Azure Subscription
           +-- Visitor Counter Table
 ```
 
-The exact resource names and ARM properties are implementation decisions.
+The exact resource names, SKUs, ARM properties, and edge-delivery service are implementation decisions subject to the approved requirements and cost/availability validation.
 
 ## 4. Azure Storage
 
@@ -74,7 +73,7 @@ JavaScript.
 
 Access model:
 
-Public read through the Front Door delivery path.  
+Public read through the approved Azure edge-delivery path.  
 CI/CD write.  
 No general-purpose deployment credentials exposed to browser users.
 
@@ -97,6 +96,18 @@ The delivery-layer origin is the Azure Storage static website endpoint.
 
 The approved public hostname is the FreeDNS/afraid.org hosted hostname/subdomain defined by OR-002.
 
+The selected service must satisfy all OR-004 acceptance conditions before production:
+
+- HTTPS is supported.
+- Certificate management is supported.
+- The FreeDNS/afraid.org public hostname can resolve to and be associated with the service.
+- Azure Storage remains the origin.
+- Configuration can be represented in IaC where applicable.
+- Recurring cost remains at or below the approved R100/month ceiling.
+- The service is available in the required deployment architecture.
+
+No specific Azure edge/CDN product is authoritative until OR-004 validation is complete.
+
 ## 6. DNS/Hostname
 
 The project uses FreeDNS/free hostname functionality.
@@ -107,17 +118,19 @@ Required relationship:
 FreeDNS Public Hostname
       |
       v
-Azure-managed HTTPS/CDN delivery layer
+Approved Azure HTTPS/CDN edge-delivery service
       |
       v
 Azure Storage Static Website
 ```
 
-DNS must provide the records required by Azure Front Door to validate and associate the hostname.
+DNS configuration must provide the records required by the **selected and validated** Azure edge-delivery service to associate the public hostname.
 
-HTTPS must use the Azure-managed Front Door certificate.
+HTTPS must use certificate management supported by the selected and validated delivery service.
 
-No paid domain registration is required.
+No paid domain registration is required for the MVP.
+
+The project documentation must describe the hostname as a **FreeDNS hosted hostname/subdomain**, not as ownership of a conventional registrable custom domain.
 
 ## 7. Azure Function
 
@@ -155,7 +168,7 @@ The backend repository contains the authoritative ARM infrastructure.
 The template must represent:
 
 - Azure Storage static website.
-- Azure-managed HTTPS/CDN delivery layer profile, endpoint, origin group, origin, route, and custom domain.
+- The selected and validated Azure HTTPS/CDN edge-delivery layer and its required resources.
 - HTTPS/certificate configuration supported by the selected and validated delivery service.
 - Azure Function Consumption resources.
 - Cosmos DB Table API resources.
@@ -187,13 +200,13 @@ Backend deployment order:
 3. Deploy/update Azure infrastructure.
 4. Deploy Function application.
 5. Verify API.
-6. Verify delivery endpoint, custom hostname, and HTTPS.
+6. Verify delivery endpoint, public hostname, and HTTPS.
 
 Frontend deployment order:
 
 1. Validate frontend artifacts.
 2. Publish to Azure Storage.
-3. Invalidate Front Door cache if required.
+3. Invalidate/purge the selected edge-delivery service cache if required.
 4. Verify public endpoint over HTTPS.
 
 ## 12. Dependency Ordering
@@ -204,7 +217,7 @@ Infrastructure dependencies:
 Storage
   |
   v
-Azure-managed HTTPS/CDN delivery layer
+Selected Azure HTTPS/CDN edge-delivery service
   |
   v
 DNS / FreeDNS Hostname
@@ -239,7 +252,7 @@ Examples:
 
 - Azure region.
 - Resource names.
-- delivery endpoint hostname.
+- Delivery endpoint hostname.
 - Public hostname.
 - API hostname.
 - Table/partition identifiers.
@@ -262,21 +275,23 @@ ARM deployment must use a dedicated deployment identity with only the permission
 
 Runtime application permissions must be narrower than infrastructure deployment permissions.
 
-Front Door must use HTTPS for public delivery.
+The selected and validated delivery service must use HTTPS for public delivery.
 
 The project does not add a separate WAF resource for the MVP unless the selected delivery architecture requires it and the addition is explicitly approved within the cost ceiling.
 
 ## 15. Cost Controls
 
-The approved recurring Azure cost ceiling is:
+The approved recurring Azure/cloud cost ceiling is:
 
 **R100/month.**
 
-One-time domain/infrastructure purchase cost required by the MVP:
+Preferred target:
 
-**USD $0.**
+**R0/month.**
 
-The infrastructure intentionally avoids:
+The final resource SKUs and delivery service must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production.
+
+The infrastructure should avoid:
 
 - Dedicated always-on compute.
 - Multiple environments.
@@ -285,12 +300,15 @@ The infrastructure intentionally avoids:
 - Kubernetes.
 - Multi-region resources.
 - Additional analytics systems.
-- Front Door Premium.
-- Front Door Classic.
+- Any delivery-service SKU that would cause the recurring cost ceiling to be exceeded.
 
-Azure-managed HTTPS/CDN delivery layer has a published base fee of $35/month, billed hourly, plus usage-based request and data-transfer charges. The remaining $5/month budget covers the project's other Azure resource and delivery usage.
+No specific delivery-service base fee or SKU is treated as authoritative in this document until OR-004 validation is completed against current availability and pricing.
 
-The final resource SKUs and delivery service must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production. R0/month is the preferred target. Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling. Any unexpected Azure/cloud charge must be investigated before continuing project work. A recurring cost above R100/month blocks production.
+Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling.
+
+Any unexpected Azure/cloud charge must be investigated before continuing project work.
+
+A recurring cost above R100/month blocks production.
 
 ## 16. Infrastructure Failure
 
@@ -318,4 +336,3 @@ Primary verification:
 - OR-004 delivery acceptance evidence
 
 ---
-```
