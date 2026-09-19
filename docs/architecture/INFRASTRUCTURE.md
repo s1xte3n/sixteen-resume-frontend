@@ -270,7 +270,7 @@ The project does not add a separate WAF resource for the MVP unless the selected
 
 The approved recurring Azure cost ceiling is:
 
-**USD $40/month.**
+**R100/month.**
 
 One-time domain/infrastructure purchase cost required by the MVP:
 
