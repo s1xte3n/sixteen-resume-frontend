@@ -27,8 +27,8 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Repository plan    | Complete | Two repositories                                 |
 | DNS approach       | Complete | FreeDNS selected initially                       |
 | Certification      | Complete | AI-901 held; AZ-900 deviation documented         |
-| Resume content     | Complete | Source CV supplied                               |
-| Resume positioning | Complete | 4+ years hands-on development                    |
+| Resume content     | Complete | Public HTML candidate exists; owner approval pending |
+| Resume positioning | Complete | 4+ years hands-on development; Gijima role separately identified |
 | Blog platforms     | Complete | Dev.to + Hashnode                                |
 | Deadline           | Complete | 30 September 2026                                |
 
@@ -36,9 +36,9 @@ The project requirements, scope, technology stack, constraints, repositories, re
 
 | Component                  | Status      |
 | -------------------------- | ----------- |
-| Frontend repository        | Not started |
+| Frontend repository        | Exists      |
 | Backend repository         | Not started |
-| HTML resume                | Not started |
+| HTML resume                | Candidate exists |
 | CSS                        | Not started |
 | JavaScript visitor counter | Not started |
 | Azure Storage              | Not started |
@@ -61,7 +61,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 
 **Repository:** `sixteen-resume-frontend`
 
-Status: **Not created**
+Status: **Created**
 
 ### Backend
 
@@ -77,18 +77,30 @@ Status: **Available**
 
 A complete CV has been supplied.
 
-### Required Editorial Changes
+### Public Content Definition
 
-The resume should:
+Status: **Resolved — owner approval pending**
+
+The public resume content policy and editorial positioning are defined by OR-005. The candidate HTML is stored at `docs/product/public-resume-content.html` and is governed by `docs/product/PUBLIC-RESUME-CONTENT-APPROVAL.md`.
+
+The candidate must:
+
 
 * Present the user as a Software Engineer / Backend Developer / Cloud Engineer.
 * State **4+ years of hands-on software development experience**.
 * Avoid implying that all four-plus years were professional software-engineering employment.
-* Clearly identify Gijima Holdings employment as IT Operations.
+* Clearly identify **IT Operator — Gijima Holdings | June 2022–Present** as professional employment.
 * Highlight relevant Azure, AWS, backend, serverless, CI/CD, and IaC experience.
 * Include the Cloud Resume Challenge project.
-* Include AI-901.
-* Include links to GitHub and the published blog content.
+* Display **Microsoft Certified: Azure AI Fundamentals (AI-901)**.
+* Include only explicitly approved public links and contact information.
+* Exclude private information not intended for public publication.
+
+### Acceptance Gate
+
+**REQ-AZ-001: Pending owner approval**
+
+The candidate HTML content has been prepared, but final acceptance cannot pass until the owner explicitly approves the complete public HTML resume content.
 
 ## Certification Status
 
