@@ -16,7 +16,7 @@
 | Backend repository | `s1xte3n/sixteen-resume-backend` |
 | Development/integration branch | `develop` |
 | Production branch | `main` |
-| Cost policy | Preferred target R0/month; hard ceiling USD $40/month recurring Azure/cloud cost; >USD $40/month recurring is blocked; paid domain is out of MVP |
+| Cost policy | Preferred target R0/month; hard ceiling R100/month recurring Azure/cloud cost; >R100/month recurring is blocked; paid domain is out of MVP |
 | Target completion | 30 September 2026 |
 
 ## 2. Product Purpose
@@ -48,7 +48,7 @@ The following are confirmed project requirements and must not be silently change
 17. Frontend CI/CD must automatically publish website changes.
 18. Azure credentials and secrets must never be committed to source control.
 19. Free or consumption-based options are preferred.
-20. The MVP recurring Azure/cloud cost must not exceed USD $40/month, excluding personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
+20. The MVP recurring Azure/cloud cost must not exceed R100/month, excluding personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
 21. R0/month is the preferred cost target.
 22. Any unexpected Azure/cloud charge must be investigated before project work continues.
 23. East US is the target Azure region.
@@ -65,7 +65,7 @@ The following are confirmed project requirements and must not be silently change
 
 1. The existing Azure subscription can provision every required service.
 2. Required services and relevant free allowances remain available when implementation starts.
-3. The required delivery architecture can remain within the approved USD $40/month recurring cost ceiling.
+3. The required delivery architecture can remain within the approved R100/month recurring cost ceiling.
 4. A suitable free hostname/subdomain can satisfy the approved interpretation of the DNS requirement.
 5. GitHub Actions can be configured with secure deployment authentication.
 6. The supplied CV contains sufficient material for the initial public resume.
@@ -924,9 +924,9 @@ Blog CMS, comments, subscriptions, analytics dashboard, or multiple unrelated ar
 ### Cost
 
 - Preferred target is **R0/month** recurring Azure/cloud cost.
-- The MVP hard ceiling is **USD $40/month recurring Azure/cloud cost**.
-- **R0–USD $40/month** recurring Azure/cloud cost is allowed.
-- **>USD $40/month recurring** Azure/cloud cost is blocked.
+- The MVP hard ceiling is **R100/month recurring Azure/cloud cost**.
+- **R0–R100/month** recurring Azure/cloud cost is allowed.
+- **>R100/month recurring** Azure/cloud cost is blocked.
 - The ceiling excludes personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later.
 - Paid domain registration is out of MVP.
 - Any unexpected Azure/cloud charge must be investigated before project work continues.
@@ -1016,9 +1016,9 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
 4. All deliberate deviations from the original challenge are documented.
-5. The MVP recurring Azure/cloud cost ceiling is defined as USD $40/month, with R0/month as the preferred target and explicit exclusions.
+5. The MVP recurring Azure/cloud cost ceiling is defined as R100/month, with R0/month as the preferred target and explicit exclusions.
 6. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration and cost are validated against the approved USD $40/month recurring ceiling.
+8. HTTPS/CDN configuration and cost are validated against the approved R100/month recurring ceiling.
 9. Final public resume content is approved.
 
 No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.
