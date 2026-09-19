@@ -33,7 +33,7 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 | REQ-AZ-SEC-002 | REQ-AZ-009 | The API is the database security boundary. |
 | REQ-AZ-SEC-003 | REQ-AZ-012..014 | Least privilege depends on actual resource and deployment architecture. |
 | REQ-AZ-SEC-004 | REQ-AZ-005 | HTTPS depends on final delivery configuration. |
-| REQ-AZ-COST-001 | Approved cost policy | Numeric ceiling is now fixed at USD $40/month recurring Azure/cloud cost; R0/month preferred, with documented exclusions. |
+| REQ-AZ-COST-001 | Approved cost policy | Numeric ceiling is now fixed at R100/month recurring Azure/cloud cost; R0/month preferred, with documented exclusions. |
 | REQ-AZ-REG-001 | REQ-AZ-012 | Resource locations are validated from IaC. |
 | REQ-AZ-GIT-001 | Repository/branch normalization | Branch model must match actual canonical repositories. |
 | REQ-AZ-DEV-001 | REQ-AZ-012 | Reproducibility depends on ARM coverage. |
