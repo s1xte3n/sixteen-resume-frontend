@@ -23,7 +23,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Deployment count   | Complete | One deployment                                   |
 | Cost constraint    | Complete | R100/month recurring Azure ceiling; $0 required one-time purchase |
 | Security baseline  | Complete | Secrets, HTTPS, least privilege, API separation  |
-| Git workflow       | Complete | develop → feature → PR → CI → merge              |
+| Git workflow       | Complete | feature → PR → CI → develop → production release → main |
 | Repository plan    | Complete | Two repositories                                 |
 | DNS approach       | Complete | FreeDNS selected initially                       |
 | Certification      | Complete | AI-901 held; AZ-900 deviation documented         |
@@ -174,3 +174,17 @@ Status: **Active project target**
 The discovery phase is complete.
 
 The next phase is implementation planning and repository/bootstrap work, followed by incremental implementation and validation of each challenge requirement.
+
+
+## OR-006–OR-009 Resolution Status
+
+The following implementation-governing decisions are now resolved:
+
+| ID | Resolution |
+|---|---|
+| OR-006 | Visitor API is `GET /api/visitors`; successful response contains the current visitor count; browser has no Cosmos DB credentials or direct database access. |
+| OR-007 | One logical counter record; backend performs a concurrency-safe atomic logical increment and returns the resulting persisted count. |
+| OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
+| OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
+
+The repository now contains a `develop` branch created from `main`. Implementation remains not started.

@@ -295,26 +295,9 @@ The content will document:
 
 ## D-030 — Visitor Counter API Contract
 
-**Decision:** Define a versioned public HTTP API as `POST /api/v1/visitor-count` with an empty JSON request and a JSON response containing the persisted `count`.
+**Status:** Superseded by D-036 / OR-006.
 
-**Reason:** The browser requires an explicit API boundary to the Python Azure Function, while the API must not expose Cosmos DB access or unrelated application functionality.
-
-**Contract controls:**
-
-- No end-user authentication.
-- Production CORS uses an explicit resume-origin allowlist.
-- Success response field: `count`, non-negative integer.
-- Canonical errors use `code`, `message`, and UUID v4 `requestId`.
-- v1 has no pagination, filtering, sorting, reset, delete, admin, or analytics operations.
-- Breaking wire changes require a new API major version.
-
-**Requirement Addressed:** REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-010.
-
-**Architecture Addressed:** ADR-002, ADR-003, ADR-007.
-
-**Constraint:** Visitor semantics are resolved under OR-001. Duplicate HTTP requests are separate counter operations unless a future requirement explicitly introduces idempotency semantics; concurrent successful operations must not lose increments.
-
-
+The earlier draft defined `POST /api/v1/visitor-count`. The approved MVP contract is now `GET /api/visitors`, with a successful response containing the current visitor count.
 ---
 
 ## D-031 — OR-002 Public Hostname Interpretation
@@ -418,3 +401,55 @@ Azure Storage Static Website
 **Requirement:** REQ-AZ-005, REQ-AZ-006, REQ-AZ-015.
 
 **Constraint:** A specific service may only be selected after validating it against these frozen conditions.
+
+---
+
+## D-036 — OR-006 Visitor API Contract
+
+**Decision:** The visitor API has exactly one MVP responsibility: `GET /api/visitors`.
+
+The successful response contains the current visitor count.
+
+The browser has no Cosmos DB credentials and no direct Cosmos DB access. Azure Functions remains the application/API boundary.
+
+---
+
+## D-037 — OR-007 Counter Persistence Behavior
+
+**Decision:** Use one logical counter record. For each successful counter operation, the backend reads the current count, atomically increments it, persists it, and returns the resulting count.
+
+The implementation must prevent concurrent lost updates.
+
+---
+
+## D-038 — OR-008 CI/CD Deployment Authority
+
+**Decision:** GitHub Actions is the deployment mechanism. Production deployment from a developer laptop is not a valid production release.
+
+**Backend:** checkout → install dependencies → run tests → validate infrastructure → deploy.
+
+**Frontend:** checkout → validate website → publish to Azure Storage → purge/invalidate edge cache when required.
+
+---
+
+## D-039 — OR-009 Production Release Workflow
+
+**Decision:** `main` represents production.
+
+**Workflow:**
+
+```
+feature/*
+    ↓
+Pull Request
+    ↓
+CI
+    ↓
+develop
+    ↓
+production release
+    ↓
+main
+```
+
+The frontend repository now has a `develop` branch created from `main` to establish the approved development/production branch model.

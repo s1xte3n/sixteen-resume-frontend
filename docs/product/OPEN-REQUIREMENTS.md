@@ -171,42 +171,89 @@ The exact Azure service/SKU is therefore not architecture-locked. It is selected
 
 | ID | Requirement / ambiguity | Affected requirements | Status |
 |---|---|---|---|
-| OR-006 | Select Python testing framework. | MVP-011, MVP-013 | Intentionally deferred until test implementation is prepared. |
-| OR-007 | Normalize the blog platform requirement across product/project documents. Approved project state says Dev.to + Hashnode; older product docs said undecided. | MVP-016 | Open documentation inconsistency. |
-| OR-008 | Define visitor-counter API method, endpoint purpose, request/response, status codes, error contract, semantics, and CORS. | MVP-009, MVP-010 | Open |
-| OR-009 | Define user-visible behavior when counter API/database fails. | MVP-007, MVP-009 | Open |
+| OR-006 | Define the backend/API contract for the visitor counter. | MVP-009, MVP-010 | Resolved |
+| OR-007 | Define persistence behavior for the single logical visitor counter, including concurrency-safe increment semantics. | MVP-008, MVP-009 | Resolved |
+| OR-008 | Define GitHub Actions as the CI/CD deployment authority and required backend/frontend pipeline gates. | MVP-013, MVP-014 | Resolved |
+| OR-009 | Define the production release workflow and branch authority: feature/* → PR → CI → develop → production release → main. | MVP-013, MVP-014, MVP-015 | Resolved |
 | OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Open |
 | OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Open |
 | OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Open |
 
-### OR-006 — Python Testing Framework
+### OR-006 — Backend/API Contract
 
-The approved requirement requires automated Python tests but does not select a framework. The choice remains intentionally deferred. Final acceptance requires a documented framework and repeatable CI execution.
+**Decision:** The visitor API has exactly one MVP responsibility: `GET /api/visitors`.
 
-### OR-007 — Blog Platform Normalization
+The successful response contains the current visitor count.
 
-The approved project state specifies both Dev.to and Hashnode and describes the content scope as technical lessons, implementation, problems, solutions/decisions, and the broader project journey. Earlier product documentation treated the platform as undecided. The approved project-state decision must be reflected consistently in product documentation before final acceptance.
+The browser has no Cosmos DB credentials and no direct Cosmos DB access. Azure Functions remains the backend/API boundary.
 
-### OR-008 — Visitor API Contract
+**Status:** Resolved.
 
-The final contract must define at minimum:
+### OR-007 — Persistence Behavior
 
-- HTTP method(s).
-- Endpoint purpose/path.
-- Request inputs and required/optional fields.
-- Successful response schema.
-- Error response schema.
-- HTTP status behavior.
-- Counter semantics.
-- CORS behavior.
+**Decision:** Use one logical visitor-counter record.
 
-This is not silently specified here because the approved sources do not provide the final contract.
+For each successful counter operation, the backend:
 
-### OR-009 — Counter Failure UX
+```
+read current count
+→ atomically increment
+→ persist
+→ return resulting count
+```
 
-Possible behaviors already identified are hiding the counter, displaying an unavailable state, displaying a last-known value, or another approved fallback. No option is selected.
+The implementation must protect against concurrent lost updates. The persisted result must therefore reflect every successfully committed increment.
 
-The chosen behavior must not prevent access to the resume.
+**Status:** Resolved.
+
+### OR-008 — CI/CD Deployment Authority
+
+**Decision:** GitHub Actions is the deployment mechanism. A production deployment performed directly from a developer laptop is not a valid production release.
+
+**Backend pipeline:**
+
+```
+checkout
+→ install dependencies
+→ run tests
+→ validate infrastructure
+→ deploy
+```
+
+**Frontend pipeline:**
+
+```
+checkout
+→ validate website
+→ publish to Azure Storage
+→ purge/invalidate edge cache when required
+```
+
+**Status:** Resolved.
+
+### OR-009 — Production Release
+
+**Decision:** `main` represents production.
+
+The intended workflow is:
+
+```
+feature/*
+    ↓
+Pull Request
+    ↓
+CI
+    ↓
+develop
+    ↓
+production release
+    ↓
+main
+```
+
+The project repository workflow is therefore feature branches into `develop`, followed by the production release into `main`.
+
+**Status:** Resolved.
 
 ### OR-010 — Browser Support
 
@@ -310,4 +357,4 @@ The PRD phase is closed only when:
 8. The public resume content policy and editorial positioning are approved, and the final public HTML content is explicitly approved before production acceptance.
 9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: OR-001 through OR-005 are resolved. Final public HTML content approval remains an acceptance gate for AC-001/VT-001 and production acceptance.**
+**Current status: OR-001 through OR-009 are resolved. OR-010 through OR-013 remain open. Final public HTML content approval remains an acceptance gate for AC-001/VT-001 and production acceptance.**
