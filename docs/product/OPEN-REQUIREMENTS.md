@@ -23,7 +23,7 @@ No ambiguity listed here may be silently resolved during implementation.
 
 | OR-003 | Numeric MVP recurring Azure/cloud cost ceiling is fixed at R100/month, with R0/month preferred and explicit exclusions. | MVP-005, MVP-006, MVP-012, MVP-015 | Resolved |
 | OR-004 | Freeze the HTTPS/CDN architecture at capability level; exact edge service remains an implementation choice subject to fixed acceptance conditions. | MVP-005, MVP-015 | Resolved |
-| OR-005 | Approve the exact public resume content derived from the supplied CV. | MVP-001, MVP-015 | Open |
+| OR-005 | Approve the public resume content policy and editorial positioning derived from the supplied CV. | MVP-001, MVP-015 | Resolved |
 
 ### OR-001 — Visitor Definition
 
@@ -145,24 +145,27 @@ The exact Azure service/SKU is therefore not architecture-locked. It is selected
 
 ### OR-005 — Public Resume Content
 
-**Question:** Which exact CV-derived information is approved for public publication?
+**Decision:** The public resume will contain only:
+- Professionally relevant information derived from the supplied CV.
+- Explicitly approved project information.
+- Explicitly approved links/contact information.
+- No private information that is not intended for public publication.
 
-**Decision review must cover:**
-- Personal information.
-- Contact information.
-- Professional history.
-- Skills.
-- Certifications.
-- Education.
-- Projects.
-- External links.
-- Any other identifying information.
+**Approved positioning:**
+- The resume may state **4+ years of hands-on software development experience**.
+- Professional employment is separately identified as **IT Operator — Gijima Holdings | June 2022–Present**.
+- The resume must not imply that the full four-plus-year period represents professional software-engineering employment.
 
-**Why it matters:** A supplied CV is source material, not automatic authorization to publish every field publicly.
+**Approved certification display:**
+- **Microsoft Certified: Azure AI Fundamentals (AI-901)**.
+- The resume must not represent AI-901 as AZ-900.
+- AZ-900 remains a documented deviation from the original challenge requirement.
+
+**Acceptance rule:** OR-005 is resolved as a content-authorization decision. Final production acceptance still requires the owner to explicitly approve the final public HTML resume content and verify that the published content conforms to this decision.
 
 **Affected:** MVP-001, MVP-015.
 
-**Status:** Open pending Project Owner approval.
+**Status:** Resolved.
 
 ## 4. P2 Open Requirements
 
@@ -304,7 +307,7 @@ The PRD phase is closed only when:
 5. The numeric cost constraint is defined as R100/month recurring, with R0/month preferred and explicit exclusions.
 6. Public hostname interpretation is defined.
 7. HTTPS/CDN capability architecture is resolved and the selected implementation is validated against its fixed acceptance conditions.
-8. Final public resume content is approved.
+8. The public resume content policy and editorial positioning are approved, and the final public HTML content is explicitly approved before production acceptance.
 9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: OR-001, OR-002, OR-003, and OR-004 are resolved. OR-005 remains a P1 closure blocker.**
+**Current status: OR-001 through OR-005 are resolved. Final public HTML content approval remains an acceptance gate for AC-001/VT-001 and production acceptance.**
