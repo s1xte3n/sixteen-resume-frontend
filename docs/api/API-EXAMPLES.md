@@ -5,7 +5,7 @@
 ### Request
 
 ```http
-POST /api/v1/visitor-count HTTP/1.1
+GET /api/visitors HTTP/1.1
 Host: api.example.invalid
 Origin: https://resume.example.invalid
 Content-Type: application/json
@@ -26,15 +26,13 @@ Content-Type: application/json
 }
 ```
 
-## 2. Invalid request body
+## 2. Unsupported method
 
 ### Request
 
 ```http
-POST /api/v1/visitor-count HTTP/1.1
-Content-Type: application/json
-
-{"visitorId":"abc"}
+GET /api/visitors HTTP/1.1
+Accept: application/json
 ```
 
 ### Response
@@ -57,7 +55,7 @@ Content-Type: application/json
 ### Request
 
 ```http
-GET /api/v1/visitor-count HTTP/1.1
+POST /api/visitors HTTP/1.1
 Accept: application/json
 ```
 
@@ -112,4 +110,4 @@ Content-Type: application/json
 
 Examples use reserved `.invalid` hostnames and synthetic UUIDs. They are documentation examples only.
 
-The response count is illustrative; exact increment behavior remains blocked by OR-001.
+The response count is illustrative; OR-001 defines the increment semantics and OR-007 requires concurrency-safe persistence.
