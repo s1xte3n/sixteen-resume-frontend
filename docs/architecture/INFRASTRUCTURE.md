@@ -37,7 +37,7 @@ Azure Subscription
     |     |
     |     +-- Static Website
     |
-    +-- Azure Front Door Standard
+    +-- Azure-managed HTTPS/CDN delivery layer
     |     |
     |     +-- Endpoint
     |     +-- Origin Group
@@ -80,7 +80,7 @@ No general-purpose deployment credentials exposed to browser users.
 
 ## 5. Delivery/CDN Layer
 
-**Approved service: Azure Front Door Standard.**
+**Delivery service: unresolved pending OR-004 validation.**
 
 Purpose:
 
@@ -91,9 +91,9 @@ Purpose:
 - Cache behavior.
 - HTTP-to-HTTPS redirect.
 
-The delivery layer is architecture-locked by ADR-006.
+The delivery layer is **not service-locked**; ADR-006 remains pending validation.
 
-The Front Door origin is the Azure Storage static website endpoint.
+The delivery-layer origin is the Azure Storage static website endpoint.
 
 The approved public hostname is the FreeDNS/afraid.org hosted hostname/subdomain defined by OR-002.
 
@@ -107,7 +107,7 @@ Required relationship:
 FreeDNS Public Hostname
       |
       v
-Azure Front Door Standard
+Azure-managed HTTPS/CDN delivery layer
       |
       v
 Azure Storage Static Website
@@ -155,8 +155,8 @@ The backend repository contains the authoritative ARM infrastructure.
 The template must represent:
 
 - Azure Storage static website.
-- Azure Front Door Standard profile, endpoint, origin group, origin, route, and custom domain.
-- Azure-managed Front Door HTTPS configuration where supported by the selected ARM resource model.
+- Azure-managed HTTPS/CDN delivery layer profile, endpoint, origin group, origin, route, and custom domain.
+- HTTPS/certificate configuration supported by the selected and validated delivery service.
 - Azure Function Consumption resources.
 - Cosmos DB Table API resources.
 - Required deployment configuration.
@@ -171,7 +171,7 @@ Sensitive configuration should be supplied through secure deployment mechanisms.
 |---|---|
 | HTML/CSS/JS | s1xte3n/sixteen-resume-frontend |
 | Storage publication | Frontend CI/CD |
-| Front Door configuration | s1xte3n/sixteen-resume-backend |
+| delivery-layer configuration | s1xte3n/sixteen-resume-backend |
 | Function code | s1xte3n/sixteen-resume-backend |
 | Cosmos DB infrastructure | Backend ARM |
 | ARM templates | s1xte3n/sixteen-resume-backend |
@@ -187,7 +187,7 @@ Backend deployment order:
 3. Deploy/update Azure infrastructure.
 4. Deploy Function application.
 5. Verify API.
-6. Verify Front Door endpoint, custom hostname, and HTTPS.
+6. Verify delivery endpoint, custom hostname, and HTTPS.
 
 Frontend deployment order:
 
@@ -204,7 +204,7 @@ Infrastructure dependencies:
 Storage
   |
   v
-Azure Front Door Standard
+Azure-managed HTTPS/CDN delivery layer
   |
   v
 DNS / FreeDNS Hostname
@@ -239,7 +239,7 @@ Examples:
 
 - Azure region.
 - Resource names.
-- Front Door endpoint hostname.
+- delivery endpoint hostname.
 - Public hostname.
 - API hostname.
 - Table/partition identifiers.
@@ -264,7 +264,7 @@ Runtime application permissions must be narrower than infrastructure deployment 
 
 Front Door must use HTTPS for public delivery.
 
-The project does not add a separate WAF resource for the MVP because the approved Front Door Standard configuration is the cost-constrained delivery tier.
+The project does not add a separate WAF resource for the MVP unless the selected delivery architecture requires it and the addition is explicitly approved within the cost ceiling.
 
 ## 15. Cost Controls
 
@@ -288,9 +288,9 @@ The infrastructure intentionally avoids:
 - Front Door Premium.
 - Front Door Classic.
 
-Azure Front Door Standard has a published base fee of $35/month, billed hourly, plus usage-based request and data-transfer charges. The remaining $5/month budget covers the project's other Azure resource and delivery usage.
+Azure-managed HTTPS/CDN delivery layer has a published base fee of $35/month, billed hourly, plus usage-based request and data-transfer charges. The remaining $5/month budget covers the project's other Azure resource and delivery usage.
 
-The final resource SKUs must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production. R0/month is the preferred target. Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling. Any unexpected Azure/cloud charge must be investigated before continuing project work. A recurring cost above R100/month blocks production.
+The final resource SKUs and delivery service must be validated against the approved **R100/month recurring Azure/cloud cost ceiling** before production. R0/month is the preferred target. Personal internet access, existing equipment, optional paid domain registration, and one-time purchases explicitly approved later are excluded from the recurring ceiling. Any unexpected Azure/cloud charge must be investigated before continuing project work. A recurring cost above R100/month blocks production.
 
 ## 16. Infrastructure Failure
 
