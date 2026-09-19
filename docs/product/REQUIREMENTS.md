@@ -50,7 +50,7 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-SEC-002 | Browser JavaScript must never directly access Cosmos DB. | P0 | BASELINED | REQ-AZ-009 | Browser, API, Cosmos DB | VT-SEC-002 |
 | REQ-AZ-SEC-003 | Deployment identities must use only permissions required for their responsibilities. | P1 | BASELINED | REQ-AZ-012, REQ-AZ-013, REQ-AZ-014 | GitHub Actions, Azure IAM | VT-SEC-003 |
 | REQ-AZ-SEC-004 | Public production traffic must use HTTPS. | P0 | BLOCKED | REQ-AZ-005; OR-004 | Delivery layer | VT-SEC-004 |
-| REQ-AZ-COST-001 | Services and infrastructure must remain within the approved numeric project cost ceiling of USD $40/month recurring Azure/cloud cost; R0/month is preferred and approved exclusions apply. | P1 | BASELINED | OR-003 (resolved) | Azure services, delivery | VT-COST-001 |
+| REQ-AZ-COST-001 | Services and infrastructure must remain within the approved numeric project cost ceiling of R100/month recurring Azure/cloud cost; R0/month is preferred and approved exclusions apply. | P1 | BASELINED | OR-003 (resolved) | Azure services, delivery | VT-COST-001 |
 | REQ-AZ-REG-001 | Azure resources must target East US unless an approved change is recorded. | P2 | BASELINED | ARM configuration | Azure resources | VT-REG-001 |
 | REQ-AZ-GIT-001 | `develop` is development/integration and `main` is production. | P1 | BLOCKED | Repository state normalization | GitHub repositories | VT-GIT-001 |
 | REQ-AZ-DEV-001 | Production infrastructure must be reproducible from source-controlled IaC. | P1 | BASELINED | REQ-AZ-012 | ARM, Azure | VT-IAC-001 |
