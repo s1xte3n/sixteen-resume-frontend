@@ -37,7 +37,7 @@ Azure Subscription
     |     |
     |     +-- Static Website
     |
-    +-- Azure-managed HTTPS/CDN delivery layer
+    +-- Azure CDN / approved Azure edge-delivery service
     |     |
     |     +-- Endpoint
     |     +-- Origin Group
