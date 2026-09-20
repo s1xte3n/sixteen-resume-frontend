@@ -11,7 +11,7 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | APP_ENV | Non-secret | enum | all | process/CI | local/dev/test/staging/prod; local default local | Name only |
 | AZURE_REGION | Non-secret | string | Azure contexts | ARM | Must be East US | Yes |
 | PUBLIC_API_BASE_URL | Non-secret | URL | all | environment/CI | HTTPS outside local; no trailing slash | Placeholder only |
-| PUBLIC_API_PATH | Non-secret | path | all | API contract | Must be /api/v1/visitor-count | Yes |
+| PUBLIC_API_PATH | Non-secret | path | all | API contract | Must be /api/visitors | Yes |
 | API_VERSION | Non-secret | string | all | API contract | v1 | Yes |
 | PUBLIC_HOSTNAME | Non-secret | hostname | production | DNS/delivery | Valid approved hostname; currently unresolved | Placeholder only |
 | CORS_ALLOWED_ORIGIN | Non-secret | origin URL | backend CI/prod | deployment config | Exact approved frontend origin; never * in prod | Placeholder only |
@@ -36,7 +36,7 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 
 ## Contract constraints
 
-VC-001 is POST /api/v1/visitor-count, accepts only {}, uses application/json, may accept X-Request-ID as UUID v4, and returns a non-negative integer count. Production CORS is restricted to the approved resume origin. Browser artifacts must never contain Azure/Cosmos credentials.
+VC-001 is GET /api/visitors, accepts no request body or query/path parameters, and returns a JSON object containing a non-negative integer `count`. The request does not require `Content-Type`. `Accept: application/json` is recommended. `X-Request-ID` is optional and, when supplied, must be UUID v4. Production CORS is restricted to the approved resume origin. Browser artifacts must never contain Azure/Cosmos credentials.
 
 ## Authentication note
 
