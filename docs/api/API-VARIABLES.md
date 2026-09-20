@@ -23,18 +23,18 @@ No pagination, filtering, or sorting parameters are supported.
 | Header | Direction | Required | Type | Constraints |
 |---|---|---:|---|---|
 | `Origin` | Request | Browser-generated | string | Must match configured production CORS origin |
-| `Content-Type` | Request | Yes | media type | `application/json` |
+| `Content-Type` | Request | No | media type | Not required; VC-001 has no request body |
 | `Accept` | Request | Recommended | media type | `application/json` |
 | `X-Request-ID` | Request | No | UUID string | UUID v4 when present |
 | `Content-Type` | Response | Yes | media type | `application/json` |
 
 ## 4. Body variables
 
-VC-001 accepts an empty object only.
+VC-001 has no request body.
 
 | Variable | Type | Required | Nullable | Constraints |
 |---|---|---:|---:|---|
-| None | — | — | — | `{}` only |
+| None | — | — | — | No request body |
 
 ## 5. Response variables
 
