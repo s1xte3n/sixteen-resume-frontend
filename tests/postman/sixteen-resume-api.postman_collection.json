@@ -1,0 +1,54 @@
+{
+  "info":{"name":"sixteen-resume API","description":"Executable VC-001 contract tests.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[
+    {"key":"apiBaseUrl","value":"http://localhost:7071"},
+    {"key":"approvedOrigin","value":"https://example.test"},
+    {"key":"testRequestId","value":"7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10"}
+  ],
+  "item":[
+    {
+      "name":"VC-001 Success",
+      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"Origin","value":"{{approvedOrigin}}"},{"key":"X-Request-ID","value":"{{testRequestId}}"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
+      "event":[{"listen":"test","script":{"exec":[
+        "pm.test('status is 200', () => pm.response.to.have.status(200));",
+        "const body = pm.response.json();",
+        "pm.test('count is integer >= 0', () => { pm.expect(body).to.have.property('count'); pm.expect(Number.isInteger(body.count)).to.eql(true); pm.expect(body.count).to.be.at.least(0); });",
+        "pm.test('success shape contains only count', () => pm.expect(Object.keys(body).sort()).to.eql(['count']));",
+        "pm.test('no secret-like value is exposed', () => pm.expect(pm.response.text()).to.not.match(/(connectionstring|access[_-]?token|password|secret)/i));"
+      ]}}]
+    },
+    {
+      "name":"Invalid X-Request-ID",
+      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"X-Request-ID","value":"not-a-uuid"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
+      "event":[{"listen":"test","script":{"exec":[
+        "pm.test('status is 400', () => pm.response.to.have.status(400));",
+        "const body = pm.response.json();",
+        "pm.test('BAD_REQUEST envelope', () => { pm.expect(body.error.code).to.eql('BAD_REQUEST'); pm.expect(body.error.requestId).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i); });"
+      ]}}]
+    },
+    {
+      "name":"Unsupported Request Property",
+      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"foo\":\"bar\"}","options":{"raw":{"language":"json"}}},"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
+      "event":[{"listen":"test","script":{"exec":[
+        "pm.test('status is 400', () => pm.response.to.have.status(400));",
+        "pm.test('error code is BAD_REQUEST', () => pm.expect(pm.response.json().error.code).to.eql('BAD_REQUEST'));"
+      ]}}]
+    },
+    {
+      "name":"Unsupported Method",
+      "request":{"method":"POST","header":[{"key":"Accept","value":"application/json"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
+      "event":[{"listen":"test","script":{"exec":[
+        "pm.test('status is 405', () => pm.response.to.have.status(405));",
+        "pm.test('error code is METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().error.code).to.eql('METHOD_NOT_ALLOWED'));"
+      ]}}]
+    },
+    {
+      "name":"Unexpected Query Parameter",
+      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors?unexpected=true","host":["{{apiBaseUrl}}"],"path":["api","visitors"],"query":[{"key":"unexpected","value":"true"}]}},
+      "event":[{"listen":"test","script":{"exec":[
+        "pm.test('invalid contract request is not accepted', () => pm.expect(pm.response.code).to.not.eql(200));",
+        "pm.test('invalid request returns contract rejection', () => pm.expect(pm.response.code).to.be.oneOf([400,404]));"
+      ]}}]
+    }
+  ]
+}

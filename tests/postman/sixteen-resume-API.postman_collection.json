@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "sixteen-resume API",
+    "_postman_id": "9e4a5e7a-2f4c-4b0e-9b3d-8c9a8f4e1a11",
+    "description": "VC-001 contract and negative tests. Assertions cover status, response shape, requestId, validation and security. No secrets.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "apiBaseUrl",
+      "value": "{{apiBaseUrl}}"
+    }
+  ],
+  "item": [
+    {
+      "name": "T-009-P Valid VC-001",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "{{$guid}}"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200',()=>pm.response.to.have.status(200));",
+              "pm.test('json',()=>pm.expect(pm.response.headers.get('Content-Type')).to.match(/application\\\\/json/i));",
+              "const b=pm.response.json();",
+              "pm.test('exact success shape',()=>pm.expect(Object.keys(b).sort()).to.eql(['count']));",
+              "pm.test('count integer >= 0',()=>{pm.expect(Number.isInteger(b.count)).to.eql(true);pm.expect(b.count).to.be.at.least(0);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "T-009-V Invalid request ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "not-a-uuid"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 400',()=>pm.response.to.have.status(400));",
+              "const b=pm.response.json();",
+              "pm.test('BAD_REQUEST',()=>pm.expect(b.error.code).to.eql('BAD_REQUEST'));",
+              "pm.test('requestId is UUID v4',()=>pm.expect(b.error.requestId).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "T-009-N Unsupported method",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 405',()=>pm.response.to.have.status(405));",
+              "pm.test('METHOD_NOT_ALLOWED',()=>pm.expect(pm.response.json().error.code).to.eql('METHOD_NOT_ALLOWED'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "T-009-N Unknown query",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors?unexpected=true",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ],
+          "query": [
+            {
+              "key": "unexpected",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 400',()=>pm.response.to.have.status(400));",
+              "pm.test('BAD_REQUEST',()=>pm.expect(pm.response.json().error.code).to.eql('BAD_REQUEST'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "T-009-SEC No internal fields",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('status 200',()=>pm.response.to.have.status(200));",
+              "const raw=pm.response.text();",
+              "['PartitionKey','RowKey','connectionString','accessToken'].forEach(k=>pm.test('does not leak '+k,()=>pm.expect(raw).not.to.include(k)));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
