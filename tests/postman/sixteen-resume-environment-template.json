@@ -8,5 +8,5 @@
     {"key": "requestId", "value": "", "type": "default", "enabled": true}
   ],
   "_type": "environment",
-  "_comment": "Non-secret template only. Never add Azure credentials, Cosmos keys, connection strings, tokens, or other secrets."
+  "_comment": "Non-secret template only. VC-001 is GET /api/visitors with no request body. Never add Azure credentials, Cosmos keys, connection strings, tokens, or other secrets."
 }
