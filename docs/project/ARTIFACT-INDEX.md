@@ -81,119 +81,179 @@ Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must 
 
 ## 8. Requirements System Status
 
-**Status: Traceability baseline complete; requirements closure pending.**
+**Status: Requirements-definition baseline CLOSED; implementation evidence pending.**
 
-Coverage now includes:
+Coverage includes:
 
 - 16 canonical MVP requirements.
-- Cross-cutting security, cost, region, Git, and IaC requirements.
+- Cross-cutting security, cost, region, Git and IaC requirements.
 - Unique priority and status for each requirement.
 - Dependencies and affected components.
-- Acceptance-criteria mapping.
-- Verification IDs (`VT-*`).
-- Requirement-to-contract/UI-to-test-to-implementation-to-release traceability.
-- Executable backlog containing only implementation-ready items.
-- Explicit gap register for unresolved requirements.
+- Acceptance criteria.
+- Verification IDs.
+- Requirement-to-contract/UI/test/implementation/release traceability.
+- Deliberate challenge deviations.
+- Explicit implementation and production-acceptance gates.
 
-## 9. Current P1 Blockers
+### Requirements-definition decisions
 
-1. OR-001 — Visitor-count semantics.
-2. OR-002 — Free hostname versus custom-domain interpretation.
-3. OR-003 — Numeric cost ceiling.
-4. OR-004 — HTTPS/CDN configuration and cost validation.
-5. OR-005 — Final public resume-content approval.
-6. Repository/branch state normalization where it affects CI/CD evidence.
+| Decision | Status |
+|---|---|
+| Visitor semantics | Resolved |
+| Public hostname interpretation | Resolved |
+| R100/month recurring cost ceiling | Resolved |
+| HTTPS/CDN capability architecture | Resolved at capability level |
+| Public resume content definition | Resolved; final owner approval remains acceptance evidence |
+| API contract | Resolved |
+| Persistence/concurrency semantics | Resolved |
+| CI/CD authority | Resolved |
+| Production branch authority | Resolved |
+| Browser baseline | Resolved |
+| DNS acceptance | Resolved |
 
-## 10. Current P2/P3 Decisions
+---
 
-- OR-006 — Python test framework, intentionally deferred.
-- OR-007 — Blog-platform interpretation/normalization.
-- OR-008 — Visitor API contract: **resolved by API v1 contract; acceptance remains blocked by OR-001**.
-- OR-009 — Counter failure UX.
-- OR-010 — Browser support baseline.
-- OR-011 — Availability target.
-- OR-012 — DNS propagation/stability expectation.
-- OR-013 — Blog link tab behavior.
+## 9. Current Implementation / Acceptance Gates
 
-## 11. Testing Artifacts
+These are implementation or production-acceptance gates rather than unresolved requirements:
+
+1. Select and validate the exact Azure HTTPS/CDN delivery service.
+2. Provision the approved FreeDNS hostname.
+3. Implement Azure Storage.
+4. Implement Cosmos DB Table API.
+5. Implement Python Azure Function.
+6. Implement concurrency-safe counter persistence.
+7. Implement ARM infrastructure.
+8. Implement backend GitHub Actions.
+9. Implement frontend GitHub Actions.
+10. Implement frontend visitor-counter JavaScript.
+11. Execute API, persistence, concurrency, browser, security and deployment tests.
+12. Obtain final public HTML resume owner approval.
+13. Validate complete MVP recurring cost <= R100/month.
+
+---
+
+## 10. Testing Artifacts
 
 | Artifact | Status |
 |---|---|
-| `docs/testing/TEST-STRATEGY.md` | Complete — execution evidence pending |
+| `docs/testing/TEST-STRATEGY.md` | Complete — execution evidence pending implementation |
 | `docs/testing/TEST-MATRIX.md` | Complete |
 | `docs/testing/TEST-DATA-PLAN.md` | Complete |
-| `docs/testing/TEST-CASES.md` | Complete — execution pending |
+| `docs/testing/TEST-CASES.md` | Complete — execution pending implementation |
 | `docs/testing/TEST-PRIORITIES.md` | Complete |
 | `docs/testing/RELEASE-GATES.md` | Complete |
-| `tests/postman/sixteen-resume-API.postman_collection.json` | Complete — execution evidence pending |
+| `tests/postman/sixteen-resume-API.postman_collection.json` | Complete — execution pending backend implementation |
 | `tests/postman/sixteen-resume-environment-template.json` | Complete |
+
+No API test is considered passed until the backend exists and the assertions verify status, schema, business behavior, persistence and security as applicable.
+
+---
 
 ## 11. Implementation Artifact Status
 
 | Artifact | Status |
 |---|---|
-| HTML resume | Not started |
+| HTML resume | Candidate exists; implementation/approval pending |
 | CSS | Not started |
-| JavaScript visitor counter | Blocked by visitor semantics/API contract/failure UX |
+| JavaScript visitor counter | Not started |
 | Azure Storage | Not started |
-| HTTPS/CDN | Blocked by cost and delivery validation |
-| DNS hostname | Blocked by hostname interpretation |
+| HTTPS/CDN | Architecture capability resolved; service selection pending implementation |
+| DNS hostname | Provider selected; hostname provisioning pending |
 | Cosmos DB | Not started |
 | Azure Function | Not started |
 | Python implementation | Not started |
-| Python tests | Blocked by test-framework decision |
-| ARM templates | Not started |
-| Backend GitHub Actions | Blocked by CI/repository/authentication decisions |
-| Frontend GitHub Actions | Blocked by delivery/repository decisions |
-| Production deployment | Blocked by P1 requirements |
+| Python tests | Not started |
+| ARM template | Not started |
+| Backend GitHub Actions | Not started |
+| Frontend GitHub Actions | Not started |
+| Production deployment | Not started |
 | Blog content | Not started |
-| Public resume content approval | Pending OR-005 |
-| API contract | Draft; wire contract frozen for v1; acceptance blocked by OR-001 |\n| OpenAPI specification | Current; synchronized with API v1 |\n| Architecture | Proposed; not frozen |
+| Public resume owner approval | Pending |
+| API contract | Frozen v1 |
+| OpenAPI specification | Current |
+| Architecture | Implementation-ready with edge-service validation gate |
 
-## 12. Governance Rules
+---
 
-When a requirement or decision changes:
+## 12. Repository Status
 
-1. Update `PRD.md`.
-2. Update `OPEN-REQUIREMENTS.md` / `REQUIREMENT-GAPS.md` as applicable.
-3. Update `SCOPE.md` when scope changes.
-4. Synchronize `USER-STORIES.md` and `ACCEPTANCE-CRITERIA.md` when behavior/acceptance changes.
-5. Synchronize `REQUIREMENTS.md`, `TRACEABILITY-MATRIX.md`, and `DEPENDENCY-MATRIX.md`.
-6. Update `FEATURE-BACKLOG.md` only when implementation becomes ready.
-7. Record significant decisions in `DECISIONS.md`.
-8. Update `PROJECT-STATUS.md` for implementation-state changes.
+| Repository | Status |
+|---|---|
+| `s1xte3n/sixteen-resume-frontend` | Exists |
+| `s1xte3n/sixteen-resume-backend` | Exists; implementation not started |
+
+The backend repository is not considered implementation-complete merely because the GitHub repository exists.
+
+---
+
+## 13. Governance Rules
+
+When a requirement changes:
+
+1. Update `docs/product/OPEN-REQUIREMENTS.md`.
+2. Update affected requirements.
+3. Update acceptance criteria.
+4. Update traceability.
+5. Update architecture/ADR documentation if necessary.
+6. Update test coverage.
+7. Update implementation backlog.
+8. Update project status.
 9. Never claim completion without evidence.
 
-## 13. Gate Status
+---
 
-### PRD Gate
+## 14. Gate Status
 
-**NOT CLOSED.** Every MVP requirement now has acceptance criteria and a verification path, but P1 decisions remain unresolved.
+### Project Ready Gate
 
-### Requirements Gate
+**CLOSED**
 
-**NOT CLOSED.** The traceability system is established, but the following prevent requirements closure: unresolved P1 product decisions, unresolved P2 API/testing/blog decisions where they affect acceptance, and repository/branch-state evidence that must match the canonical Git model.
+Scope, constraints, repositories, deviations and implementation boundaries are defined.
 
-### Architecture Gate
+### PRD Ready Gate
 
-**NOT FROZEN.** Architecture depends on unresolved visitor semantics, hostname interpretation, cost ceiling, HTTPS/CDN validation, API contract, and related decisions.
+**CLOSED**
 
-## 14. No-Task Rule
+All MVP requirements have acceptance criteria and verification paths. No P0/P1 requirement ambiguity remains.
 
-No implementation task is created for a requirement that remains ambiguous, contradictory, or objectively unverifiable. Such requirements remain in `REQUIREMENT-GAPS.md` until formally resolved.
+### Requirements Ready Gate
 
+**CLOSED**
 
-## 15. Testing Artifacts
+Requirements-definition decisions are resolved.
 
-| Artifact | Purpose | Status |
-|---|---|---|
-| docs/testing/TEST-STRATEGY.md | Complete test approach, coverage, execution, evidence, and quality gates | Complete — implementation evidence pending |
-| docs/testing/TEST-MATRIX.md | Canonical Requirement ID ↔ Test ID matrix | Complete |
-| docs/testing/TEST-DATA-PLAN.md | Synthetic fixtures, setup, isolation, cleanup, and assertions | Complete |
-| docs/testing/TEST-CASES.md | Detailed executable test cases TC-001 through TC-110 | Complete — execution pending |
-| docs/testing/TEST-PRIORITIES.md | P0/P1/P2/P3 definitions and execution order | Complete |
-| docs/testing/RELEASE-GATES.md | Merge, deployment, and production release gates | Complete |
-| tests/postman/sixteen-resume-API.postman_collection.json | Executable VC-001 API contract/negative/security tests | Complete — execution evidence pending |
-| tests/postman/sixteen-resume-environment-template.json | Safe non-secret Postman variables | Complete |
+### Architecture Ready Gate
 
-**Testing phase:** strategy and test design complete; execution evidence pending implementation. No Python, Azure Function, Cosmos DB, ARM, CI/CD, production HTTPS/CDN, DNS, or end-to-end tests are claimed as passed.
+**CLOSED FOR IMPLEMENTATION**
+
+The architecture is frozen at the required capability level. Exact Azure edge-service selection remains an implementation validation task constrained by the approved architecture and R100/month ceiling.
+
+### Test Strategy Ready Gate
+
+**CLOSED**
+
+Test strategy, matrix, data plan, cases, priorities and release gates are defined.
+
+### Phase 7 Entry
+
+**READY**
+
+Phase 7 may begin with implementation/bootstrap work.
+
+---
+
+## 15. Phase 7 Rule
+
+Phase 7 implementation must not:
+
+- change approved visitor semantics;
+- change the API contract without a controlled contract change;
+- exceed the R100/month recurring Azure/cloud ceiling;
+- introduce direct browser-to-Cosmos access;
+- introduce secrets into source control;
+- replace ARM with portal-only infrastructure;
+- bypass GitHub Actions for production deployment;
+- introduce unrelated product features.
+
+All implementation work must remain traceable to an approved requirement or implementation task.
