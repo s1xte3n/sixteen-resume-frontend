@@ -636,7 +636,7 @@ Source code, test suite, and CI environment.
 **Business Rules**  
 - Required tests execute automatically.
 - A failing required test must block production deployment.
-- The test framework is currently deferred as OR-006 and must be selected before final acceptance.
+- Backend automated tests use **pytest**. CI must execute the pytest suite before any deployment stage.
 
 **Success State**  
 Tests execute repeatedly and produce a visible pass/fail result; passing required tests permit the deployment stage to proceed.
@@ -651,7 +651,7 @@ CI test execution does not require production database privileges unless a separ
 Flaky test; missing dependency; environment-specific failure; deliberately broken behavior.
 
 **Dependencies**  
-MVP-010, MVP-013, OR-006.
+MVP-010, MVP-013.
 
 **Acceptance Criteria**  
 See AC-011; verification VT-011.
@@ -660,7 +660,7 @@ See AC-011; verification VT-011.
 Repeatable, visible, automated, and deployment-gating.
 
 **Out of Scope**  
-A specific testing framework until OR-006 is resolved.
+Alternative Python test frameworks are outside the MVP unless a controlled implementation decision changes the test standard.
 
 ---
 
@@ -937,13 +937,13 @@ Blog CMS, comments, subscriptions, analytics dashboard, or multiple unrelated ar
 - Counter state survives normal frontend and backend redeployments.
 - CI/CD failures are observable through workflow results.
 - Deployments are repeatable.
-- No formal availability SLO is currently committed (OR-011).
+- No formal production availability SLO is part of the MVP; acceptance is based on the defined functional, security, deployment, DNS, HTTPS, and cost criteria.
 
 ### Compatibility
 
 - Resume must render in supported modern browsers.
 - Resume must remain readable across common desktop and mobile viewports.
-- Exact browser/version baseline remains open (OR-010).
+- Browser baseline: latest stable and immediately preceding major release of Chrome, Edge, Firefox, and Safari at test execution; viewports 375x667, 390x844, 768x1024, and 1440x900 CSS pixels.
 
 ### Performance and caching
 
@@ -967,25 +967,25 @@ The original challenge calls for AZ-900 or an advanced Azure certification. The 
 
 ### Domain
 
-The original challenge describes a custom DNS domain. The approved project excludes paid domain purchase and currently directs the project toward a free hostname/subdomain. The exact interpretation is still recorded as OR-002 and must be explicitly closed.
+The original challenge describes a custom DNS domain. The approved project accepts the selected FreeDNS/afraid.org hosted hostname/subdomain for the MVP; this is a documented scoped deviation from the conventional custom-domain wording.
 
 ## 10. Contradictions and Ambiguities
 
 | ID | Issue | Impact | Status |
 |---|---|---|---|
 | OR-001 | Visitor unit is defined as one successfully committed counter operation initiated by a top-level resume page load. | Counter behavior and tests must implement the approved semantics. | Resolved |
-| OR-002 | Original custom-domain wording conflicts with free-hostname direction. | DNS and production acceptance cannot be final. | Open P1 |
+| OR-002 | FreeDNS/afraid.org hosted hostname/subdomain is accepted for the MVP as a documented scoped deviation. | Production DNS/HTTPS evidence remains an implementation gate. | Resolved |
 | OR-003 | Numeric cost ceiling was not previously defined. | Cost acceptance was not objective. | Resolved |
-| OR-004 | Exact current HTTPS/CDN configuration and cost suitability are not validated. | Delivery architecture and acceptance cannot be final. | Open P1 |
-| OR-005 | Exact public CV content has not received final owner approval. | Public-content acceptance cannot be final. | Open P1 |
-| OR-006 | Python test framework is unspecified. | Test implementation details remain open. | Open P2 |
-| OR-007 | Blog platform is inconsistent between product docs and approved project state. | MVP-016 documentation is inconsistent. | Open P2; project state indicates Dev.to + Hashnode |
-| OR-008 | Counter API contract is unspecified. | API acceptance cannot be fully concrete. | Open P2 |
-| OR-009 | Counter failure UX is unspecified. | Failure-state acceptance is incomplete. | Open P2 |
-| OR-010 | Browser baseline is unspecified. | Compatibility testing lacks a fixed matrix. | Open P2 |
-| OR-011 | Availability target is unspecified. | No objective uptime acceptance target exists. | Open P2 |
-| OR-012 | DNS propagation expectation is unspecified. | DNS deployment acceptance lacks timing boundary. | Open P2 |
-| OR-013 | Blog link tab behavior is unspecified. | Minor UX detail is untestable. | Open P3 |
+| OR-004 | Azure-managed HTTPS/CDN capability is fixed; exact service/SKU must pass implementation validation for hostname, HTTPS, Storage origin, IaC, lifecycle, and R100/month cost. | Resolved at capability level |
+| OR-005 | Public resume content policy is defined; final owner approval of the final HTML remains a production acceptance gate. | Resolved at definition level |
+| OR-006 | Backend Python tests use pytest. | Resolved |
+| OR-007 | Approved blog direction is Dev.to + Hashnode. | Resolved |
+| OR-008 | Visitor API contract is defined as GET /api/visitors with controlled response/error semantics. | Resolved |
+| OR-009 | Production release branch authority and workflow are defined; counter failure behavior is covered by the API/frontend acceptance criteria. | Resolved |
+| OR-010 | Browser and viewport baseline is fixed. | Resolved |
+| OR-011 | No formal production availability SLO is part of the MVP. | Resolved |
+| OR-012 | DNS acceptance uses authoritative and independent recursive resolution within the documented default 1-hour TTL window. | Resolved |
+| OR-013 | Blog links use target="_blank" with rel="noopener noreferrer". | Resolved |
 
 ## 11. Missing / Not Objectively Testable Requirements
 
@@ -1010,7 +1010,7 @@ These are tracked in `OPEN-REQUIREMENTS.md`; they are not silently resolved here
 
 ## 12. Requirement Completion / PRD Closure Gate
 
-The PRD is **not closed yet**. The requirements baseline is complete enough to expose the full product boundary, but the closure gate remains blocked until the following are explicitly resolved or formally accepted as documented deviations:
+The PRD requirements-definition closure is **COMPLETE**. The implementation gate is open because the requirements baseline and acceptance system are complete. Final public resume approval, exact edge-service validation, infrastructure deployment, CI/CD implementation, and production evidence remain implementation or production-acceptance gates.
 
 1. Every MVP requirement has testable acceptance criteria and verification IDs.
 2. No P0 ambiguity remains.
@@ -1021,4 +1021,4 @@ The PRD is **not closed yet**. The requirements baseline is complete enough to e
 8. HTTPS/CDN configuration and cost are validated against the approved R100/month recurring ceiling.
 9. Final public resume content is approved.
 
-No implementation task is created by this PRD. Blocking decisions remain product decisions until explicitly closed.
+Implementation may proceed without reopening the closed product decisions.
