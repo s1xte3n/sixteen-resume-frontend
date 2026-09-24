@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **NOT CLOSED**. OR-004 and OR-005 remain P1 closure blockers; OR-001 through OR-009 are resolved.
+> **Current status:** Requirements closure is **CLOSED**. OR-001 through OR-013 are resolved at the requirements-definition level. Final service validation and owner content approval remain implementation/production-acceptance gates.
 
 ## 1. Reconciliation Rules
 
@@ -18,11 +18,11 @@ The two documents have distinct roles:
 
 ---
 
-## 2. P1 Open Decisions
+## 2. P1 Decisions
 
 These items must be resolved before affected MVP acceptance and before requirements closure.
 
-**Resolved P1 decisions:** OR-001, OR-002, and OR-003. The remaining P1 closure blockers are OR-004 and OR-005.
+**Resolved P1 decisions:** OR-001 through OR-005. OR-004 is resolved at capability level; OR-005 is resolved at content-definition level.
 
 ### OR-001 — Visitor Definition
 
@@ -78,7 +78,7 @@ These items must be resolved before affected MVP acceptance and before requireme
 ### OR-004 — HTTPS/CDN Configuration
 
 **Affected requirements:** MVP-005, MVP-015  
-**Status:** Open
+**Status:** Resolved at capability level; selected service validation remains an implementation gate
 
 **Decision:** Use **Azure-managed HTTPS/CDN delivery layer** in front of the Azure Storage static website.
 
@@ -113,7 +113,7 @@ Azure Storage Static Website
 ### OR-005 — Public Resume Content
 
 **Affected requirements:** MVP-001, MVP-015  
-**Status:** Open pending Project Owner approval
+**Status:** Resolved at content-definition level; final owner approval remains a production acceptance gate
 
 **Question:** Which exact CV-derived information is approved for public publication?
 
@@ -133,7 +133,7 @@ Azure Storage Static Website
 
 ---
 
-## 3. P2 Open Requirements
+## 3. P2 Requirements
 
 These remain open in the authoritative register and may be resolved during implementation only where doing so does not bypass an affected acceptance or closure requirement.
 
@@ -269,7 +269,7 @@ Requirements closure remains blocked until the authoritative closure rule in `OP
 9. Final public resume content is approved.
 10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current closure status: NOT CLOSED.**
+**Current closure status: CLOSED for requirements definition.** Final production acceptance still requires implementation evidence, selected edge-service validation, and explicit owner approval of the final public HTML resume content.
 
 ---
 
