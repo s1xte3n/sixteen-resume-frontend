@@ -175,9 +175,9 @@ The exact Azure service/SKU is therefore not architecture-locked. It is selected
 | OR-007 | Define persistence behavior for the single logical visitor counter, including concurrency-safe increment semantics. | MVP-008, MVP-009 | Resolved |
 | OR-008 | Define GitHub Actions as the CI/CD deployment authority and required backend/frontend pipeline gates. | MVP-013, MVP-014 | Resolved |
 | OR-009 | Define the production release workflow and branch authority: feature/* → PR → CI → develop → production release → main. | MVP-013, MVP-014, MVP-015 | Resolved |
-| OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Open |
-| OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Open |
-| OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Open |
+| OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Resolved |
+| OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Resolved |
+| OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Resolved |
 
 ### OR-006 — Backend/API Contract
 
