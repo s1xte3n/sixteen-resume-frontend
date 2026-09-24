@@ -52,7 +52,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] CSS failure does not make the underlying resume content inaccessible.
 - [ ] No unapproved frontend framework is required for the MVP styling.
 
-**Blocking dependency:** OR-010 for the final browser/viewport baseline.
+**Browser baseline:** latest stable and immediately preceding major release of Chrome, Edge, Firefox, and Safari; viewports 375x667, 390x844, 768x1024, and 1440x900 CSS pixels.
 
 ## AC-004 — Azure Storage Static Website
 
@@ -175,7 +175,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Tests can execute repeatedly in the CI environment.
 - [ ] The selected testing framework is documented before final acceptance.
 
-**Implementation gate:** OR-006 remains deferred for final CI acceptance; implementation planning may proceed without treating it as a requirements-definition blocker.
+**Implementation gate:** the selected Python test framework must be documented and the CI test stage must execute before deployment.
 
 ## AC-012 — ARM Infrastructure as Code
 
@@ -257,7 +257,7 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] Final publishing platform(s) are documented.
 - [ ] No general-purpose blog application is introduced into the product.
 
-**Source-of-truth note:** the approved project state specifies Dev.to and Hashnode; older product documentation marked the platform undecided. This inconsistency must be normalized in `OPEN-REQUIREMENTS.md`/project documentation before final acceptance.
+**Source-of-truth note:** the approved project state specifies Dev.to + Hashnode. External project-learning links open in a new tab/window with `target="_blank"` and `rel="noopener noreferrer"`.
 
 ## 3. MVP Acceptance Gate
 
@@ -266,11 +266,12 @@ The MVP cannot be declared fully accepted until:
 - [ ] AC-001 through AC-016 all pass.
 - [ ] No P0 ambiguity remains.
 - [ ] OR-002 is resolved and its deviation from the literal challenge wording is documented.
-- [ ] OR-003 through OR-005 are explicitly resolved or formally accepted as documented deviations.
+- [ ] OR-003 through OR-005 are resolved at the requirements-definition level.
 - [ ] All deliberate deviations from the original challenge are documented.
 - [ ] The numeric cost ceiling is defined and verified.
 - [ ] Visitor-count semantics are verified against the resolved OR-001 definition.
 - [ ] Public hostname interpretation is defined as a FreeDNS hosted hostname/subdomain and verified in production.
 - [ ] HTTPS/CDN configuration and cost are validated.
 - [ ] Final public resume content is approved.
+- [ ] Browser, availability, DNS, and blog-link baselines are explicitly defined.
 - [ ] No hidden P1 ambiguity remains.
