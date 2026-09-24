@@ -18,7 +18,7 @@ This document identifies authoritative project documentation, product requiremen
 
 | Artifact | Purpose | Status | Source of Truth |
 |---|---|---|---|
-| `docs/product/PRD.md` | Complete product requirements and feature specifications | Complete draft; closure pending P1 decisions | Yes |
+| `docs/product/PRD.md` | Complete product requirements and feature specifications | Complete; requirements-definition closure complete | Yes |
 | `docs/product/USER-STORIES.md` | User stories and use cases mapped to requirements | Current | Yes |
 | `docs/product/ACCEPTANCE-CRITERIA.md` | Testable acceptance criteria and verification IDs | Current | Yes |
 | `docs/product/SCOPE.md` | MVP, P1/P2/P3 scope, exclusions, constraints | Current | Yes |
@@ -33,7 +33,7 @@ This document identifies authoritative project documentation, product requiremen
 
 | Artifact | Purpose | Status | Source of Truth |
 |---|---|---|---|
-| `docs/api/API-CONTRACT.md` | Canonical visitor-counter HTTP interface contract | Draft; implementation-ready wire contract, acceptance blocked by OR-001 | Yes |
+| `docs/api/API-CONTRACT.md` | Canonical visitor-counter HTTP interface contract | Frozen MVP interface; implementation evidence pending | Yes |
 | `docs/api/API-ENDPOINTS.md` | Public endpoint inventory | Current | Yes |
 | `docs/api/API-SCHEMAS.md` | Reusable request/response/error schemas | Current | Yes |
 | `docs/api/API-ERRORS.md` | Canonical HTTP/error-code contract | Current | Yes |
@@ -67,8 +67,8 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/architecture/ADR-003.md` | Cosmos DB persistence | Accepted |
 | `docs/architecture/ADR-004.md` | ARM and CI/CD architecture | Accepted |
 | `docs/architecture/ADR-005.md` | CI/CD security/authentication | Accepted in principle |
-| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Pending validation |
-| `docs/architecture/ADR-007.md` | Visitor-count semantics | Pending approval |
+| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Accepted at capability level; service validation pending |
+| `docs/architecture/ADR-007.md` | Visitor-count semantics | Accepted |
 
 ## 7. Canonical Repository Names
 
@@ -81,7 +81,7 @@ Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must 
 
 ## 8. Requirements System Status
 
-**Status: Requirements-definition baseline CLOSED; implementation evidence pending.**
+**Status: Requirements-definition baseline CLOSED; Phase 7 implementation evidence pending.**
 
 Coverage includes:
 
