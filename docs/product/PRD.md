@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Product | Cloud Resume Challenge — Azure |
-| Document status | Complete requirements draft; PRD closure pending explicit P1 decisions |
+| Document status | Baseline complete; implementation gate passed |
 | Primary users | Recruiters, hiring managers, technical interviewers |
 | Secondary users | Public visitors |
 | Product owner | Project Owner |

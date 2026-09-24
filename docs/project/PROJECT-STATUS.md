@@ -4,7 +4,7 @@
 
 ## Overall Status
 
-**Discovery complete — implementation not started**
+**Implementation gate closed for MVP design/implementation — implementation not yet started**
 
 The project requirements, scope, technology stack, constraints, repositories, resume source material, certification situation, and deployment target have been established.
 
@@ -21,13 +21,13 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure subscription | Complete | Existing subscription                            |
 | Azure region       | Complete | East US                                          |
 | Deployment count   | Complete | One deployment                                   |
-| Cost constraint    | Complete | R100/month recurring Azure ceiling; $0 required one-time purchase |
+| Cost constraint    | Complete | R100/month recurring Azure/cloud ceiling; R0/month preferred; paid domain excluded |
 | Security baseline  | Complete | Secrets, HTTPS, least privilege, API separation  |
 | Git workflow       | Complete | feature → PR → CI → develop → production release → main |
 | Repository plan    | Complete | Two repositories                                 |
 | DNS approach       | Complete | FreeDNS selected initially                       |
 | Certification      | Complete | AI-901 held; AZ-900 deviation documented         |
-| Resume content     | Complete | Public HTML candidate exists; owner approval pending |
+| Resume content     | Complete | Public HTML candidate exists; content-definition decision resolved; final owner approval remains a production acceptance gate |
 | Resume positioning | Complete | 4+ years hands-on development; Gijima role separately identified |
 | Blog platforms     | Complete | Dev.to + Hashnode                                |
 | Deadline           | Complete | 30 September 2026                                |
@@ -42,7 +42,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | CSS                        | Not started |
 | JavaScript visitor counter | Not started |
 | Azure Storage              | Not started |
-| Azure HTTPS/CDN delivery layer | Not selected — OR-004 open |
+| Azure HTTPS/CDN delivery layer | Capability architecture resolved; service selection pending implementation validation |
 | DNS hostname               | Not started |
 | Cosmos DB                  | Not started |
 | Azure Function             | Not started |
@@ -173,7 +173,7 @@ Status: **Active project target**
 
 The discovery phase is complete.
 
-The next phase is implementation planning and repository/bootstrap work, followed by incremental implementation and validation of each challenge requirement.
+The next phase is implementation: repository/bootstrap work followed by incremental implementation and validation of each challenge requirement. The final public resume content approval remains a production acceptance gate, not a requirements-definition blocker.
 
 
 ## OR-006–OR-009 Resolution Status
@@ -187,4 +187,4 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repository now contains a `develop` branch created from `main`. Implementation remains not started.
+The repository contains a `develop` branch created from `main`. Gate closure has been recorded in the project documentation; implementation remains not started.

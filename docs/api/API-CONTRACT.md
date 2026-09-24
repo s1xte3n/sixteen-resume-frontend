@@ -22,7 +22,7 @@ The following are frozen for implementation:
 - API base path: `/api`.
 - Counter operation: `GET /api/visitors`.
 - Public API requires no end-user authentication.
-- Production browser access is restricted by CORS to the approved resume origin; the production origin remains a deployment variable until OR-002/OR-004 are closed.
+- Production browser access is restricted by CORS to the approved resume origin; the production origin is derived from the approved FreeDNS hostname and selected delivery endpoint.
 - The request has no body.
 - The request does not require `Content-Type`.
 - Successful response is JSON with one required `count` field.
@@ -51,7 +51,7 @@ OR-001 is resolved. The API operation uses the approved visitor semantics: one s
 
 - End-user authentication: none.
 - Transport: HTTPS only in production.
-- Function-to-Cosmos authentication: server-side Azure-supported credential mechanism; exact mechanism is an infrastructure/security implementation decision.
+- Function-to-Cosmos authentication: Function managed identity with Cosmos DB for Table native data-plane RBAC as frozen by ADR-005.
 - Browser must never receive database credentials.
 
 ### Authorization
@@ -159,7 +159,7 @@ Production CORS:
 - Do not use `*` as the production allowed origin.
 - Do not allow credentials unless a new approved requirement introduces authenticated browser behavior.
 
-The final origin is intentionally not frozen until the public hostname/delivery decisions are resolved.
+The final origin is a deployment value derived from the approved FreeDNS hostname and selected delivery endpoint.
 
 ## 5. Versioning and Compatibility
 
@@ -184,14 +184,13 @@ The final origin is intentionally not frozen until the public hostname/delivery 
 | Security boundary | REQ-AZ-SEC-002, REQ-AZ-SEC-003 | SECURITY-ARCHITECTURE.md |
 | Visitor semantics | REQ-AZ-007..009 | ADR-007 / OR-001 |
 
-## 7. Freeze Gates
+## 7. Implementation/Acceptance Gates
 
-Before production acceptance, resolve:
+Before production acceptance:
 
-1. OR-004 — HTTPS/CDN and final production origin.
-2. OR-005 — final public resume content approval.
-3. OR-010 — browser support baseline.
-4. OR-011 — availability target, if required.
-5. OR-012 — DNS propagation/stability expectation.
+1. Validate the selected HTTPS/CDN service against ADR-006 and set the final production origin.
+2. Record final owner approval of the public HTML resume content.
+3. Execute the defined browser baseline.
+4. Apply the defined DNS propagation/stability acceptance.
 
-No unresolved gate may be silently implemented as a new requirement.
+These are implementation/acceptance evidence gates; they are not unresolved requirements-definition decisions.
