@@ -670,23 +670,26 @@ ADR-007	Visitor counting semantics	REQ-AZ-007..009
 
 # 20. Decisions That Must Be Frozen Before Implementation
 
-The following decisions materially affect architecture or acceptance and must be explicitly resolved:
+The following decisions are frozen for implementation:
 
 P1
 Visitor-count semantics.
-Free hostname/subdomain versus custom-domain interpretation.
-Final public resume content.
+FreeDNS hosted hostname/subdomain as the MVP public-hostname interpretation.
+Public resume content policy and editorial positioning.
 Repository naming normalization.
+HTTPS/CDN capability architecture with R100/month recurring cost ceiling.
+GitHub Actions OIDC authentication and managed-identity/RBAC backend access.
+
 P2
 Visitor-counter API contract.
 Counter failure UX.
 Python testing framework.
-Blog-platform interpretation.
-Supported browser baseline.
-Availability target, if one is required.
-DNS propagation expectation.
+Blog-platform interpretation: Dev.to + Hashnode.
+Browser baseline: latest stable and previous major of Chrome, Edge, Firefox, and Safari; viewports 375x667, 390x844, 768x1024, 1440x900.
+No formal production availability SLO.
+DNS acceptance within the documented FreeDNS default TTL window.
 
-These correspond to the requirement-quality findings in the canonical requirements matrix.
+Remaining items are implementation/acceptance evidence gates, not unresolved requirements-definition decisions.
 
 # 21. Architecture Constraints
 
@@ -707,19 +710,7 @@ No additional application features may be introduced without scope approval.
 
 # 22. Architecture Validation Gate
 
-Architecture is considered implementation-ready only when:
-
-All P0 architecture/security requirements are baselined.
-P1 architecture decisions are explicitly resolved.
-The HTTPS/CDN capability architecture is frozen under ADR-006.
-The hostname model is approved.
-The cost ceiling is numeric and fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and documented exclusions.
-Visitor semantics are defined.
-API contract is defined.
-Repository names are normalized.
-Public resume content is approved.
-
-Until then, affected components may be designed at the boundary level but must not be treated as implementation-locked.
+Architecture is considered implementation-ready when all P0/P1 architecture/security decisions are baselined, ADR-006 capability conditions are frozen, the hostname model and cost ceiling are defined, visitor semantics and API contract are frozen, repository names are normalized, and security authentication boundaries are explicit. Final public-content owner approval and selected edge-service validation remain production acceptance evidence gates.
 
 
 ---
