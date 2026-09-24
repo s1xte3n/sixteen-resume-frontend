@@ -22,7 +22,7 @@ The following are frozen for implementation:
 - API base path: `/api`.
 - Counter operation: `GET /api/visitors`.
 - Public API requires no end-user authentication.
-- Production browser access is restricted by CORS to the approved resume origin; the production origin remains a deployment variable until OR-002/OR-004 are closed.
+- Production browser access is restricted by CORS to the approved resume origin; the production origin is derived from the approved FreeDNS hostname and selected delivery endpoint.
 - The request has no body.
 - The request does not require `Content-Type`.
 - Successful response is JSON with one required `count` field.
@@ -51,7 +51,7 @@ OR-001 is resolved. The API operation uses the approved visitor semantics: one s
 
 - End-user authentication: none.
 - Transport: HTTPS only in production.
-- Function-to-Cosmos authentication: server-side Azure-supported credential mechanism; exact mechanism is an infrastructure/security implementation decision.
+- Function-to-Cosmos authentication: Function managed identity with Cosmos DB for Table native data-plane RBAC as frozen by ADR-005.
 - Browser must never receive database credentials.
 
 ### Authorization
