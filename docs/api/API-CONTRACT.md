@@ -159,7 +159,7 @@ Production CORS:
 - Do not use `*` as the production allowed origin.
 - Do not allow credentials unless a new approved requirement introduces authenticated browser behavior.
 
-The final origin is intentionally not frozen until the public hostname/delivery decisions are resolved.
+The final origin is a deployment value derived from the approved FreeDNS hostname and selected delivery endpoint.
 
 ## 5. Versioning and Compatibility
 
@@ -184,14 +184,13 @@ The final origin is intentionally not frozen until the public hostname/delivery 
 | Security boundary | REQ-AZ-SEC-002, REQ-AZ-SEC-003 | SECURITY-ARCHITECTURE.md |
 | Visitor semantics | REQ-AZ-007..009 | ADR-007 / OR-001 |
 
-## 7. Freeze Gates
+## 7. Implementation/Acceptance Gates
 
-Before production acceptance, resolve:
+Before production acceptance:
 
-1. OR-004 — HTTPS/CDN and final production origin.
-2. OR-005 — final public resume content approval.
-3. OR-010 — browser support baseline.
-4. OR-011 — availability target, if required.
-5. OR-012 — DNS propagation/stability expectation.
+1. Validate the selected HTTPS/CDN service against ADR-006 and set the final production origin.
+2. Record final owner approval of the public HTML resume content.
+3. Execute the defined browser baseline.
+4. Apply the defined DNS propagation/stability acceptance.
 
-No unresolved gate may be silently implemented as a new requirement.
+These are implementation/acceptance evidence gates; they are not unresolved requirements-definition decisions.
