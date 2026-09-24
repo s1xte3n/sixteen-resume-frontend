@@ -13,7 +13,7 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | PUBLIC_API_BASE_URL | Non-secret | URL | all | environment/CI | HTTPS outside local; no trailing slash | Placeholder only |
 | PUBLIC_API_PATH | Non-secret | path | all | API contract | Must be /api/visitors | Yes |
 | API_VERSION | Non-secret | string | all | API contract | v1 | Yes |
-| PUBLIC_HOSTNAME | Non-secret | hostname | production | DNS/delivery | Valid approved hostname; currently unresolved | Placeholder only |
+| PUBLIC_HOSTNAME | Non-secret | hostname | production | DNS/delivery | Valid approved FreeDNS hosted hostname; provisioned during implementation | Placeholder only |
 | CORS_ALLOWED_ORIGIN | Non-secret | origin URL | backend CI/prod | deployment config | Exact approved frontend origin; never * in prod | Placeholder only |
 | AZURE_RESOURCE_GROUP_NAME | Non-secret | string | Azure contexts | ARM | Azure naming rules | Yes if approved |
 | AZURE_STORAGE_ACCOUNT_NAME | Non-secret | string | Azure contexts | ARM/output | Azure naming rules | Yes if approved |
