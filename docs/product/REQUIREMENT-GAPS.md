@@ -27,7 +27,7 @@ These items are not silently resolved and do not become implementation tasks unt
 |---|---|---|---|---|---|
 | GAP-AZ-007 | OR-006 | API contract definition | REQ-AZ-009, REQ-AZ-010 | CLOSED | `GET /api/visitors`, request validation, response/error schemas, status semantics and CORS boundary are defined by API v1. |
 | GAP-AZ-008 | OR-009 | Failure UX definition | REQ-AZ-007, REQ-AZ-009 | CLOSED | Counter failure must not prevent resume rendering; exact presentation remains implementation detail unless promoted to a product requirement. |
-| GAP-AZ-009 | OR-006 | Implementation detail | REQ-AZ-011, REQ-AZ-013 | DEFERRED — implementation choice | Select the Python test framework during Phase 7 implementation. This does not block implementation because the test requirement itself is already defined. |
+| GAP-AZ-009 | OR-006 | Implementation detail | REQ-AZ-011, REQ-AZ-013 | CLOSED | Backend Python tests use pytest; CI must execute pytest before deployment. |
 | GAP-AZ-010 | OR-007 | Documentation inconsistency | REQ-AZ-016 | CLOSED | Dev.to and Hashnode are the approved publishing platforms. The project documentation must use this consistently. |
 | GAP-AZ-011 | OR-010 | Compatibility baseline | REQ-AZ-001, REQ-AZ-003, REQ-AZ-015 | CLOSED | Browser baseline is latest stable and immediately preceding major release of Chrome, Edge, Firefox and Safari; required viewports are 375x667, 390x844, 768x1024 and 1440x900 CSS pixels. |
 | GAP-AZ-012 | OR-011 | Availability requirement | REQ-AZ-015 | CLOSED | No formal production availability SLO is part of the MVP. |
@@ -49,20 +49,7 @@ rel="noopener noreferrer"
 
 ## 5. Missing / Weakly Testable Requirements
 
-The source requirements do not currently provide measurable definitions for:
-
-- Accessibility target.
-- Performance target.
-- Cache freshness target.
-- Availability SLO.
-- DNS propagation SLA.
-- Rollback expectation.
-- Monitoring/alerting requirement.
-- Exact blog article minimum content/length.
-- Exact minimum resume sections.
-- Counter failure UX.
-
-These are recorded rather than invented.
+The source requirements intentionally do not provide formal measurable targets for accessibility, performance, cache freshness, rollback, monitoring/alerting, article length, or minimum resume section count. These must not be invented as product requirements. Availability, DNS acceptance, browser baseline, API contract, and counter failure behavior are already defined elsewhere in the canonical requirements and acceptance artifacts.
 
 ## 6. Deliberate Deviation
 
@@ -81,7 +68,7 @@ The original challenge calls for AZ-900 or an advanced Azure certification. The 
 Historical documentation referenced `docs/project/OPEN-QUESTIONS.md`, while the canonical project artifact is `docs/project/UNRESOLVED-QUESTIONS.md`.
 
 **Classification:** Documentation inconsistency.
-**Status:** OPEN until all references are normalized.
+**Status:** CLOSED — the canonical artifact is `docs/project/UNRESOLVED-QUESTIONS.md`; remaining historical references must be treated as documentation cleanup only.
 
 ## 8. Duplicate / Overlapping Requirement Findings
 
