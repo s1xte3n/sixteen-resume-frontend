@@ -135,7 +135,7 @@ Azure Storage Static Website
 
 ## 3. Resolved P2 Decisions
 
-These remain open in the authoritative register and may be resolved during implementation only where doing so does not bypass an affected acceptance or closure requirement.
+All P2 decisions listed here are resolved. Their implementation and acceptance evidence remains governed by the requirements, architecture, API contract, and release gates.
 
 ### OR-006 — Backend/API Contract
 
@@ -196,9 +196,9 @@ The intended workflow is:
 ### OR-010 — Browser Support
 
 **Affected requirements:** MVP-001, MVP-003, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-The requirements say supported modern browsers/common desktop and mobile viewports but do not provide a version matrix. A final compatibility test baseline is required before objective acceptance.
+The MVP browser baseline is the latest stable release and immediately preceding major release of Chrome, Edge, Firefox, and Safari available at test execution; viewports are 375x667, 390x844, 768x1024, and 1440x900 CSS pixels.
 
 ---
 
@@ -214,7 +214,7 @@ No formal production availability SLO is part of the MVP. Acceptance uses the de
 ### OR-012 — DNS Propagation
 
 **Affected requirements:** MVP-006, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
 A DNS change is accepted when the authoritative FreeDNS nameserver returns the intended record and independent public recursive resolvers return the intended record within the provider's documented default TTL window of 1 hour.
 
