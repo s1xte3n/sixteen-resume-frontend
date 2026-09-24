@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **CLOSED**. OR-001 through OR-013 are resolved at the requirements-definition level. Final service validation and owner content approval remain implementation/production-acceptance gates.
+> **Current status:** Requirements closure is **CLOSED**. OR-001 through OR-013 are resolved at the requirements-definition level. Final service selection/validation, owner content approval, infrastructure deployment, and production evidence remain implementation/production-acceptance gates.
 
 ## 1. Reconciliation Rules
 
@@ -98,7 +98,7 @@ Azure Storage Static Website
 
 **CDN/delivery:** Azure-managed HTTPS/CDN delivery layer provides the required edge/CDN delivery layer.
 
-**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure ceiling is $40/month.
+**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure/cloud ceiling is R100/month.
 
 **Production validation:** Deployment evidence must verify the actual Front Door SKU, hostname, HTTPS certificate, origin, and total estimated/observed billing remain within the approved ceiling.
 
@@ -133,7 +133,7 @@ Azure Storage Static Website
 
 ---
 
-## 3. P2 Requirements
+## 3. Resolved P2 Decisions
 
 These remain open in the authoritative register and may be resolved during implementation only where doing so does not bypass an affected acceptance or closure requirement.
 
@@ -205,9 +205,9 @@ The requirements say supported modern browsers/common desktop and mobile viewpor
 ### OR-011 — Availability Target
 
 **Affected requirements:** MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-No formal availability SLO is currently approved. The product must not claim an uptime target that is not defined by the project.
+No formal production availability SLO is part of the MVP. Acceptance uses the defined functional, security, deployment, DNS, HTTPS, and cost criteria.
 
 ---
 
@@ -216,17 +216,17 @@ No formal availability SLO is currently approved. The product must not claim an 
 **Affected requirements:** MVP-006, MVP-015  
 **Status:** Open
 
-DNS acceptance needs a defined expectation for propagation/stability if timing is to be tested objectively.
+A DNS change is accepted when the authoritative FreeDNS nameserver returns the intended record and independent public recursive resolvers return the intended record within the provider's documented default TTL window of 1 hour.
 
 ---
 
-## 4. P3 Open Requirements
+## 4. Resolved P3 Decision
 
 ### OR-013 — Blog Link Behavior
 
-**Status:** Open
+**Status:** Resolved
 
-The project has not specified whether the project-learning link opens in the same tab or a new tab. This is a minor UX detail and does not block requirements closure unless explicitly promoted.
+Project-learning links open in a new browser tab/window using `target="_blank"` with `rel="noopener noreferrer"`.
 
 ---
 
