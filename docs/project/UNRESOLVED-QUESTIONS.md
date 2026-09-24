@@ -254,24 +254,18 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 
 ---
 
-## 6. Requirements Closure Blockers
+## 6. Requirements Closure Status
 
-Requirements closure remains blocked until the authoritative closure rule in `OPEN-REQUIREMENTS.md` is satisfied:
+Requirements-definition closure is **CLOSED**. The closure conditions are satisfied:
 
 1. Every MVP feature has testable acceptance criteria and a verification ID.
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
-4. All deliberate deviations from the original challenge are documented.
-5. The numeric cost constraint is defined.
-6. Visitor-count semantics are defined.
-7. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration is validated.
-9. Final public resume content is approved.
-10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
+4. Deliberate deviations from the original challenge are documented.
+5. The numeric cost constraint is fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and approved exclusions.
+6. Visitor-count semantics, public-hostname interpretation, API behavior, persistence behavior, browser baseline, DNS acceptance, CI/CD authority, and production branch authority are defined.
 
-**Current closure status: CLOSED for requirements definition.** Final production acceptance still requires implementation evidence, selected edge-service validation, and explicit owner approval of the final public HTML resume content.
-
----
+The remaining items are implementation or production-acceptance evidence gates: final public HTML owner approval, exact edge-service/SKU validation, hostname provisioning, infrastructure deployment, concurrency-safe persistence evidence, CI/CD implementation, and production deployment evidence.
 
 ## 7. Resolved Context — Not Open Questions
 
