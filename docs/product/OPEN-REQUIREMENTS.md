@@ -167,7 +167,7 @@ The exact Azure service/SKU is therefore not architecture-locked. It is selected
 
 **Status:** Resolved.
 
-## 4. P2 Open Requirements
+## 4. P2 Requirements
 
 | ID | Requirement / ambiguity | Affected requirements | Status |
 |---|---|---|---|
@@ -175,9 +175,9 @@ The exact Azure service/SKU is therefore not architecture-locked. It is selected
 | OR-007 | Define persistence behavior for the single logical visitor counter, including concurrency-safe increment semantics. | MVP-008, MVP-009 | Resolved |
 | OR-008 | Define GitHub Actions as the CI/CD deployment authority and required backend/frontend pipeline gates. | MVP-013, MVP-014 | Resolved |
 | OR-009 | Define the production release workflow and branch authority: feature/* → PR → CI → develop → production release → main. | MVP-013, MVP-014, MVP-015 | Resolved |
-| OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Open |
-| OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Open |
-| OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Open |
+| OR-010 | Define supported browser/version and viewport baseline. | MVP-001, MVP-003, MVP-015 | Resolved |
+| OR-011 | Define whether a formal production availability/SLO target is required. | MVP-015 | Resolved |
+| OR-012 | Define DNS propagation/stability expectation for acceptance. | MVP-006, MVP-015 | Resolved |
 
 ### OR-006 — Backend/API Contract
 
@@ -257,21 +257,29 @@ The project repository workflow is therefore feature branches into `develop`, fo
 
 ### OR-010 — Browser Support
 
-The requirements say supported modern browsers/common desktop and mobile viewports but do not provide a version matrix. A final compatibility test baseline is required before objective acceptance.
+**Decision:** The MVP browser baseline is the latest stable release and immediately preceding major release of Chrome, Edge, Firefox, and Safari available at test execution. Viewports: 375x667, 390x844, 768x1024, and 1440x900 CSS pixels.
+
+**Status:** Resolved.
 
 ### OR-011 — Availability Target
 
-No formal availability SLO is currently approved. The product must not claim an uptime target that is not defined by the project.
+**Decision:** No formal production uptime SLO is part of the MVP. The project must not publish an uptime claim; acceptance uses the defined functional, security, deployment, DNS, HTTPS, and cost criteria.
+
+**Status:** Resolved.
 
 ### OR-012 — DNS Propagation
 
-DNS acceptance needs a defined expectation for propagation/stability if timing is to be tested objectively.
+**Decision:** A DNS change is accepted when the authoritative FreeDNS nameserver returns the intended record and independent public recursive resolvers return the intended record within the provider's documented default TTL window of 1 hour. Validation records resolver evidence. FreeDNS documents a default 3600-second TTL and cache expiry behavior.
 
-## 5. P3 Open Requirements
+**Status:** Resolved.
+
+## 5. P3 Requirements
 
 ### OR-013 — Blog Link Behavior
 
-The project has not specified whether the project-learning link opens in the same tab or a new tab. This is a minor UX detail and does not block requirements closure unless explicitly promoted.
+**Decision:** Project-learning links open in a new browser tab/window using `target="_blank"` with `rel="noopener noreferrer"`.
+
+**Status:** Resolved.
 
 ## 6. Contradictions
 
@@ -357,4 +365,4 @@ The PRD phase is closed only when:
 8. The public resume content policy and editorial positioning are approved, and the final public HTML content is explicitly approved before production acceptance.
 9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
-**Current status: OR-001 through OR-009 are resolved. OR-010 through OR-013 remain open. Final public HTML content approval remains an acceptance gate for AC-001/VT-001 and production acceptance.**
+**Current status: OR-001 through OR-013 are resolved at the requirements-definition level. Final public HTML owner approval, selected edge-service validation, and implementation evidence remain production acceptance gates.**

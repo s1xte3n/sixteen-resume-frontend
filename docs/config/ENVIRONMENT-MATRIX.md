@@ -8,7 +8,7 @@ There is one actual Azure deployment environment: **Production**. Local, dev, te
 |---|---|---|---|---|---|
 | Azure deployment | No | No | No | No | **Yes** |
 | Purpose | Developer execution | Integration/Git context | Automated verification | Optional pre-release validation context | Public service |
-| Public hostname | No | No | No | No | Required |
+| Public hostname | No | No | No | No | Required (FreeDNS hosted hostname) |
 | HTTPS | Optional | N/A | N/A | If exercised | Required |
 | Exact production CORS | No | No | No | If API exercised | Required |
 | Visitor API | Local/mocked | Optional integration | Required for contract tests | If exercised | Required |
@@ -49,7 +49,8 @@ East US; public HTTPS; approved hostname; exact CORS origin; Azure Storage stati
 5. API contract validation passes where applicable.
 6. No unresolved P1 decision is silently overridden.
 7. Production configuration exists in the secure deployment context.
-8. Hostname/CORS/CDN decisions are approved.
-9. Public resume content is approved.
+8. Hostname/CORS/CDN capability decisions are approved and the selected delivery service passes implementation validation.
+9. Public resume content definition is resolved; final owner approval is required before production acceptance.
+10. OIDC deployment identity and Function managed-identity/RBAC configuration are validated.
 
 Environment differences must be configuration, not code forks. Production values must not be copied into test data.

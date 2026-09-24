@@ -8,14 +8,14 @@ Canonical inventory and handling rules. **No secret values are stored here.**
 
 | Logical secret | Status | Source | Consumer | Rotation/owner | Commit |
 |---|---|---|---|---|---|
-| AZURE_CLIENT_SECRET | Conditional | GitHub Actions secret/Azure secure mechanism | CI/CD if client-secret auth selected | Identity/deployment owner | **Never** |
-| COSMOS_CONNECTION_STRING | Conditional | Azure/GitHub secure store | Function/integration tests if selected | Database owner | **Never** |
-| COSMOS_ACCOUNT_KEY | Conditional | Azure/GitHub secure store | Function/integration tests if selected | Database owner; rotate on exposure | **Never** |
-| AZURE_STORAGE_CONNECTION_STRING | Conditional | GitHub Actions secret | Frontend CI if selected | Frontend deployment owner | **Never** |
+| AZURE_CLIENT_SECRET | Not used | N/A | None | N/A; OIDC federation is required | **Never** |
+| COSMOS_CONNECTION_STRING | Not used | N/A | None | N/A; Function managed identity + Cosmos RBAC | **Never** |
+| COSMOS_ACCOUNT_KEY | Not used | N/A | None | N/A; Function managed identity + Cosmos RBAC | **Never** |
+| AZURE_STORAGE_CONNECTION_STRING | Not used | N/A | None | N/A; frontend CI uses federated Azure identity | **Never** |
 | Azure Function platform secrets | Platform-managed | Azure | Function runtime | Azure/resource owner | **Never** |
 | Future deployment token | Conditional | GitHub/Azure secure store | CI/CD only | Deployment owner | **Never** |
 
-The authentication mechanism is not yet frozen. Do not create credentials merely because a conditional name is listed.
+Authentication is frozen by ADR-005: GitHub Actions uses OIDC workload identity federation; the Function uses managed identity with Cosmos DB for Table native data-plane RBAC. Do not create long-lived Azure client secrets, Cosmos keys, or Storage connection strings.
 
 ## Non-secret identifiers
 
