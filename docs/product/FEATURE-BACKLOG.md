@@ -48,27 +48,27 @@ Ambiguous or blocked requirements are recorded in `REQUIREMENT-GAPS.md` and are 
 **Verification:** VT-012, VT-IAC-001  
 **Acceptance:** Required infrastructure is represented in source-controlled ARM and normal provisioning does not depend on undocumented manual production configuration.
 
-## 3. Blocked / Deferred Requirements — Not Tasks
+## 3. Acceptance-Gated Requirements / Implementation Dependencies
 
 | Requirement | Blocking decision/dependency | Status |
 |---|---|---|
-| REQ-AZ-001 | OR-005 final public-content approval | BLOCKED |
-| REQ-AZ-005 | OR-003 cost ceiling; OR-004 delivery validation | BLOCKED |
-| REQ-AZ-006 | OR-002 hostname interpretation; delivery validation | BLOCKED |
-| REQ-AZ-007 | OR-001 visitor semantics; OR-008 API contract; OR-009 failure UX | BLOCKED |
-| REQ-AZ-008 | OR-001; OR-008 | BLOCKED |
-| REQ-AZ-009 | OR-008 API contract | BLOCKED |
-| REQ-AZ-011 | OR-006 testing framework | DEFERRED |
-| REQ-AZ-013 | REQ-AZ-011 plus repository/branch/authentication normalization | BLOCKED |
-| REQ-AZ-014 | delivery configuration plus repository/branch normalization | BLOCKED |
-| REQ-AZ-015 | Upstream P1 requirements | BLOCKED |
-| REQ-AZ-016 | OR-007 blog publication interpretation | DEFERRED |
+| REQ-AZ-001 | Final public-content owner approval | ACCEPTANCE GATE |
+| REQ-AZ-005 | Edge-service validation and cost evidence | ACCEPTANCE GATE |
+| REQ-AZ-006 | Hostname provisioning and delivery validation | ACCEPTANCE GATE |
+| REQ-AZ-007 | Implement approved visitor semantics and failure behavior | IMPLEMENTATION |
+| REQ-AZ-008 | Implement concurrency-safe persistence | IMPLEMENTATION |
+| REQ-AZ-009 | Implement and test frozen API contract | IMPLEMENTATION |
+| REQ-AZ-011 | pytest suite and CI execution | IMPLEMENTATION |
+| REQ-AZ-013 | Backend GitHub Actions and secure deployment identity | IMPLEMENTATION |
+| REQ-AZ-014 | Frontend GitHub Actions and edge-cache publication flow | IMPLEMENTATION |
+| REQ-AZ-015 | Complete production integration and acceptance evidence | ACCEPTANCE GATE |
+| REQ-AZ-016 | Publish and validate Dev.to/Hashnode learning article | IMPLEMENTATION / ACCEPTANCE |
 
 ## 4. Cross-Cutting Controls
 
 REQ-AZ-SEC-001 and REQ-AZ-SEC-002 are mandatory controls for all implementation work. They are not standalone feature tasks; every relevant change must preserve them.
 
-REQ-AZ-015 remains a production acceptance gate and must not be converted into an implementation task while its dependencies are unresolved.
+REQ-AZ-015 remains a production acceptance gate. Its implementation dependencies are now defined and may be executed during Phase 7.
 
 ## 5. Backlog Entry Rule
 
