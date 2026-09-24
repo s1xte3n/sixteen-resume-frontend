@@ -115,18 +115,18 @@ Coverage now includes:
 - OR-012 — DNS propagation/stability expectation.
 - OR-013 — Blog link tab behavior.
 
-## 11. Testing Artifact Status
+## 11. Testing Artifacts
 
 | Artifact | Status |
 |---|---|
-| `docs/testing/TEST-STRATEGY.md` | Complete draft; implementation evidence pending |
-| `docs/testing/TEST-MATRIX.md` | Complete canonical matrix |
-| `docs/testing/TEST-DATA-PLAN.md` | Complete synthetic-data plan |
-| `docs/testing/TEST-CASES.md` | Complete detailed case catalogue |
+| `docs/testing/TEST-STRATEGY.md` | Complete — execution evidence pending |
+| `docs/testing/TEST-MATRIX.md` | Complete |
+| `docs/testing/TEST-DATA-PLAN.md` | Complete |
+| `docs/testing/TEST-CASES.md` | Complete — execution pending |
 | `docs/testing/TEST-PRIORITIES.md` | Complete |
 | `docs/testing/RELEASE-GATES.md` | Complete |
-| `tests/postman/sixteen-resume-API.postman_collection.json` | Complete contract/negative collection; execution evidence pending |
-| `tests/postman/sixteen-resume-environment-template.json` | Updated; non-secret template |
+| `tests/postman/sixteen-resume-API.postman_collection.json` | Complete — execution evidence pending |
+| `tests/postman/sixteen-resume-environment-template.json` | Complete |
 
 ## 11. Implementation Artifact Status
 
