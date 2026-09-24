@@ -29,10 +29,10 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | AZURE_SUBSCRIPTION_ID | Identifier | UUID | CI/CD | GitHub variable/context | Approved subscription UUID | Value no |
 | AZURE_TENANT_ID | Identifier | UUID | CI/CD | GitHub variable/context | Tenant UUID | Value no |
 | AZURE_CLIENT_ID | Identifier | UUID | CI/CD if selected | GitHub variable/context | Client UUID | Value no |
-| AZURE_CLIENT_SECRET | Secret, conditional | string | CI/CD if client-secret auth selected | GitHub secret | Non-empty; masked | **No** |
-| COSMOS_CONNECTION_STRING | Secret, conditional | string | backend if selected | Azure/GitHub secure store | Non-empty; masked | **No** |
-| COSMOS_ACCOUNT_KEY | Secret, conditional | string | backend if selected | Azure/GitHub secure store | Non-empty; masked | **No** |
-| AZURE_STORAGE_CONNECTION_STRING | Secret, conditional | string | frontend CI if selected | GitHub secret | Non-empty; masked | **No** |
+| AZURE_CLIENT_SECRET | Secret | N/A | None | Not used; OIDC is required | Must not exist | **No** |
+| COSMOS_CONNECTION_STRING | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |
+| COSMOS_ACCOUNT_KEY | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |
+| AZURE_STORAGE_CONNECTION_STRING | Secret | N/A | None | Not used; frontend CI uses federated Azure identity | Must not exist | **No** |
 
 ## Contract constraints
 
@@ -40,7 +40,7 @@ VC-001 is GET /api/visitors, accepts no request body or query/path parameters, a
 
 ## Authentication note
 
-The architecture has not frozen the GitHub-to-Azure or Function-to-Cosmos authentication mechanism. Conditional secret names above are inventory entries, not a decision to use those mechanisms. Prefer the least-secret supported mechanism after ADR-005 is frozen.
+ADR-005 is frozen: GitHub Actions uses OIDC workload identity federation with a dedicated Entra user-assigned managed identity; the Function uses its managed identity with Cosmos DB for Table native data-plane RBAC. `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are identifiers required by the OIDC login configuration and are not secrets. Long-lived client secrets, Cosmos keys, and Storage connection strings are not part of the approved runtime path.
 
 ## Ownership
 
