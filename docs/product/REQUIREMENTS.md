@@ -37,12 +37,12 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-008 | Visitor-counter state must persist in Azure Cosmos DB Table API and survive normal frontend/backend deployments. | P1 | BASELINED | REQ-AZ-009, REQ-AZ-010; OR-008 | Cosmos DB, Function | AC-008 | VT-008 |
 | REQ-AZ-009 | Browser must communicate with the visitor counter through an Azure Function HTTP API rather than directly with Cosmos DB. | P1 | BASELINED | REQ-AZ-008, REQ-AZ-010; OR-008 | API, JavaScript, Function | AC-009 | VT-009 |
 | REQ-AZ-010 | Visitor-counter processing must run on Python Azure Functions with only required data-access permissions. | P1 | BASELINED | REQ-AZ-008, REQ-AZ-009 | Function, Python | AC-010 | VT-010 |
-| REQ-AZ-011 | Automated Python tests must execute before production backend deployment and results must be visible in CI. | P1 | DEFERRED | REQ-AZ-010, REQ-AZ-013; OR-006 | Tests, GitHub Actions | AC-011 | VT-011 |
+| REQ-AZ-011 | Automated Python tests must execute before production backend deployment and results must be visible in CI. | P1 | BASELINED | REQ-AZ-010, REQ-AZ-013; OR-006 | Tests, GitHub Actions | AC-011 | VT-011 |
 | REQ-AZ-012 | Required Azure infrastructure must be represented in source-controlled ARM templates and provisionable without undocumented manual production configuration. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-005, REQ-AZ-008, REQ-AZ-010 | ARM, Azure resources | AC-012 | VT-012 |
 | REQ-AZ-013 | Backend code and infrastructure must use the canonical dedicated GitHub repository and CI/CD workflow that tests before production deployment. | P1 | BASELINED | REQ-AZ-011, REQ-AZ-012; repository state/authentication | Backend repo, Actions, Azure | AC-013 | VT-013 |
 | REQ-AZ-014 | Frontend code must use the canonical dedicated GitHub repository and CI/CD workflow that publishes approved production changes to Azure Storage. | P1 | BASELINED | REQ-AZ-004, REQ-AZ-005; repository/delivery configuration | Frontend repo, Actions, Storage/CDN | AC-014 | VT-014 |
 | REQ-AZ-015 | Public production deployment must integrate approved resume, HTTPS, hostname, counter, IaC, security controls, and cost constraint. | P0 | BASELINED | REQ-AZ-001..014; OR-001, OR-002, OR-004, OR-005 | Entire product | AC-015 | VT-015 |
-| REQ-AZ-016 | Resume must link to a publicly reachable project-learning article describing lessons learned. | P2 | DEFERRED | REQ-AZ-001; OR-007 | Resume, external article | AC-016 | VT-016 |
+| REQ-AZ-016 | Resume must link to a publicly reachable project-learning article describing lessons learned. | P2 | BASELINED | REQ-AZ-001; OR-007 | Resume, external article | AC-016 | VT-016 |
 
 ## 4. Cross-Cutting Requirements
 
@@ -51,10 +51,10 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | REQ-AZ-SEC-001 | Azure credentials and secrets must never be committed to source control. | P0 | BASELINED | CI/CD configuration | Git repositories, Actions | VT-SEC-001 |
 | REQ-AZ-SEC-002 | Browser JavaScript must never directly access Cosmos DB. | P0 | BASELINED | REQ-AZ-009 | Browser, API, Cosmos DB | VT-SEC-002 |
 | REQ-AZ-SEC-003 | Deployment identities must use only permissions required for their responsibilities. | P1 | BASELINED | REQ-AZ-012, REQ-AZ-013, REQ-AZ-014 | GitHub Actions, Azure IAM | VT-SEC-003 |
-| REQ-AZ-SEC-004 | Public production traffic must use HTTPS. | P0 | BLOCKED | REQ-AZ-005; OR-004 | Delivery layer | VT-SEC-004 |
+| REQ-AZ-SEC-004 | Public production traffic must use HTTPS. | P0 | BASELINED | REQ-AZ-005; OR-004 | Delivery layer | VT-SEC-004 |
 | REQ-AZ-COST-001 | Services and infrastructure must remain within the approved numeric project cost ceiling of R100/month recurring Azure/cloud cost; R0/month is preferred and approved exclusions apply. | P1 | BASELINED | OR-003 (resolved) | Azure services, delivery | VT-COST-001 |
 | REQ-AZ-REG-001 | Azure resources must target East US unless an approved change is recorded. | P2 | BASELINED | ARM configuration | Azure resources | VT-REG-001 |
-| REQ-AZ-GIT-001 | `develop` is development/integration and `main` is production. | P1 | BLOCKED | Repository state normalization | GitHub repositories | VT-GIT-001 |
+| REQ-AZ-GIT-001 | `develop` is development/integration and `main` is production. | P1 | BASELINED | Repository state normalization | GitHub repositories | VT-GIT-001 |
 | REQ-AZ-DEV-001 | Production infrastructure must be reproducible from source-controlled IaC. | P1 | BASELINED | REQ-AZ-012 | ARM, Azure | VT-IAC-001 |
 
 ## 5. Deliberate Deviation
@@ -70,11 +70,11 @@ This is the canonical traceability baseline derived from `docs/product/PRD.md`. 
 | QF-001 | Visitor semantics resolved: one successfully committed counter operation per top-level resume page load, with concurrency-safe increments. | REQ-AZ-007..009, REQ-AZ-015 | RESOLVED / OR-001 |
 | QF-002 | Free hostname versus original custom-domain interpretation is a deliberate scoped deviation. | REQ-AZ-006, REQ-AZ-015 | RESOLVED / OR-002 |
 | QF-003 | Numeric cost ceiling was previously undefined. | REQ-AZ-005, REQ-AZ-006, REQ-AZ-012, REQ-AZ-015 | RESOLVED / OR-003 |
-| QF-004 | Exact HTTPS/CDN configuration and cost suitability are unvalidated. | REQ-AZ-005, REQ-AZ-015 | OPEN / implementation validation remains |
-| QF-005 | Final public CV subset is not approved. | REQ-AZ-001, REQ-AZ-015 | OPEN / acceptance approval remains |
-| QF-006 | Historical repository names conflict with canonical names. | REQ-AZ-013, REQ-AZ-014 | OPEN |
-| QF-007 | Blog-platform documentation requires normalization. | REQ-AZ-016 | OPEN / OR-007 |
-| QF-008 | Artifact-index filename references must use `UNRESOLVED-QUESTIONS.md`. | Documentation | OPEN |
+| QF-004 | Exact HTTPS/CDN service/SKU and cost suitability require implementation validation against resolved OR-004 capability conditions. | REQ-AZ-005, REQ-AZ-015 | IMPLEMENTATION GATE |
+| QF-005 | Public content definition is resolved; final owner approval of the complete HTML artifact remains a production acceptance gate. | REQ-AZ-001, REQ-AZ-015 | ACCEPTANCE GATE |
+| QF-006 | Historical repository names are normalized to canonical `sixteen-resume-frontend` and `sixteen-resume-backend`. | REQ-AZ-013, REQ-AZ-014 | RESOLVED |
+| QF-007 | Blog-platform direction is normalized to Dev.to + Hashnode. | REQ-AZ-016 | RESOLVED |
+| QF-008 | Artifact-index filename references use `UNRESOLVED-QUESTIONS.md`. | Documentation | RESOLVED |
 
 ## 7. Requirement Rules
 
