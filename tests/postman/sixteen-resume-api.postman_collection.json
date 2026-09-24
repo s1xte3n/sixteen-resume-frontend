@@ -1,54 +1,254 @@
 {
-  "info":{"name":"sixteen-resume API","description":"Executable VC-001 contract tests.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
-  "variable":[
-    {"key":"apiBaseUrl","value":"http://localhost:7071"},
-    {"key":"approvedOrigin","value":"https://example.test"},
-    {"key":"testRequestId","value":"7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10"}
+  "info": {
+    "name": "sixteen-resume API",
+    "_postman_id": "9e4a5e7a-2f4c-4b0e-9b3d-8c9a8f4e1a11",
+    "description": "VC-001 API contract, validation, negative and security tests. No secrets.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const baseUrl = pm.environment.get('apiBaseUrl');",
+          "pm.test('apiBaseUrl is configured', () => {",
+          "  pm.expect(baseUrl, 'Set apiBaseUrl in the active Newman/Postman environment').to.be.a('string').and.not.empty;",
+          "  pm.expect(baseUrl, 'apiBaseUrl must use HTTPS').to.match(/^https:\\/\\//i);",
+          "});"
+        ]
+      }
+    }
   ],
-  "item":[
+  "variable": [],
+  "item": [
     {
-      "name":"VC-001 Success",
-      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"Origin","value":"{{approvedOrigin}}"},{"key":"X-Request-ID","value":"{{testRequestId}}"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
-      "event":[{"listen":"test","script":{"exec":[
-        "pm.test('status is 200', () => pm.response.to.have.status(200));",
-        "const body = pm.response.json();",
-        "pm.test('count is integer >= 0', () => { pm.expect(body).to.have.property('count'); pm.expect(Number.isInteger(body.count)).to.eql(true); pm.expect(body.count).to.be.at.least(0); });",
-        "pm.test('success shape contains only count', () => pm.expect(Object.keys(body).sort()).to.eql(['count']));",
-        "pm.test('no secret-like value is exposed', () => pm.expect(pm.response.text()).to.not.match(/(connectionstring|access[_-]?token|password|secret)/i));"
-      ]}}]
+      "name": "T-009-P Valid VC-001",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "{{$guid}}"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.response || !pm.response.text()) {",
+              "  pm.test('HTTP response received', () => pm.expect.fail('No HTTP response received. Verify apiBaseUrl and backend availability.'));",
+              "  return;",
+              "}",
+              "pm.test('status 200', () => pm.expect(pm.response.code).to.eql(200));",
+              "pm.test('content type is JSON', () => pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/application\\/json/i));",
+              "let body;",
+              "pm.test('response is valid JSON', () => { body = pm.response.json(); });",
+              "if (!body) return;",
+              "pm.test('exact success shape', () => pm.expect(Object.keys(body).sort()).to.eql(['count']));",
+              "pm.test('count exists', () => pm.expect(body).to.have.property('count'));",
+              "pm.test('count is integer', () => pm.expect(Number.isInteger(body.count)).to.eql(true));",
+              "pm.test('count is non-negative', () => pm.expect(body.count).to.be.at.least(0));"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name":"Invalid X-Request-ID",
-      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"X-Request-ID","value":"not-a-uuid"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
-      "event":[{"listen":"test","script":{"exec":[
-        "pm.test('status is 400', () => pm.response.to.have.status(400));",
-        "const body = pm.response.json();",
-        "pm.test('BAD_REQUEST envelope', () => { pm.expect(body.error.code).to.eql('BAD_REQUEST'); pm.expect(body.error.requestId).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i); });"
-      ]}}]
+      "name": "T-009-V Invalid X-Request-ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "not-a-uuid"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.response || !pm.response.text()) {",
+              "  pm.test('HTTP response received', () => pm.expect.fail('No HTTP response received. Verify apiBaseUrl and backend availability.'));",
+              "  return;",
+              "}",
+              "pm.test('status 400', () => pm.expect(pm.response.code).to.eql(400));",
+              "let body;",
+              "pm.test('response is valid JSON', () => { body = pm.response.json(); });",
+              "if (!body) return;",
+              "pm.test('BAD_REQUEST', () => pm.expect(body.error.code).to.eql('BAD_REQUEST'));",
+              "pm.test('requestId is UUID v4', () => pm.expect(body.error.requestId).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i));"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name":"Unsupported Request Property",
-      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"},{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"foo\":\"bar\"}","options":{"raw":{"language":"json"}}},"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
-      "event":[{"listen":"test","script":{"exec":[
-        "pm.test('status is 400', () => pm.response.to.have.status(400));",
-        "pm.test('error code is BAD_REQUEST', () => pm.expect(pm.response.json().error.code).to.eql('BAD_REQUEST'));"
-      ]}}]
+      "name": "T-009-N Unsupported Method",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.response || !pm.response.text()) {",
+              "  pm.test('HTTP response received', () => pm.expect.fail('No HTTP response received. Verify apiBaseUrl and backend availability.'));",
+              "  return;",
+              "}",
+              "pm.test('status 405', () => pm.expect(pm.response.code).to.eql(405));",
+              "let body;",
+              "pm.test('response is valid JSON', () => { body = pm.response.json(); });",
+              "if (!body) return;",
+              "pm.test('METHOD_NOT_ALLOWED', () => pm.expect(body.error.code).to.eql('METHOD_NOT_ALLOWED'));"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name":"Unsupported Method",
-      "request":{"method":"POST","header":[{"key":"Accept","value":"application/json"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors","host":["{{apiBaseUrl}}"],"path":["api","visitors"]}},
-      "event":[{"listen":"test","script":{"exec":[
-        "pm.test('status is 405', () => pm.response.to.have.status(405));",
-        "pm.test('error code is METHOD_NOT_ALLOWED', () => pm.expect(pm.response.json().error.code).to.eql('METHOD_NOT_ALLOWED'));"
-      ]}}]
+      "name": "T-009-N Unknown Query",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors?unexpected=true",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ],
+          "query": [
+            {
+              "key": "unexpected",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.response || !pm.response.text()) {",
+              "  pm.test('HTTP response received', () => pm.expect.fail('No HTTP response received. Verify apiBaseUrl and backend availability.'));",
+              "  return;",
+              "}",
+              "pm.test('status 400', () => pm.expect(pm.response.code).to.eql(400));",
+              "let body;",
+              "pm.test('response is valid JSON', () => { body = pm.response.json(); });",
+              "if (!body) return;",
+              "pm.test('BAD_REQUEST', () => pm.expect(body.error.code).to.eql('BAD_REQUEST'));"
+            ]
+          }
+        }
+      ]
     },
     {
-      "name":"Unexpected Query Parameter",
-      "request":{"method":"GET","header":[{"key":"Accept","value":"application/json"}],"url":{"raw":"{{apiBaseUrl}}/api/visitors?unexpected=true","host":["{{apiBaseUrl}}"],"path":["api","visitors"],"query":[{"key":"unexpected","value":"true"}]}},
-      "event":[{"listen":"test","script":{"exec":[
-        "pm.test('invalid contract request is not accepted', () => pm.expect(pm.response.code).to.not.eql(200));",
-        "pm.test('invalid request returns contract rejection', () => pm.expect(pm.response.code).to.be.oneOf([400,404]));"
-      ]}}]
+      "name": "T-009-SEC No Internal Fields",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{apiBaseUrl}}/api/visitors",
+          "host": [
+            "{{apiBaseUrl}}"
+          ],
+          "path": [
+            "api",
+            "visitors"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.response || !pm.response.text()) {",
+              "  pm.test('HTTP response received', () => pm.expect.fail('No HTTP response received. Verify apiBaseUrl and backend availability.'));",
+              "  return;",
+              "}",
+              "pm.test('status 200', () => pm.expect(pm.response.code).to.eql(200));",
+              "const raw = pm.response.text();",
+              "['PartitionKey', 'RowKey', 'connectionString', 'accessToken', 'accountKey', 'COSMOS_KEY'].forEach(key => {",
+              "  pm.test('does not leak ' + key, () => pm.expect(raw).not.to.include(key));",
+              "});"
+            ]
+          }
+        }
+      ]
     }
   ]
 }

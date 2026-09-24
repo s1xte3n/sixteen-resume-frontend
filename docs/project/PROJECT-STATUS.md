@@ -34,40 +34,40 @@ The project requirements, scope, technology stack, constraints, repositories, re
 
 ## Current Technical State
 
-| Component                  | Status      |
-| -------------------------- | ----------- |
-| Frontend repository        | Exists      |
-| Backend repository         | Not started |
-| HTML resume                | Candidate exists |
-| CSS                        | Not started |
+| Component | Status |
+|---|---|
+| Frontend repository | Exists |
+| Backend repository | Exists — implementation not started |
+| HTML resume | Candidate exists |
+| CSS | Not started |
 | JavaScript visitor counter | Not started |
-| Azure Storage              | Not started |
-| Azure HTTPS/CDN delivery layer | Capability architecture resolved; service selection pending implementation validation |
-| DNS hostname               | Not started |
-| Cosmos DB                  | Not started |
-| Azure Function             | Not started |
-| Python implementation      | Not started |
-| Python tests               | Not started |
-| ARM template               | Not started |
-| Backend GitHub Actions     | Not started |
-| Frontend GitHub Actions    | Not started |
-| Blog — Dev.to              | Not started |
-| Blog — Hashnode            | Not started |
-| Production deployment      | Not started |
+| Azure Storage | Not started |
+| Azure HTTPS/CDN delivery layer | Architecture resolved; exact service pending implementation validation |
+| DNS hostname | Provider selected; hostname not provisioned |
+| Cosmos DB | Not started |
+| Azure Function | Not started |
+| Python implementation | Not started |
+| Python tests | Not started |
+| ARM template | Not started |
+| Backend GitHub Actions | Not started |
+| Frontend GitHub Actions | Not started |
+| Blog — Dev.to | Not started |
+| Blog — Hashnode | Not started |
+| Production deployment | Not started |
 
 ## Repository Plan
 
 ### Frontend
 
-**Repository:** `sixteen-resume-frontend`
+**Repository:** `s1xte3n/sixteen-resume-frontend`
 
 Status: **Created**
 
 ### Backend
 
-**Repository:** `sixteen-resume-backend`
+**Repository:** `s1xte3n/sixteen-resume-backend`
 
-Status: **Not created**
+Status: **Created — implementation not started**
 
 ## Resume Status
 
@@ -171,9 +171,30 @@ Status: **Active project target**
 
 ## Next Project Phase
 
-The discovery phase is complete.
+Requirements-definition work is complete.
 
-The next phase is implementation: repository/bootstrap work followed by incremental implementation and validation of each challenge requirement. The final public resume content approval remains a production acceptance gate, not a requirements-definition blocker.
+Architecture and test design are ready for implementation.
+
+**Next phase: Phase 7 — Implementation.**
+
+Phase 7 begins with repository/bootstrap and infrastructure implementation, followed by incremental implementation and validation of:
+
+1. Azure Storage static website.
+2. Azure HTTPS/CDN delivery.
+3. FreeDNS hostname.
+4. Cosmos DB Table API.
+5. Python Azure Function.
+6. Counter persistence and concurrency.
+7. ARM infrastructure.
+8. Backend CI/CD.
+9. Frontend CI/CD.
+10. Frontend visitor counter.
+11. Automated tests.
+12. End-to-end validation.
+
+The final public resume approval and production cost evidence remain production acceptance gates.
+
+The approved recurring Azure/cloud cost ceiling is **R100/month**, with **R0/month preferred**.
 
 
 ## OR-006–OR-009 Resolution Status

@@ -1,30 +1,37 @@
 # Test Data Plan
 
-## Principles
-All data is synthetic, disposable, isolated, and non-sensitive. Production visitor data is never copied into tests.
+## 1. Purpose
 
-## Canonical fixtures
-| Fixture | Value/rule | Purpose |
-|---|---|---|
-| Counter | PartitionKey=TEST, RowKey=VISITOR_COUNTER, Count=0 | Baseline |
-| Counter N | Same key, Count=N, N>=0 | State transitions |
-| Concurrent K | K=2,10,25 | Concurrency |
-| Valid request | Empty body | Contract |
-| Request ID | UUID v4 | Correlation |
-| Invalid request ID | not-a-uuid | Validation |
-| Unknown field | unexpected=true | Schema rejection |
-| Malformed JSON | { | 400 |
-| Error fixture | Canonical error envelope | Error contract |
-| Resume fixture | Approved/synthetic public-safe content | UI/content |
+Define safe synthetic data, fixtures, accounts, test state, setup, isolation, and cleanup.
 
-## Setup
-Create unique test-run state, set known baseline, record baseline, execute, assert API and persistence, then clean up only state created by the run.
+No production secrets or private production data are permitted.
 
-## Failure injection
-Use mocks/test seams for dependency unavailable, timeout, conditional update conflict, and unexpected exception. Do not disable production controls.
+---
 
-## Cleanup
-Local and CI fixtures are disposable. Remote synthetic state is isolated and deleted/restored after tests. Production data is never modified by automated tests.
+# 2. Data Classes
 
-## Secrets
-No Azure keys, connection strings, tokens, passwords, private keys, or private resume information in fixtures, Postman files, logs, or committed environment files.
+| Class | Example | Persistent? | Secret? |
+|---|---|---:|---:|
+| API input | empty GET request | No | No |
+| Request ID | UUID v4 | No | No |
+| Counter state | synthetic integer | Test-only | No |
+| Error fixture | canonical error envelope | No | No |
+| Resume fixture | approved/synthetic content | Test-only | No |
+| API URL | test endpoint | No | No |
+| Azure credential | GitHub/Azure secret | Yes | YES |
+| Cosmos credential | managed identity/config | Yes | YES |
+
+Secrets are never committed to fixtures.
+
+---
+
+# 3. Counter Fixtures
+
+## Fixture A — Initial State
+
+```json
+{
+  "partitionKey": "visitor-counter-test",
+  "rowKey": "global",
+  "count": 0
+}
