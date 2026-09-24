@@ -149,7 +149,7 @@ Test fixtures.
 
 CI/CD secrets must be injected through secure GitHub/Azure mechanisms.
 
-The exact GitHub Actions authentication mechanism is an implementation decision and is captured in ADR-005.
+GitHub Actions authentication is frozen as OIDC workload identity federation with a dedicated Entra user-assigned managed identity, as recorded in ADR-005.
 
 9. HTTPS
 
@@ -161,7 +161,7 @@ TLS termination.
 Valid certificate handling.
 Public HTTPS access.
 
-The exact service remains subject to ADR-006.
+The exact service remains subject to ADR-006 capability validation.
 
 10. CORS
 
@@ -266,18 +266,16 @@ No committed credentials	T-SEC-001
 No browser-to-Cosmos access	T-SEC-002
 Least-privilege deployment	T-SEC-003
 Production HTTPS	T-SEC-004
-17. Security Decisions Requiring Freeze
+17. Security Decisions Requiring Implementation Validation
 
 Before production:
 
-Final hostname.
-Final CORS origin.
-CI/CD authentication mechanism.
-Deployment identity scope.
-Function-to-Cosmos authentication mechanism.
-HTTPS/CDN architecture.
+Final hostname and CORS origin must be provisioned and validated.
+OIDC deployment identities and Azure RBAC scopes must be provisioned and tested.
+Function managed identity and Cosmos DB for Table data-plane RBAC must be provisioned and tested.
+The selected HTTPS/CDN service must pass ADR-006 capability, lifecycle, hostname, certificate, origin, IaC, and cost validation.
 
-The architecture must not hardcode these unresolved values before the corresponding decisions are approved.
+These are implementation evidence gates, not unresolved requirements-definition decisions.
 
 
 ---
