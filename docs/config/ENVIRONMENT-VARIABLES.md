@@ -34,6 +34,20 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | COSMOS_ACCOUNT_KEY | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |
 | AZURE_STORAGE_CONNECTION_STRING | Secret | N/A | None | Not used; frontend CI uses federated Azure identity | Must not exist | **No** |
 
+## Naming relationship: application configuration vs Postman
+
+`PUBLIC_API_BASE_URL` is the canonical application/runtime configuration variable used by the frontend. It identifies the API origin/base URL.
+
+The committed Postman environment uses `apiBaseUrl` for the same conceptual value because Postman environment variables follow the client's lower-camel-case naming convention. It is **not a second API configuration concept**.
+
+| Consumer | Variable | Meaning |
+|---|---|---|
+| Frontend/application configuration | `PUBLIC_API_BASE_URL` | Canonical API base/origin used by application code |
+| Postman environment | `apiBaseUrl` | Postman representation of `PUBLIC_API_BASE_URL` |
+| Postman environment | `apiPath` | Postman representation of `PUBLIC_API_PATH` |
+
+When adding or changing API-base configuration, update the canonical application variable first and then keep the Postman mapping synchronized. Do not introduce another API-base variable without updating this inventory.
+
 ## Contract constraints
 
 VC-001 is GET /api/visitors, accepts no request body or query/path parameters, and returns a JSON object containing a non-negative integer `count`. The request does not require `Content-Type`. `Accept: application/json` is recommended. `X-Request-ID` is optional and, when supplied, must be UUID v4. Production CORS is restricted to the approved resume origin. Browser artifacts must never contain Azure/Cosmos credentials.
