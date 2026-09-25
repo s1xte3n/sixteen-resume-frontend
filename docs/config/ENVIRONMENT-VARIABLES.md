@@ -17,7 +17,6 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | CORS_ALLOWED_ORIGIN | Non-secret | origin URL | backend CI/prod | deployment config | Exact approved frontend origin; never * in prod | Placeholder only |
 | AZURE_RESOURCE_GROUP_NAME | Non-secret | string | Azure contexts | ARM | Azure naming rules | Yes if approved |
 | AZURE_STORAGE_ACCOUNT_NAME | Non-secret | string | Azure contexts | ARM output; GitHub production environment variable after provisioning | Azure naming rules; must resolve to the approved production Storage account | Yes as a variable name; value is deployment-specific |
-| AZURE_RESOURCE_GROUP_NAME | Non-secret | string | CI/CD | ARM output; GitHub production environment variable | Must resolve to the approved production resource group | Yes as a variable name; value is deployment-specific |
 | AZURE_FRONTEND_IDENTITY_NAME | Non-secret | string | CI/CD | ARM output; GitHub production environment variable | Must resolve to the dedicated frontend user-assigned managed identity | Yes as a variable name; value is deployment-specific |
 | AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP | Non-secret | string | CI/CD | ARM output; GitHub production environment variable | Must resolve to the resource group containing the frontend managed identity | Yes as a variable name; value is deployment-specific |
 | AZURE_FUNCTION_APP_NAME | Non-secret | string | Azure contexts | ARM/output | Azure naming rules | Yes if approved |
