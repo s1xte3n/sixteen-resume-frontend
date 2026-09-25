@@ -247,6 +247,33 @@ Phase 7 may begin with implementation/bootstrap work.
 
 ---
 
+
+### Phase 5 — Configuration / Environment Readiness
+
+**CLOSED FOR PHASE 5 — LIVE PRODUCTION ENVIRONMENT POPULATION IS IMPLEMENTATION BOOTSTRAP WORK**
+
+Phase 5 is responsible for defining the configuration inventory, environment matrix, secret-handling rules, synthetic test-data rules, and non-secret API-client environment. It does not require live production GitHub Environment values to exist before the configuration phase passes.
+
+The following production GitHub Environment items are implementation/deployment bootstrap prerequisites:
+
+**Production secrets**
+- `AZURE_CLIENT_ID`
+- `AZURE_TENANT_ID`
+- `AZURE_SUBSCRIPTION_ID`
+
+**Production variables**
+- `AZURE_RESOURCE_GROUP_NAME`
+- `AZURE_STORAGE_ACCOUNT_NAME`
+- `AZURE_FRONTEND_IDENTITY_NAME`
+- `AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP`
+- `PUBLIC_HOSTNAME`
+
+These must be created/populated during **implementation/bootstrap of the Azure infrastructure and CI/CD deployment path**. They are then verified by the production OIDC/deployment readiness workflow before production deployment.
+
+The repository cannot verify private GitHub Environment secret values from source-controlled documentation. Therefore, their live existence is an **implementation evidence gate**, not a Phase 5 configuration-definition blocker.
+
+**Phase 5 exit condition:** configuration and environment requirements are completely defined and committed; production environment population and live verification are tracked under implementation/deployment readiness.
+
 ## 15. Phase 7 Rule
 
 Phase 7 implementation must not:
