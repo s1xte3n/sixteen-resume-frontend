@@ -51,6 +51,9 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/config/SECRETS-MANAGEMENT.md` | Secret names, sources, rotation, ownership, and handling rules | Complete; values excluded |
 | `docs/config/TEST-DATA.md` | Synthetic API/database test state and lifecycle | Complete |
 | `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
+| `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete |
+| `docs/ci-cd/CI-CD-READINESS.md` | Frontend CI/CD operational readiness and evidence gate | Complete |
+| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; execution evidence pending |
 
 ## 6. Architecture Documentation
 
@@ -125,7 +128,7 @@ These are implementation or production-acceptance gates rather than unresolved r
 6. Implement concurrency-safe counter persistence.
 7. Implement ARM infrastructure.
 8. Implement backend GitHub Actions.
-9. Implement frontend GitHub Actions.
+9. Complete frontend GitHub Actions deployment workflow after frontend artifacts and Storage infrastructure exist.
 10. Implement frontend visitor-counter JavaScript.
 11. Execute API, persistence, concurrency, browser, security and deployment tests.
 12. Obtain final public HTML resume owner approval.
@@ -166,7 +169,7 @@ No API test is considered passed until the backend exists and the assertions ver
 | Python tests | Not started |
 | ARM template | Not started |
 | Backend GitHub Actions | Not started |
-| Frontend GitHub Actions | Not started |
+| Frontend GitHub Actions | OIDC verification workflow implemented; production deployment workflow pending frontend implementation |
 | Production deployment | Not started |
 | Blog content | Not started |
 | Public resume owner approval | Pending |
