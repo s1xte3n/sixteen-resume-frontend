@@ -33,5 +33,5 @@
     }
   ],
   "_type": "environment",
-  "_comment": "Safe non-secret template. Defaults to the standard local Azure Functions HTTP endpoint (http://localhost:7071). For deployed testing, replace apiBaseUrl with the approved test/staging API origin. Never add Azure credentials, Cosmos keys, connection strings, passwords, access tokens, or private resume data."
+  "_comment": "Safe non-secret template. `apiBaseUrl` is the Postman/lower-camel-case representation of the canonical application variable `PUBLIC_API_BASE_URL` documented in docs/config/ENVIRONMENT-VARIABLES.md. `apiPath` maps to `PUBLIC_API_PATH`. Defaults to the standard local Azure Functions HTTP endpoint (http://localhost:7071). For deployed testing, replace apiBaseUrl with the approved test/staging API origin. Never add Azure credentials, Cosmos keys, connection strings, passwords, access tokens, or private resume data."
 }
