@@ -208,4 +208,4 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repository contains a `develop` branch created from `main`. Gate closure has been recorded in the project documentation; implementation remains not started.
+The repository contains a `develop` branch created from `main`. Gate closure has been recorded in the project documentation; Phase 7.1 backend implementation is in progress; production infrastructure and deployment remain pending.
