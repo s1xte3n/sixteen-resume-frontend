@@ -16,7 +16,7 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | PUBLIC_HOSTNAME | Non-secret | hostname | production | DNS/delivery | Valid approved FreeDNS hosted hostname; provisioned during implementation | Placeholder only |
 | CORS_ALLOWED_ORIGIN | Non-secret | origin URL | backend CI/prod | deployment config | Exact approved frontend origin; never * in prod | Placeholder only |
 | AZURE_RESOURCE_GROUP_NAME | Non-secret | string | Azure contexts | ARM | Azure naming rules | Yes if approved |
-| AZURE_STORAGE_ACCOUNT_NAME | Non-secret | string | Azure contexts | ARM/output | Azure naming rules | Yes if approved |
+| AZURE_STORAGE_ACCOUNT_NAME | Non-secret | string | Azure contexts | ARM output; GitHub production environment variable after provisioning | Azure naming rules; must resolve to the approved production Storage account | Yes as a variable name; value is deployment-specific |
 | AZURE_FUNCTION_APP_NAME | Non-secret | string | Azure contexts | ARM/output | Azure naming rules | Yes if approved |
 | AZURE_COSMOS_ACCOUNT_NAME | Non-secret | string | Azure contexts | ARM/output | Azure naming rules | Yes if approved |
 | AZURE_COSMOS_TABLE_NAME | Non-secret | string | backend | ARM/application | Valid Table API name | Yes if approved |
@@ -26,9 +26,9 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | FUNCTIONS_WORKER_RUNTIME | Non-secret | string | backend | Azure Functions | python | Yes |
 | FUNCTIONS_EXTENSION_VERSION | Non-secret | string | backend | Azure Functions | ~4 unless platform decision changes | Yes |
 | LOG_LEVEL | Non-secret | enum | all | app config | DEBUG/INFO/WARNING/ERROR; default INFO | Yes |
-| AZURE_SUBSCRIPTION_ID | Identifier | UUID | CI/CD | GitHub variable/context | Approved subscription UUID | Value no |
-| AZURE_TENANT_ID | Identifier | UUID | CI/CD | GitHub variable/context | Tenant UUID | Value no |
-| AZURE_CLIENT_ID | Identifier | UUID | CI/CD if selected | GitHub variable/context | Client UUID | Value no |
+| AZURE_SUBSCRIPTION_ID | Identifier | UUID | CI/CD | GitHub production environment secret for OIDC | Must equal the approved Azure subscription UUID | Secret value: no |
+| AZURE_TENANT_ID | Identifier | UUID | CI/CD | GitHub production environment secret for OIDC | Must equal the Azure tenant UUID | Secret value: no |
+| AZURE_CLIENT_ID | Identifier | UUID | CI/CD | GitHub production environment secret for OIDC | Must equal the dedicated frontend user-assigned managed identity client ID | Secret value: no |
 | AZURE_CLIENT_SECRET | Secret | N/A | None | Not used; OIDC is required | Must not exist | **No** |
 | COSMOS_CONNECTION_STRING | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |
 | COSMOS_ACCOUNT_KEY | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |

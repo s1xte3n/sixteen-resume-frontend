@@ -1,0 +1,105 @@
+name: Deploy frontend to Azure Storage
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: frontend-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy static resume
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://${{ vars.PUBLIC_HOSTNAME }}
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate deployment configuration and static artifacts
+        shell: bash
+        env:
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+          PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${AZURE_STORAGE_ACCOUNT_NAME}" ]]; then
+            echo "::error::Missing production environment variable: AZURE_STORAGE_ACCOUNT_NAME"
+            exit 1
+          fi
+
+          if [[ -z "${PUBLIC_HOSTNAME}" ]]; then
+            echo "::error::Missing production environment variable: PUBLIC_HOSTNAME"
+            exit 1
+          fi
+
+          if [[ ! "${PUBLIC_HOSTNAME}" =~ ^[A-Za-z0-9.-]+$ ]]; then
+            echo "::error::PUBLIC_HOSTNAME is not a valid hostname"
+            exit 1
+          fi
+
+          if [[ ! -f site/index.html ]]; then
+            echo "::error::site/index.html is required before frontend deployment."
+            exit 1
+          fi
+
+          if find site -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' -o -name '.env.*' \) -print -quit | grep -q .; then
+            echo "::error::Potential credential-bearing file found in site/. Remove it before deployment."
+            exit 1
+          fi
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: false
+
+      - name: Upload static website using Microsoft Entra authorization
+        shell: bash
+        env:
+          AZURE_CORE_OUTPUT: none
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+        run: |
+          set -euo pipefail
+
+          az storage blob upload-batch \
+            --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
+            --destination '$web' \
+            --source site \
+            --auth-mode login \
+            --overwrite
+
+      - name: Verify deployed HTTPS endpoint
+        shell: bash
+        env:
+          PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
+        run: |
+          set -euo pipefail
+
+          curl --fail --silent --show-error --location \
+            --proto '=https' \
+            --proto-redir '=https' \
+            --max-time 20 \
+            "https://${PUBLIC_HOSTNAME}/" \
+            > /tmp/resume.html
+
+          grep -qi '<html' /tmp/resume.html
+
+      - name: Azure logout
+        if: always()
+        shell: bash
+        run: az logout

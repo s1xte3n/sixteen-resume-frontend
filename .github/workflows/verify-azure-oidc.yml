@@ -1,0 +1,94 @@
+name: Verify Azure OIDC
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: azure-oidc-verification
+  cancel-in-progress: true
+
+jobs:
+  verify-oidc:
+    name: Verify GitHub → Azure OIDC
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required GitHub configuration
+        shell: bash
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          set -euo pipefail
+
+          for name in AZURE_CLIENT_ID AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID; do
+            if [[ -z "${!name}" ]]; then
+              echo "::error::Missing GitHub environment secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: false
+
+      - name: Verify Azure subscription context
+        shell: bash
+        env:
+          AZURE_CORE_OUTPUT: none
+        run: |
+          set -euo pipefail
+
+          az account show --query '{subscriptionId:id,tenantId:tenantId,isDefault:isDefault}' --output json
+
+      - name: Verify storage deployment scope
+        shell: bash
+        env:
+          AZURE_CORE_OUTPUT: none
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${AZURE_STORAGE_ACCOUNT_NAME}" ]]; then
+            echo "::error::Missing production environment variable: AZURE_STORAGE_ACCOUNT_NAME"
+            exit 1
+          fi
+
+          az storage account show \
+            --name "${AZURE_STORAGE_ACCOUNT_NAME}" \
+            --query '{name:name,resourceGroup:resourceGroup,location:location}' \
+            --output json
+
+      - name: Verify Blob data-plane access without storage keys
+        shell: bash
+        env:
+          AZURE_CORE_OUTPUT: none
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+        run: |
+          set -euo pipefail
+
+          az storage blob list \
+            --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
+            --container-name '$web' \
+            --auth-mode login \
+            --num-results 1 \
+            --output none
+
+      - name: Azure logout
+        if: always()
+        shell: bash
+        run: az logout
