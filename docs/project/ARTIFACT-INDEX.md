@@ -79,7 +79,7 @@ This document identifies authoritative project documentation, product requiremen
 | Repository | Purpose | Status |
 |---|---|---|
 | `s1xte3n/sixteen-resume-frontend` | Frontend resume application and documentation | Exists |
-| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; implementation state must be verified |
+| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; Phase 7.1 backend foundation implemented; CI/contract gate pending merge/evidence |
 
 Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must not be used in new requirements.
 
@@ -166,10 +166,10 @@ No API test is considered passed until the backend exists and the assertions ver
 | DNS hostname | Provider selected; hostname provisioning pending |
 | Cosmos DB | Not started |
 | Azure Function | Not started |
-| Python implementation | Not started |
-| Python tests | Not started |
+| Python implementation | Phase 7.1 foundation implemented; local HTTP contract and persistence tests present |
+| Python tests | Phase 7.1 unit, persistence, concurrency and HTTP contract tests implemented |
 | ARM template | Not started |
-| Backend GitHub Actions | Not started |
+| Backend GitHub Actions | Phase 7.1 workflow implemented; execution evidence pending |
 | Frontend GitHub Actions | OIDC verification workflow implemented; production deployment workflow pending frontend implementation |
 | Production deployment | Not started |
 | Blog content | Not started |
@@ -185,7 +185,7 @@ No API test is considered passed until the backend exists and the assertions ver
 | Repository | Status |
 |---|---|
 | `s1xte3n/sixteen-resume-frontend` | Exists |
-| `s1xte3n/sixteen-resume-backend` | Exists; implementation not started |
+| `s1xte3n/sixteen-resume-backend` | Exists; Phase 7.1 backend foundation implemented; later IaC/deployment work pending |
 
 The backend repository is not considered implementation-complete merely because the GitHub repository exists.
 
@@ -241,9 +241,11 @@ Test strategy, matrix, data plan, cases, priorities and release gates are define
 
 ### Phase 7 Entry
 
-**READY**
+**IN PROGRESS — PHASE 7.1**
 
-Phase 7 may begin with implementation/bootstrap work.
+The backend foundation and executable VC-001 HTTP contract are implemented in `s1xte3n/sixteen-resume-backend`. Local validation is established with pytest, Azurite persistence/concurrency tests, and an HTTP contract suite against the Functions host. Backend CI is implemented and awaits its first GitHub Actions execution/evidence.
+
+Phase 7.1 does not provision production Azure resources, ARM infrastructure, managed-identity RBAC, or production deployment; those remain subsequent implementation work.
 
 ---
 
