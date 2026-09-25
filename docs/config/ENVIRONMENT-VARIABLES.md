@@ -36,6 +36,10 @@ Canonical configuration inventory for the Azure Cloud Resume Challenge. Values a
 | COSMOS_ACCOUNT_KEY | Secret | N/A | None | Not used; Function managed identity + Cosmos RBAC | Must not exist | **No** |
 | AZURE_STORAGE_CONNECTION_STRING | Secret | N/A | None | Not used; frontend CI uses federated Azure identity | Must not exist | **No** |
 
+## Public-site naming convention
+
+`PUBLIC_HOSTNAME` is the canonical variable for the public resume hostname. A separate public-site URL variable is **not** part of the project configuration and must not be introduced as an alternative name. When a complete HTTPS URL is required, derive it as `https://<PUBLIC_HOSTNAME>` rather than maintaining a second hostname/URL configuration variable. The Postman `publicOrigin` variable represents the resulting frontend origin for API/CORS testing and is not an application configuration variable.
+
 ## Naming relationship: application configuration vs Postman
 
 `PUBLIC_API_BASE_URL` is the canonical application/runtime configuration variable used by the frontend. It identifies the API origin/base URL.

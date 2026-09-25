@@ -8,7 +8,7 @@ There is one actual Azure deployment environment: **Production**. Local, dev, te
 |---|---|---|---|---|---|
 | Azure deployment | No | No | No | No | **Yes** |
 | Purpose | Developer execution | Integration/Git context | Automated verification | Optional pre-release validation context | Public service |
-| Public hostname | No | No | No | No | Required (FreeDNS hosted hostname) |
+| Public hostname (`PUBLIC_HOSTNAME`) | No | No | No | No | Required (FreeDNS hosted hostname) |
 | HTTPS | Optional | N/A | N/A | If exercised | Required |
 | Exact production CORS | No | No | No | If API exercised | Required |
 | Visitor API | Local/mocked | Optional integration | Required for contract tests | If exercised | Required |
@@ -65,7 +65,7 @@ After the API is deployed:
 - create/update a local, uncommitted deployed environment;
 - set apiBaseUrl to the actual deployed API origin;
 - keep apiPath=/api/visitors;
-- set publicOrigin to the actual approved frontend origin;
+- set `publicOrigin` to `https://<PUBLIC_HOSTNAME>` for the approved frontend origin;
 - use a UUID-v4 requestId when testing request correlation;
 - never add Azure credentials, Cosmos credentials, Function keys, or connection strings;
 - execute the API collection against the deployed endpoint and retain the run as implementation evidence.
