@@ -200,7 +200,9 @@ The following conditions must remain true:
 
 This document establishes the authentication/control-plane prerequisite.
 
-The actual frontend deployment workflow must:
+The repository now contains `.github/workflows/deploy-frontend.yml`. It must be enabled operationally only after the frontend implementation and Storage infrastructure exist.
+
+The frontend deployment workflow:
 
 1. Validate the frontend build/static artifacts.
 2. Log into Azure with the same OIDC identity.
