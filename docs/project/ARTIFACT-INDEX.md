@@ -250,29 +250,37 @@ Phase 7 may begin with implementation/bootstrap work.
 
 ### Phase 5 — Configuration / Environment Readiness
 
-**CLOSED FOR PHASE 5 — LIVE PRODUCTION ENVIRONMENT POPULATION IS IMPLEMENTATION BOOTSTRAP WORK**
+**NOT YET PASSED — CONFIGURATION DEFINITION COMPLETE; LIVE PRODUCTION EVIDENCE PENDING**
 
-Phase 5 is responsible for defining the configuration inventory, environment matrix, secret-handling rules, synthetic test-data rules, and non-secret API-client environment. It does not require live production GitHub Environment values to exist before the configuration phase passes.
+Phase 5 configuration design is complete, but the environment gate is not passed until live production configuration is verified.
 
-The following production GitHub Environment items are implementation/deployment bootstrap prerequisites:
+### Complete configuration-definition evidence
 
-**Production secrets**
-- `AZURE_CLIENT_ID`
-- `AZURE_TENANT_ID`
-- `AZURE_SUBSCRIPTION_ID`
+- docs/config/ENVIRONMENT-VARIABLES.md
+- docs/config/ENVIRONMENT-MATRIX.md
+- docs/config/SECRETS-MANAGEMENT.md
+- docs/config/TEST-DATA.md
+- tests/postman/sixteen-resume-environment-template.json
+- .github/workflows/verify-azure-oidc.yml
 
-**Production variables**
-- `AZURE_RESOURCE_GROUP_NAME`
-- `AZURE_STORAGE_ACCOUNT_NAME`
-- `AZURE_FRONTEND_IDENTITY_NAME`
-- `AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP`
-- `PUBLIC_HOSTNAME`
+### Remaining gate evidence
 
-These must be created/populated during **implementation/bootstrap of the Azure infrastructure and CI/CD deployment path**. They are then verified by the production OIDC/deployment readiness workflow before production deployment.
+| Evidence | Status | Verification source |
+|---|---|---|
+| Generated-variable classification | Complete | ENVIRONMENT-VARIABLES.md |
+| GitHub production environment exists | Pending live verification | GitHub repository settings |
+| AZURE_CLIENT_ID exists | Pending live verification | GitHub production environment |
+| AZURE_TENANT_ID exists | Pending live verification | GitHub production environment |
+| AZURE_SUBSCRIPTION_ID exists | Pending live verification | GitHub production environment |
+| Required production repository/environment variables exist | Pending live verification | GitHub production environment |
+| OIDC federated credential exists | Pending live verification | Azure managed identity |
+| OIDC subject/audience match | Pending live verification | verify-azure-oidc.yml |
+| Managed identity resolves to AZURE_CLIENT_ID | Pending live verification | verify-azure-oidc.yml |
+| Managed identity has approved Storage RBAC | Pending live verification | verify-azure-oidc.yml / Azure RBAC |
+| Postman deployed environment | Blocked until API endpoint exists | Implementation/deployment |
+| Successful OIDC verification run | Pending | GitHub Actions |
 
-The repository cannot verify private GitHub Environment secret values from source-controlled documentation. Therefore, their live existence is an **implementation evidence gate**, not a Phase 5 configuration-definition blocker.
-
-**Phase 5 exit condition:** configuration and environment requirements are completely defined and committed; production environment population and live verification are tracked under implementation/deployment readiness.
+The committed workflow is validation machinery, not validation evidence. The gate passes only after a successful controlled execution against the actual production GitHub/Azure configuration.
 
 ## 15. Phase 7 Rule
 
