@@ -4,7 +4,7 @@
 
 ## Overall Status
 
-**Implementation gate closed for MVP design/implementation — implementation not yet started**
+**Phase 7 implementation in progress — Phase 7.3 Azure core IaC implemented; production infrastructure evidence pending**
 
 The project requirements, scope, technology stack, constraints, repositories, resume source material, certification situation, and deployment target have been established.
 
@@ -37,19 +37,19 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Component | Status |
 |---|---|
 | Frontend repository | Exists |
-| Backend repository | Exists — implementation not started |
+| Backend repository | Exists — Phase 7.2 persistence implementation and Phase 7.3 core ARM IaC implemented; production deployment evidence pending |
 | HTML resume | Candidate exists |
 | CSS | Not started |
 | JavaScript visitor counter | Not started |
-| Azure Storage | Not started |
+| Azure Storage | ARM-defined; Azure deployment pending |
 | Azure HTTPS/CDN delivery layer | Architecture resolved; exact service pending implementation validation |
 | DNS hostname | Provider selected; hostname not provisioned |
-| Cosmos DB | Not started |
-| Azure Function | Not started |
-| Python implementation | Not started |
-| Python tests | Not started |
-| ARM template | Not started |
-| Backend GitHub Actions | Not started |
+| Cosmos DB | ARM-defined as serverless Table API; Azure deployment/RBAC verification pending |
+| Azure Function | ARM-defined for Python Linux Consumption; Azure deployment/runtime verification pending |
+| Python implementation | Phase 7.2 persistence implementation complete; production runtime verification pending |
+| Python tests | Implemented; local/CI execution evidence pending |
+| ARM template | Phase 7.3 core infrastructure implemented in backend repository; Azure validation/deployment pending |
+| Backend GitHub Actions | Implemented with ARM structural validation; production OIDC/deployment evidence pending |
 | Frontend GitHub Actions | Not started |
 | Blog — Dev.to | Not started |
 | Blog — Hashnode | Not started |
@@ -175,9 +175,9 @@ Requirements-definition work is complete.
 
 Architecture and test design are ready for implementation.
 
-**Next phase: Phase 7 — Implementation.**
+**Current phase: Phase 7 — Implementation. Phase 7.3 Azure IaC / Infrastructure Integration is implemented in the backend repository; production validation remains pending.**
 
-Phase 7 begins with repository/bootstrap and infrastructure implementation, followed by incremental implementation and validation of:
+Phase 7 continues with incremental implementation and validation of:
 
 1. Azure Storage static website.
 2. Azure HTTPS/CDN delivery.
@@ -208,4 +208,4 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repository contains a `develop` branch created from `main`. Gate closure has been recorded in the project documentation; Phase 7.1 backend implementation is in progress; production infrastructure and deployment remain pending.
+The repositories contain `develop` branches created from `main`. Phase 7.1/7.2 backend implementation and Phase 7.3 core ARM infrastructure are implemented on feature branches; production infrastructure validation, edge-service selection, OIDC deployment evidence, and release acceptance remain pending.
