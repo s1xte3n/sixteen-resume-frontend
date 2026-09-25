@@ -40,6 +40,38 @@ No staging Azure environment is approved. A future staging deployment requires e
 ### Production
 East US; public HTTPS; approved hostname; exact CORS origin; Azure Storage static website; Azure Function Consumption direction; Cosmos DB Table API serverless direction; CI/CD-only deployment; no plaintext secrets; ARM as source of truth.
 
+## Production configuration evidence gate
+
+**Status: NOT YET VERIFIED.**
+
+The matrix defines the required configuration, but production is not environment-ready until live evidence exists for:
+
+1. GitHub production environment.
+2. AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID.
+3. Production environment variables required by the verification workflow.
+4. Azure federated identity credential.
+5. Managed identity ↔ GitHub OIDC relationship.
+6. Managed identity ↔ production Storage RBAC relationship.
+7. Successful .github/workflows/verify-azure-oidc.yml execution.
+8. Deployed API endpoint for Postman environment configuration.
+
+A repository workflow can validate these conditions, but the presence of the workflow is not evidence that the conditions have passed.
+
+## Postman deployed-environment rule
+
+tests/postman/sixteen-resume-environment-template.json is the safe committed template and remains local-by-default.
+
+After the API is deployed:
+- create/update a local, uncommitted deployed environment;
+- set apiBaseUrl to the actual deployed API origin;
+- keep apiPath=/api/visitors;
+- set publicOrigin to the actual approved frontend origin;
+- use a UUID-v4 requestId when testing request correlation;
+- never add Azure credentials, Cosmos credentials, Function keys, or connection strings;
+- execute the API collection against the deployed endpoint and retain the run as implementation evidence.
+
+The deployed Postman environment is generated operational state, not a committed repository artifact.
+
 ## Promotion gates
 
 1. Python tests pass.
