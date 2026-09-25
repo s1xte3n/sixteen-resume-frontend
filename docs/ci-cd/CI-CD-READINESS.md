@@ -13,6 +13,8 @@ The distinction is deliberate:
 
 ## Required production configuration
 
+The production deployment workflow is now present at `.github/workflows/deploy-frontend.yml`. It is intentionally fail-closed until `site/index.html` and the production Azure Storage resource exist.
+
 ### GitHub environment: `production`
 
 Secrets:
