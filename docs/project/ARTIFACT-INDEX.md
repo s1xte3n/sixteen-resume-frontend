@@ -79,7 +79,7 @@ This document identifies authoritative project documentation, product requiremen
 | Repository | Purpose | Status |
 |---|---|---|
 | `s1xte3n/sixteen-resume-frontend` | Frontend resume application and documentation | Exists |
-| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; Phase 7.1 backend foundation implemented; CI/contract gate pending merge/evidence |
+| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; Phase 7.2 persistence and Phase 7.3 core ARM IaC implemented on feature branch; Azure deployment/OIDC evidence pending |
 
 Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must not be used in new requirements.
 
@@ -127,7 +127,7 @@ These are implementation or production-acceptance gates rather than unresolved r
 4. Implement Cosmos DB Table API.
 5. Implement Python Azure Function.
 6. Implement concurrency-safe counter persistence.
-7. Implement ARM infrastructure.
+7. Implement ARM infrastructure — core Azure resources now represented in the backend ARM template; live Azure validation and the ADR-006 edge-service resource remain pending.
 8. Implement backend GitHub Actions.
 9. Complete frontend GitHub Actions deployment workflow after frontend artifacts and Storage infrastructure exist.
 10. Implement frontend visitor-counter JavaScript.
@@ -168,8 +168,8 @@ No API test is considered passed until the backend exists and the assertions ver
 | Azure Function | Not started |
 | Python implementation | Phase 7.1 foundation implemented; local HTTP contract and persistence tests present |
 | Python tests | Phase 7.1 unit, persistence, concurrency and HTTP contract tests implemented |
-| ARM template | Not started |
-| Backend GitHub Actions | Phase 7.1 workflow implemented; execution evidence pending |
+| ARM template | Phase 7.3 core ARM infrastructure implemented in `s1xte3n/sixteen-resume-backend/infra/azure/azuredeploy.json`; Azure validation/deployment pending |
+| Backend GitHub Actions | Phase 7.1 workflow implemented and extended with ARM structural validation; execution/deployment evidence pending |
 | Frontend GitHub Actions | OIDC verification workflow implemented; production deployment workflow pending frontend implementation |
 | Production deployment | Not started |
 | Blog content | Not started |
@@ -187,7 +187,7 @@ No API test is considered passed until the backend exists and the assertions ver
 | `s1xte3n/sixteen-resume-frontend` | Exists |
 | `s1xte3n/sixteen-resume-backend` | Exists; Phase 7.1 backend foundation implemented; later IaC/deployment work pending |
 
-The backend repository is not considered implementation-complete merely because the GitHub repository exists.
+The backend repository is not considered implementation-complete merely because the GitHub repository exists. Phase 7.3 core ARM artifacts are implemented, but live Azure validation/deployment and production evidence remain required.
 
 ---
 
@@ -241,7 +241,7 @@ Test strategy, matrix, data plan, cases, priorities and release gates are define
 
 ### Phase 7 Entry
 
-**IN PROGRESS — PHASE 7.1**
+**IN PROGRESS — PHASE 7.3**
 
 The backend foundation and executable VC-001 HTTP contract are implemented in `s1xte3n/sixteen-resume-backend`. Local validation is established with pytest, Azurite persistence/concurrency tests, and an HTTP contract suite against the Functions host. Backend CI is implemented and awaits its first GitHub Actions execution/evidence.
 
