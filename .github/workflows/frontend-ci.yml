@@ -21,4 +21,4 @@ jobs:
         with:
           python-version: "3.11"
       - name: Run frontend validation tests
-        run: python -m pytest tests/frontend_validation.py
+        run: python -m unittest discover -s tests -p "frontend_validation.py"
