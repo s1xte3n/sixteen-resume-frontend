@@ -71,6 +71,10 @@ jobs:
           grep -qi '<html' site/index.html
           grep -qi '<head' site/index.html
           grep -qi '<body' site/index.html
+          grep -qi 'href="style.css"' site/index.html
+          grep -qi 'src="script.js"' site/index.html
+          grep -q '/api/visitors' site/script.js
+          grep -q 'X-Request-ID' site/script.js
 
       - name: Build production static website
         shell: bash
@@ -89,8 +93,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p evidence
-          sha256sum $(find dist -type f -print | sort) > evidence/dist-sha256.txt
           find dist -type f -printf '%P\n' | sort > evidence/dist-manifest.txt
+          (
+            cd dist
+            while IFS= read -r file; do
+              sha256sum "$file"
+            done < ../evidence/dist-manifest.txt
+          ) > evidence/dist-sha256.txt
+          printf 'commit_sha=%s\n' "${GITHUB_SHA}" > evidence/build-metadata.txt
 
       - name: Upload build evidence
         uses: actions/upload-artifact@v4
