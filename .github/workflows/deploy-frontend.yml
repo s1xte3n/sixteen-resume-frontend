@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate deployment configuration
+      - name: Validate deployment configuration and static artifacts
         shell: bash
         env:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
@@ -50,13 +50,15 @@ jobs:
             exit 1
           fi
 
-          if [[ ! -f site/index.html ]]; then
-            echo "::error::site/index.html is required before frontend deployment."
-            exit 1
-          fi
+          for required in site/index.html site/style.css site/script.js; do
+            if [[ ! -f "${required}" ]]; then
+              echo "::error::Required frontend artifact missing: ${required}"
+              exit 1
+            fi
+          done
 
           if find site -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' -o -name '.env.*' \) -print -quit | grep -q .; then
-            echo "::error::Potential credential-bearing file found in site/."
+            echo "::error::Potential credential-bearing file found in site/. Remove it before deployment."
             exit 1
           fi
 
@@ -65,45 +67,20 @@ jobs:
             exit 1
           fi
 
-      - name: Install frontend dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [[ -f package-lock.json ]]; then
-            if [[ ! -f package.json ]]; then
-              echo "::error::package-lock.json exists but package.json is missing."
-              exit 1
-            fi
-            npm ci
-          elif [[ -f package.json ]]; then
-            npm install
-          else
-            echo "No frontend package manifest is present; approved frontend architecture is plain HTML/CSS/JavaScript with no dependency manifest."
-          fi
-
       - name: Build production static website
         shell: bash
         run: |
           set -euo pipefail
-
-          rm -rf dist
-          mkdir -p dist
+          rm -rf dist evidence
+          mkdir -p dist evidence
           cp -a site/. dist/
-
           test -f dist/index.html
-          test "$(find dist -type f | wc -l)" -gt 0
+          test -f dist/style.css
+          test -f dist/script.js
 
-          mkdir -p deployment-evidence
-          sha256sum $(find dist -type f -print | sort) > deployment-evidence/dist-sha256.txt
-          find dist -type f -printf '%P\n' | sort > deployment-evidence/dist-manifest.txt
-
-      - name: Upload deployment evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-deployment-evidence-${{ github.sha }}
-          path: deployment-evidence/
-          retention-days: 14
+          find dist -type f -printf '%P\n' | sort > evidence/dist-manifest.txt
+          sha256sum $(find dist -type f -print | sort) > evidence/dist-sha256.txt
+          printf 'commit_sha=%s\n' "${GITHUB_SHA}" > evidence/build-metadata.txt
 
       - name: Azure login with OIDC
         uses: azure/login@v2
@@ -113,8 +90,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: false
 
-      - name: Upload static website using Microsoft Entra authorization
-        id: storage_upload
+      - name: Upload production build using Microsoft Entra authorization
         shell: bash
         env:
           AZURE_CORE_OUTPUT: none
@@ -129,8 +105,9 @@ jobs:
             --auth-mode login \
             --overwrite
 
+          printf 'deployment_result=storage_upload_succeeded\ncommit_sha=%s\n' "${GITHUB_SHA}" > evidence/deployment-result.txt
+
       - name: Verify deployed HTTPS endpoint
-        id: https_verify
         shell: bash
         env:
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
@@ -145,32 +122,15 @@ jobs:
             > /tmp/resume.html
 
           grep -qi '<html' /tmp/resume.html
+          printf 'public_endpoint=https://%s/\nverification=passed\n' "${PUBLIC_HOSTNAME}" >> evidence/deployment-result.txt
 
-      - name: Record deployment result
-        if: always()
-        shell: bash
-        env:
-          UPLOAD_OUTCOME: ${{ steps.storage_upload.outcome }}
-          HTTPS_OUTCOME: ${{ steps.https_verify.outcome }}
-          PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
-        run: |
-          set -euo pipefail
-          mkdir -p deployment-evidence
-          {
-            echo "commit_sha=${GITHUB_SHA}"
-            echo "workflow_run=${GITHUB_RUN_ID}"
-            echo "upload_outcome=${UPLOAD_OUTCOME}"
-            echo "https_verification_outcome=${HTTPS_OUTCOME}"
-            echo "public_hostname=${PUBLIC_HOSTNAME}"
-          } > deployment-evidence/deployment-result.txt
-
-      - name: Upload final deployment evidence
+      - name: Upload deployment evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: frontend-final-deployment-evidence-${{ github.sha }}
-          path: deployment-evidence/
-          retention-days: 14
+          name: frontend-deployment-evidence-${{ github.sha }}
+          path: evidence/
+          retention-days: 30
 
       - name: Azure logout
         if: always()
