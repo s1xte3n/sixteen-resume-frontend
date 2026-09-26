@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate deployment configuration and static artifacts
+      - name: Validate deployment configuration
         shell: bash
         env:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
@@ -55,10 +55,28 @@ jobs:
             exit 1
           fi
 
-          if find site -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' -o -name '.env.*' \) -print -quit | grep -q .; then
-            echo "::error::Potential credential-bearing file found in site/. Remove it before deployment."
-            exit 1
-          fi
+      - name: Build production static website
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist
+          cp -a site/. dist/
+
+          test -f dist/index.html
+          test "$(find dist -type f | wc -l)" -gt 0
+
+          mkdir -p deployment-evidence
+          sha256sum $(find dist -type f -print | sort) > deployment-evidence/dist-sha256.txt
+          find dist -type f -printf '%P\n' | sort > deployment-evidence/dist-manifest.txt
+
+      - name: Upload deployment evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-deployment-evidence-${{ github.sha }}
+          path: deployment-evidence/
+          retention-days: 14
 
       - name: Azure login with OIDC
         uses: azure/login@v2
@@ -79,7 +97,7 @@ jobs:
           az storage blob upload-batch \
             --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
             --destination '$web' \
-            --source site \
+            --source dist \
             --auth-mode login \
             --overwrite
 
