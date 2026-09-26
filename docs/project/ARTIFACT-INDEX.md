@@ -197,3 +197,19 @@ No implementation task is created for a requirement that remains ambiguous, cont
 | tests/postman/sixteen-resume-environment-template.json | Safe non-secret Postman variables | Complete |
 
 **Testing phase:** strategy and test design complete; execution evidence pending implementation. No Python, Azure Function, Cosmos DB, ARM, CI/CD, production HTTPS/CDN, DNS, or end-to-end tests are claimed as passed.
+
+## 16. Phase 8 Quality Artifacts
+
+| Artifact | Purpose | Status |
+|---|---|---|
+| `docs/quality/SECURITY-REVIEW.md` | Security controls and findings from the Phase 8 source review | Complete — live evidence pending |
+| `docs/quality/RELIABILITY-REVIEW.md` | Reliability controls and findings | Complete — live evidence pending |
+| `docs/quality/DATA-INTEGRITY-REVIEW.md` | Visitor-counter persistence and integrity review | Complete — live evidence pending |
+| `docs/quality/OBSERVABILITY-REVIEW.md` | Logging, request correlation and operational evidence review | Complete — live telemetry evidence pending |
+| `docs/quality/QUALITY-GATE.md` | Phase 8 gate decision and exit criteria | Complete — gate not passed |
+
+### Phase 8 Gate
+
+**NOT PASSED**
+
+Source-controlled security, reliability and data-integrity review is complete with no unresolved P0 security/reliability defect identified. Production acceptance remains blocked by live Azure deployment, identity/RBAC, HTTPS/DNS, persistence/concurrency, observability, smoke-test and cost evidence.
