@@ -55,6 +55,16 @@ jobs:
             exit 1
           fi
 
+          if find site -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' -o -name '.env.*' \) -print -quit | grep -q .; then
+            echo "::error::Potential credential-bearing file found in site/."
+            exit 1
+          fi
+
+          if grep -RniE 'AccountKey=|DefaultEndpointsProtocol=|SharedAccessSignature=|client_secret|AZURE_CLIENT_SECRET|COSMOS_CONNECTION_STRING' site; then
+            echo "::error::Potential Azure/database credential material found in frontend artifacts."
+            exit 1
+          fi
+
       - name: Install frontend dependencies
         shell: bash
         run: |
@@ -104,6 +114,7 @@ jobs:
           enable-AzPSSession: false
 
       - name: Upload static website using Microsoft Entra authorization
+        id: storage_upload
         shell: bash
         env:
           AZURE_CORE_OUTPUT: none
@@ -119,6 +130,7 @@ jobs:
             --overwrite
 
       - name: Verify deployed HTTPS endpoint
+        id: https_verify
         shell: bash
         env:
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
@@ -133,6 +145,32 @@ jobs:
             > /tmp/resume.html
 
           grep -qi '<html' /tmp/resume.html
+
+      - name: Record deployment result
+        if: always()
+        shell: bash
+        env:
+          UPLOAD_OUTCOME: ${{ steps.storage_upload.outcome }}
+          HTTPS_OUTCOME: ${{ steps.https_verify.outcome }}
+          PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
+        run: |
+          set -euo pipefail
+          mkdir -p deployment-evidence
+          {
+            echo "commit_sha=${GITHUB_SHA}"
+            echo "workflow_run=${GITHUB_RUN_ID}"
+            echo "upload_outcome=${UPLOAD_OUTCOME}"
+            echo "https_verification_outcome=${HTTPS_OUTCOME}"
+            echo "public_hostname=${PUBLIC_HOSTNAME}"
+          } > deployment-evidence/deployment-result.txt
+
+      - name: Upload final deployment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-final-deployment-evidence-${{ github.sha }}
+          path: deployment-evidence/
+          retention-days: 14
 
       - name: Azure logout
         if: always()
