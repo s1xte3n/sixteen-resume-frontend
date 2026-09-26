@@ -55,6 +55,23 @@ jobs:
             exit 1
           fi
 
+      - name: Install frontend dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -f package-lock.json ]]; then
+            if [[ ! -f package.json ]]; then
+              echo "::error::package-lock.json exists but package.json is missing."
+              exit 1
+            fi
+            npm ci
+          elif [[ -f package.json ]]; then
+            npm install
+          else
+            echo "No frontend package manifest is present; approved frontend architecture is plain HTML/CSS/JavaScript with no dependency manifest."
+          fi
+
       - name: Build production static website
         shell: bash
         run: |
