@@ -53,8 +53,8 @@ This document identifies authoritative project documentation, product requiremen
 | `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
 | `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete |
 | `docs/ci-cd/CI-CD-READINESS.md` | Frontend CI/CD operational readiness and evidence gate | Complete |
-| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; execution evidence pending |
-| `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; execution blocked until site/infrastructure exist |
+| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; execution evidence **BLOCKED** |
+| `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; live execution/evidence **BLOCKED** |
 
 ## 6. Architecture Documentation
 
@@ -129,8 +129,8 @@ These are implementation or production-acceptance gates rather than unresolved r
 6. Implement concurrency-safe counter persistence.
 7. Implement ARM infrastructure — core Azure resources now represented in the backend ARM template; live Azure validation and the ADR-006 edge-service resource remain pending.
 8. Implement backend GitHub Actions.
-9. Complete frontend GitHub Actions deployment workflow after frontend artifacts and Storage infrastructure exist.
-10. Implement frontend visitor-counter JavaScript.
+9. Complete frontend GitHub Actions deployment workflow — implementation complete; live execution evidence remains BLOCKED.
+10. Implement frontend visitor-counter JavaScript — implementation complete; live API/production verification remains BLOCKED.
 11. Execute API, persistence, concurrency, browser, security and deployment tests.
 12. Obtain final public HTML resume owner approval.
 13. Validate complete MVP recurring cost <= R100/month.
@@ -161,17 +161,17 @@ No API test is considered passed until the backend exists and the assertions ver
 | HTML resume | Candidate exists; implementation/approval pending |
 | CSS | Not started |
 | JavaScript visitor counter | Not started |
-| Azure Storage | Not started |
+| Azure Storage | ARM-defined backend resource; live deployment verification **BLOCKED** |
 | HTTPS/CDN | Architecture capability resolved; service selection pending implementation |
 | DNS hostname | Provider selected; hostname provisioning pending |
-| Cosmos DB | Not started |
-| Azure Function | Not started |
+| Cosmos DB | ARM-defined serverless Table API; live deployment/RBAC verification **BLOCKED** |
+| Azure Function | ARM-defined Python Linux Consumption app; live runtime verification **BLOCKED** |
 | Python implementation | Phase 7.1 foundation implemented; local HTTP contract and persistence tests present |
 | Python tests | Phase 7.1 unit, persistence, concurrency and HTTP contract tests implemented |
 | ARM template | Phase 7.3 core ARM infrastructure implemented in `s1xte3n/sixteen-resume-backend/infra/azure/azuredeploy.json`; Azure validation/deployment pending |
 | Backend GitHub Actions | Phase 7.1 workflow implemented and extended with ARM structural validation; execution/deployment evidence pending |
-| Frontend GitHub Actions | OIDC verification workflow implemented; production deployment workflow pending frontend implementation |
-| Production deployment | Not started |
+| Frontend GitHub Actions | PR CI `validate` and production deployment workflow implemented; live execution evidence **BLOCKED** |
+| Production deployment | **BLOCKED** — live Azure deployment/runtime evidence unavailable in current environment |
 | Blog content | Not started |
 | Public resume owner approval | Pending |
 | API contract | Frozen v1 |

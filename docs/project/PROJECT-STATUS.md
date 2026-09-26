@@ -4,7 +4,7 @@
 
 ## Overall Status
 
-**Phase 7 implementation in progress — Phase 7.3 Azure core IaC implemented; production infrastructure evidence pending**
+**Phase 7 implementation in progress — frontend CI/CD implemented; live Azure deployment verification BLOCKED pending authenticated Azure/production evidence**
 
 The project requirements, scope, technology stack, constraints, repositories, resume source material, certification situation, and deployment target have been established.
 
@@ -39,8 +39,8 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Frontend repository | Exists |
 | Backend repository | Exists — Phase 7.2 persistence implementation and Phase 7.3 core ARM IaC implemented; production deployment evidence pending |
 | HTML resume | Candidate exists |
-| CSS | Not started |
-| JavaScript visitor counter | Not started |
+| CSS | Implemented in `site/style.css` |
+| JavaScript visitor counter | Implemented in `site/script.js`; live API verification pending |
 | Azure Storage | ARM-defined; Azure deployment pending |
 | Azure HTTPS/CDN delivery layer | Architecture resolved; exact service pending implementation validation |
 | DNS hostname | Provider selected; hostname not provisioned |
@@ -50,10 +50,10 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Python tests | Implemented; local/CI execution evidence pending |
 | ARM template | Phase 7.3 core infrastructure implemented in backend repository; Azure validation/deployment pending |
 | Backend GitHub Actions | Implemented with ARM structural validation; production OIDC/deployment evidence pending |
-| Frontend GitHub Actions | Not started |
+| Frontend GitHub Actions | Implemented: PR CI `validate` and production deployment workflow; execution evidence pending |
 | Blog — Dev.to | Not started |
 | Blog — Hashnode | Not started |
-| Production deployment | Not started |
+| Production deployment | **BLOCKED — live Azure execution/verification evidence unavailable in current environment** |
 
 ## Repository Plan
 
@@ -175,7 +175,7 @@ Requirements-definition work is complete.
 
 Architecture and test design are ready for implementation.
 
-**Current phase: Phase 7 — Implementation. Phase 7.3 Azure IaC / Infrastructure Integration is implemented in the backend repository; production validation remains pending.**
+**Current phase: Phase 7 — Implementation. Frontend CI/CD and backend core ARM/deployment workflows are implemented; live Azure deployment verification is BLOCKED pending authenticated production evidence.**
 
 Phase 7 continues with incremental implementation and validation of:
 
@@ -208,4 +208,4 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repositories contain `develop` branches created from `main`. Phase 7.1/7.2 backend implementation and Phase 7.3 core ARM infrastructure are implemented on feature branches; production infrastructure validation, edge-service selection, OIDC deployment evidence, and release acceptance remain pending.
+The repositories contain `develop` branches created from `main`. Backend persistence/core ARM and frontend CI/CD implementation are present on `main`. Live production infrastructure, OIDC execution, HTTPS/edge routing, DNS, persistence, runtime logging, and end-to-end evidence remain BLOCKED pending authenticated Azure access and the unresolved edge-service implementation.
