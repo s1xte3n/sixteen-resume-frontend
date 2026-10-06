@@ -88,3 +88,21 @@ A gap closes only when:
 4. Traceability is synchronized.
 5. Dependencies are recalculated.
 6. The backlog is updated only after the requirement becomes implementation-ready.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex gap review
+| ID | Classification | Status | Impact |
+| GAP-FLEX-001 | Hosting contradiction | CLOSED | Flex FC1 is current; Y1 historical only. |
+| GAP-FLEX-002 | Runtime configuration | CLOSED | v4/Python 3.12 required; FUNCTIONS_EXTENSION_VERSION not a Flex requirement. |
+| GAP-FLEX-003 | Deployment storage | CLOSED at requirement level | Blob-container deployment source, identity authentication and provider-supported package deployment are required; exact names are implementation details. |
+| GAP-FLEX-004 | Runtime storage | CLOSED at requirement level | Legacy Y1 Azure Files/content-share assumptions are obsolete; Flex identity-based storage is required. |
+| GAP-FLEX-005 | Regional availability/quota | CLOSED as requirement; deployment gate | East US Flex capacity must be validated; Y1 quota is not fallback. |
+| GAP-FLEX-006 | Package deployment | CLOSED at requirement level | Flex-compatible package deployment required; exact workflow is Phase 2. |
+| GAP-FLEX-007 | API contract impact | CLOSED | GET /api/visitors remains unchanged. |
+| GAP-FLEX-008 | Exact memory/concurrency/max-instance values | DEFERRED | No product behavior requires fixed values; architecture/IaC chooses and documents them. |
+| GAP-FLEX-009 | Exact Storage RBAC role | DEFERRED | Architecture/IaC chooses least-privilege role; requirement is capability. |
+| GAP-FLEX-010 | Exact ARM API version | DEFERRED | Implementation chooses supported version. |
+Any Y1/Linux Consumption reference in a current requirement, current CI/CD instruction or current acceptance criterion is a documentation defect. Historical ADRs, migration records and failed deployment evidence may retain Y1 only when explicitly labeled historical/superseded.
+No P0/P1 ambiguity remains hidden.

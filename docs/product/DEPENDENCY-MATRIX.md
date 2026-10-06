@@ -89,3 +89,27 @@ This matrix defines requirement-to-requirement dependencies, blocking decisions,
 ## 6. Dependency Rule
 
 A downstream requirement must not be marked complete when an upstream requirement materially determines its behavior and remains unresolved. Parallel preparation is permitted only when the unresolved dependency cannot change the interface, acceptance criteria, security boundary, cost, or architecture.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex dependency matrix
+| Requirement | Depends on | Type | Blocking | Verification |
+| REQ-AZ-FLEX-001 | East US Flex availability | External/deployment | Yes before production | VT-FLEX-001, VT-FLEX-010 |
+| REQ-AZ-FLEX-002 | Flex runtime support | Platform | Yes | VT-FLEX-002 |
+| REQ-AZ-FLEX-003 | Flex scale model | Platform | Yes | VT-FLEX-003 |
+| REQ-AZ-FLEX-004 | Storage account/container + package deployment | Architecture/deployment | Yes | VT-FLEX-004 |
+| REQ-AZ-FLEX-005 | Function identity + Storage authorization | Security/IAM | Yes | VT-FLEX-005 |
+| REQ-AZ-FLEX-006 | Flex runtime storage model | Platform/IaC | Yes | VT-FLEX-006 |
+| REQ-AZ-FLEX-007 | Cosmos Table + Function identity | Security/data | Yes | VT-FLEX-007 |
+| REQ-AZ-FLEX-008 | REQ-AZ-FLEX-004 + OIDC | CI/CD | Yes | VT-FLEX-008 |
+| REQ-AZ-FLEX-009 | REQ-AZ-FLEX-001..007 | IaC | Yes | VT-FLEX-009 |
+| REQ-AZ-FLEX-010 | East US subscription capacity | External/deployment | Yes | VT-FLEX-010 |
+| REQ-AZ-FLEX-011 | Frozen API contract | Product/interface | No change | VT-FLEX-011 |
+| REQ-AZ-FLEX-012 | REQ-AZ-FLEX-008/009 | CI/CD | Yes | VT-FLEX-012 |
+| REQ-AZ-FLEX-013 | REQ-AZ-COST-001 + current pricing | Cost/external | Yes at release | VT-FLEX-013 |
+Product dependencies: API contract, visitor semantics, cost ceiling and East US target.
+Architecture dependencies: Flex plan model, functionAppConfig, deployment storage, runtime storage and managed identity.
+Implementation dependencies: package format, deployment activation, ARM API version, exact resource names, memory/concurrency values.
+Deployment dependencies: Flex regional capacity, Storage authorization, GitHub OIDC and deployment package availability.
+External dependencies: Azure Flex availability/capacity and current provider behavior/pricing. Y1 is not a fallback.

@@ -366,3 +366,19 @@ The PRD phase is closed only when:
 9. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
 
 **Current status: OR-001 through OR-013 are resolved at the requirements-definition level. Final public HTML owner approval, selected edge-service validation, and implementation evidence remain production acceptance gates.**
+
+## Phase 1 Flex requirements closure
+| Item | Status | Classification |
+| Flex FC1/Linux hosting | Resolved | NEW |
+| Functions v4/Python 3.12 | Resolved | NEW |
+| Scale-to-zero/zero always-ready | Resolved | NEW |
+| Deployment storage/package deployment | Resolved at requirements level | NEW; exact implementation deferred |
+| Managed-identity deployment storage access | Resolved | NEW |
+| Flex runtime storage | Resolved at requirements level | NEW; exact configuration deferred |
+| Cosmos managed identity | Resolved | UNCHANGED/strengthened verification |
+| functionAppConfig ARM model | Resolved | CHANGED |
+| East US Flex availability/quota | Explicit deployment gate | NEW |
+| API contract | Resolved unchanged | UNCHANGED |
+| Flex cost | Explicit validation gate | NEW |
+| Y1 quota | Closed; no further request | OBSOLETE |
+No P0/P1 ambiguity remains hidden. Exact ARM API version, deployment container name, memory, maximum instance count, HTTP concurrency, site-update strategy and exact Storage role remain implementation/architecture decisions rather than product ambiguity.

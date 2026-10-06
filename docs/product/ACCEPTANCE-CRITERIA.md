@@ -277,3 +277,68 @@ The MVP cannot be declared fully accepted until:
 - [ ] Final public resume content is approved.
 - [ ] Browser, availability, DNS, and blog-link baselines are explicitly defined.
 - [ ] No hidden P1 ambiguity remains.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex Consumption acceptance criteria
+### AC-FLEX-001 — FC1/Linux
+- [ ] Function App uses Flex Consumption.
+- [ ] Plan SKU is FC1.
+- [ ] Function App is Linux.
+- [ ] No Y1/Dynamic plan is present in the current deployment definition.
+### AC-FLEX-002 — Runtime
+- [ ] Functions runtime is v4.
+- [ ] Python runtime is 3.12.
+- [ ] Flex configuration does not require FUNCTIONS_EXTENSION_VERSION.
+### AC-FLEX-003 — Scale
+- [ ] Function uses Flex serverless scaling.
+- [ ] MVP always-ready count is zero.
+- [ ] No requirement or configuration forces a nonzero always-ready instance.
+### AC-FLEX-004 — Deployment storage/package
+- [ ] A private blob container is configured as the Flex deployment source.
+- [ ] Deployment source is represented through the Flex-supported configuration.
+- [ ] CI/CD uses the provider-supported package deployment mechanism.
+- [ ] The package conforms to the Flex deployment contract.
+### AC-FLEX-005 — Deployment storage identity
+- [ ] System-assigned Function identity authenticates to deployment storage.
+- [ ] The identity can access the configured deployment container.
+- [ ] No storage key, SAS token or long-lived deployment connection string is required.
+- [ ] Permissions are limited to the required deployment-storage capability.
+### AC-FLEX-006 — Runtime storage
+- [ ] Runtime host storage uses the Flex-supported identity-based configuration.
+- [ ] AzureWebJobsStorage__accountName is used where required by the selected Flex configuration.
+- [ ] Legacy WEBSITE_CONTENTAZUREFILECONNECTIONSTRING and WEBSITE_CONTENTSHARE assumptions are not required.
+### AC-FLEX-007 — Cosmos identity
+- [ ] Function has a system-assigned managed identity.
+- [ ] Identity can perform the approved VisitorCounter Table operation.
+- [ ] Authorization is least privilege and scoped to the required data-plane capability.
+### AC-FLEX-008 — CI/CD
+- [ ] Backend tests run before deployment.
+- [ ] Deployment is Flex-compatible.
+- [ ] Deployment does not depend on Y1, content-share or classic Consumption assumptions.
+- [ ] Deployment failure produces a failed workflow result.
+### AC-FLEX-009 — ARM
+- [ ] ARM contains the Flex plan/resource model.
+- [ ] Microsoft.Web/sites contains functionAppConfig.
+- [ ] functionAppConfig represents deployment source.
+- [ ] functionAppConfig represents runtime name/version.
+- [ ] functionAppConfig represents required scale/always-ready behavior.
+- [ ] Dependencies ensure required resources exist before dependent configuration.
+### AC-FLEX-010 — East US capacity
+- [ ] East US supports the selected Flex runtime/configuration at implementation time.
+- [ ] Subscription has sufficient Flex regional capacity/quota.
+- [ ] No Y1 quota increase is requested or required.
+### AC-FLEX-011 — API preservation
+- [ ] Endpoint remains GET /api/visitors.
+- [ ] Existing response/error schemas remain unchanged.
+- [ ] Visitor semantics, concurrency and persistence semantics remain unchanged.
+- [ ] Browser-to-Cosmos isolation remains unchanged.
+### AC-FLEX-012 — Failure gate
+- [ ] ARM validation failure fails CI/CD.
+- [ ] Flex package/deployment failure fails CI/CD.
+- [ ] Required post-deployment verification failure cannot produce a successful release result.
+### AC-FLEX-013 — Cost
+- [ ] Recurring Azure/cloud cost remains <= R100/month.
+- [ ] R0/month remains preferred.
+- [ ] Current pricing/cost evidence is validated during implementation/release rather than invented.

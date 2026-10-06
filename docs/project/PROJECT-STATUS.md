@@ -209,3 +209,17 @@ The following implementation-governing decisions are now resolved:
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
 The repositories contain `develop` branches. Backend persistence and frontend CI/CD implementation exist on `main`. The existing backend ARM template is historical/superseded because it encodes Linux Consumption/Y1. Live production infrastructure, OIDC execution, HTTPS/edge routing, DNS, persistence, runtime logging, and end-to-end evidence remain blocked pending the Flex ARM update and authenticated Azure access.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Phase 1 — Flex Consumption PRD Re-Baseline
+Status: COMPLETE — requirements/documentation re-baselined; implementation deferred to Phase 2.
+Phase 0 PR #50 frontend is merged into main at d75e43eb64c995086e36e89799d09754a1ce1fa7.
+Phase 0 PR #18 backend is merged into main at 9dd83933d4341315810aed96117177da8c47cba5.
+Current hosting authority: Azure Functions Flex Consumption FC1, Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, zero always-ready instances, system-assigned managed identity, Cosmos DB Table API serverless, ARM IaC, GitHub Actions and Microsoft Entra OIDC.
+Historical Y1 failure: subscription Y1 VM quota was 0; attempted increase to 1 failed; no further Y1 quota increase is authorized.
+API contract: UNCHANGED — GET /api/visitors.
+Phase 1 added explicit requirements for Flex plan, runtime, scale-to-zero, zero always-ready, deployment storage/package deployment, identity-based storage access, runtime storage, Cosmos authorization, ARM functionAppConfig, regional capacity and CI/CD failure gating.
+No application code, Flex ARM template, production deployment or API redesign was performed.
+Phase 2 must replace superseded Y1 ARM assumptions, update package/deployment configuration and tests, and validate Flex availability/capacity.

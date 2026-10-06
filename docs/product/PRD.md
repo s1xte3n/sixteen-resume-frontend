@@ -1022,3 +1022,35 @@ The PRD requirements-definition closure is **COMPLETE**. The implementation gate
 9. Final public resume content is approved.
 
 Implementation may proceed without reopening the closed product decisions.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Current hosting authority
+Phase 0 is complete and merged in both canonical repositories. The current Functions hosting architecture is Azure Functions Flex Consumption (FC1), Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, and zero always-ready instances for the MVP.
+Linux Consumption/Y1 is historical/superseded only. The previous Y1 deployment failed because the subscription Y1 VM quota was 0 and the attempted increase to 1 was unsuccessful. No further Y1 quota increase is authorized.
+## Flex requirement classification
+| ID | Class | Requirement | Priority | Acceptance | Verification |
+| REQ-AZ-FLEX-001 | NEW | Production Function App uses Flex Consumption FC1 on Linux. | P1 | AC-FLEX-001 | VT-FLEX-001 |
+| REQ-AZ-FLEX-002 | NEW | Function runtime is v4 and Python 3.12; obsolete FUNCTIONS_EXTENSION_VERSION is not required for Flex. | P1 | AC-FLEX-002 | VT-FLEX-002 |
+| REQ-AZ-FLEX-003 | NEW | MVP supports serverless scale-to-zero and zero always-ready instances. | P1 | AC-FLEX-003 | VT-FLEX-003 |
+| REQ-AZ-FLEX-004 | NEW | Flex uses blob-container deployment storage and provider-supported package deployment. Exact names remain architecture/implementation decisions. | P1 | AC-FLEX-004 | VT-FLEX-004 |
+| REQ-AZ-FLEX-005 | NEW | Deployment-storage access uses the Function system-assigned managed identity and only required Storage permissions. | P1 | AC-FLEX-005 | VT-FLEX-005 |
+| REQ-AZ-FLEX-006 | NEW | Runtime host storage uses Flex-supported identity-based configuration; obsolete Y1 Azure Files/content-share assumptions are not current requirements. | P1 | AC-FLEX-006 | VT-FLEX-006 |
+| REQ-AZ-FLEX-007 | NEW | Function system-assigned identity retains least-privilege Cosmos Table API authorization scoped to VisitorCounter. | P1 | AC-FLEX-007 | VT-FLEX-007 |
+| REQ-AZ-FLEX-008 | CHANGED | Backend CI/CD package/deployment behavior must be Flex-compatible and contain no Y1 deployment assumption. | P1 | AC-FLEX-008 | VT-FLEX-008 |
+| REQ-AZ-FLEX-009 | CHANGED | ARM IaC must represent the Flex resource model through functionAppConfig for required deployment/runtime/scale behavior. | P1 | AC-FLEX-009 | VT-FLEX-009 |
+| REQ-AZ-FLEX-010 | NEW | East US Flex availability/quota must be validated before production deployment; Y1 quota is not a fallback. | P1 | AC-FLEX-010 | VT-FLEX-010 |
+| REQ-AZ-FLEX-011 | UNCHANGED | GET /api/visitors and approved visitor, persistence, concurrency, response and browser-isolation semantics remain unchanged. | P1 | VT-FLEX-011 |
+| REQ-AZ-FLEX-012 | NEW | Flex-specific infrastructure/package/deployment failure must fail CI/CD and cannot be reported as a successful release. | P1 | AC-FLEX-012 | VT-FLEX-012 |
+| REQ-AZ-FLEX-013 | NEW | Flex implementation must remain within the R100/month recurring Azure/cloud ceiling; actual pricing is an implementation validation dependency. | P1 | AC-FLEX-013 | VT-FLEX-013 |
+## Abstraction boundary
+Exact deployment container names, ARM API versions, instance memory, maximum instance count, HTTP per-instance concurrency, site-update strategy, package build tooling and exact Storage RBAC role names are not product requirements. They remain architecture/IaC decisions constrained by the requirements above.
+## API preservation
+The visitor API is explicitly UNCHANGED. No Flex-specific API redesign was identified.
+## Gate impact
+No P0/P1 ambiguity is hidden by the hosting change. Flex availability/quota, deployment storage, package deployment and final edge/cost validation are explicit implementation or deployment evidence gates.
+
+## GATE — PRD READY
+
+**PASS** for Phase 1 requirements re-baseline. All Flex-affected MVP behavior is classified, Flex-specific requirements have acceptance and verification mappings, the API contract is explicitly unchanged, Y1 is historical/superseded, and no P0/P1 ambiguity is hidden. Implementation/deployment evidence remains Phase 2+ work.

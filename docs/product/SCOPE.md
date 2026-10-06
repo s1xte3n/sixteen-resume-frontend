@@ -183,3 +183,12 @@ MVP scope is complete only when:
 **Status: Scope baseline complete; MVP closure blocked by unresolved product decisions.**
 
 The scope is intentionally not marked fully closed because the approved sources still contain P1 decisions and a product/project documentation inconsistency regarding the blog platform.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex hosting scope
+The MVP backend hosting scope is explicitly Azure Functions Flex Consumption FC1 on Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, zero always-ready instances, system-assigned managed identity, identity-based deployment storage and ARM functionAppConfig representation.
+Linux Consumption/Y1 is excluded from current MVP scope and is historical/superseded only. No Y1 quota increase is permitted.
+Exact deployment container name, ARM API version, instance memory, maximum instance count, HTTP concurrency, site-update strategy and exact Storage role selection are implementation/architecture decisions, not product requirements.
+API scope is unchanged: GET /api/visitors.

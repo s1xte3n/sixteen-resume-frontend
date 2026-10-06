@@ -296,3 +296,9 @@ Success:
 {
   "count": 42
 }
+
+
+## Phase 1 Flex test coverage
+Add verification coverage for: FC1/Linux hosting; Functions v4; Python 3.12; scale-to-zero; zero always-ready; functionAppConfig; deployment storage/container; managed-identity Storage access; identity-based runtime storage; Cosmos managed-identity authorization; Flex-compatible package deployment; OIDC deployment; ARM reproducibility; East US Flex capacity; deployment failure gating; and API regression.
+Y1-specific tests are historical/superseded and must not be used as current acceptance evidence.
+API regression must prove GET /api/visitors remains unchanged.

@@ -298,3 +298,20 @@ Phase 7 implementation must not:
 - introduce unrelated product features.
 
 All implementation work must remain traceable to an approved requirement or implementation task.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Phase 1 artifacts
+| Artifact | Status |
+| docs/product/PRD.md | Flex re-baselined |
+| docs/product/REQUIREMENTS.md | REQ-AZ-FLEX-001..013 added |
+| docs/product/ACCEPTANCE-CRITERIA.md | AC-FLEX-001..013 added |
+| docs/product/DEPENDENCY-MATRIX.md | Flex dependencies added |
+| docs/product/TRACEABILITY-MATRIX.md | Flex traceability added |
+| docs/product/REQUIREMENT-GAPS.md | Flex gaps classified/closed/deferred |
+| docs/product/SCOPE.md | Flex hosting scope updated |
+| docs/product/USER-STORIES.md | Flex story mapping added |
+| docs/project/PROJECT-STATUS.md | Phase 1 status updated |
+Backend infra/azure/azuredeploy.json remains the superseded Y1 implementation and is not a Phase 1 implementation artifact. Phase 2 must replace it.
+Backend tests containing Y1 assertions are stale implementation evidence and must be replaced in Phase 2. Phase 1 does not modify application/test implementation.
