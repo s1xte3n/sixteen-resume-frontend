@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | System | Azure Cloud Resume Challenge |
-| Architecture Status | Proposed — implementation not started |
+| Architecture Status | Implementation-aligned; live Azure verification pending |
 | Requirements Source | `docs/product/REQUIREMENTS.md` |
 | Acceptance Source | `docs/product/ACCEPTANCE-CRITERIA.md` |
 | Dependency Source | `docs/product/DEPENDENCY-MATRIX.md` |
@@ -714,3 +714,25 @@ Architecture is considered implementation-ready when all P0/P1 architecture/secu
 
 
 ---
+
+
+# Phase 2 — Flex Hosting Implementation Alignment
+
+The backend implementation now follows the approved Azure Functions Flex Consumption architecture:
+
+- Flex Consumption FC1.
+- Linux.
+- Functions runtime v4.
+- Python 3.12.
+- Serverless scale-to-zero.
+- Zero always-ready instances for MVP.
+- System-assigned Function App managed identity.
+- Private Blob deployment container configured through functionAppConfig.
+- Identity-based runtime storage through AzureWebJobsStorage__accountName.
+- Azure Cosmos DB Table API with table-scoped authorization.
+- ARM infrastructure as code.
+- GitHub Actions with Microsoft Entra OIDC.
+
+The API boundary remains unchanged at GET /api/visitors.
+
+The backend CI workflow validates the Flex region/runtime, ARM configuration, package creation, package deployment, and deployed Function App state. Live Azure evidence remains a separate release gate.

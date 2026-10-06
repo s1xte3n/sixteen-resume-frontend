@@ -170,9 +170,9 @@ The template must represent:
 - Azure Storage static website.
 - The selected and validated Azure HTTPS/CDN edge-delivery layer and its required resources.
 - HTTPS/certificate configuration supported by the selected and validated delivery service.
-- Azure Function Flex Consumption resources (FC1, Linux, Functions v4, Python 3.12).
+- Azure Function Flex Consumption resources (FC1, Linux, Functions v4, Python 3.12) using functionAppConfig.
 - Cosmos DB Table API resources.
-- Required deployment configuration.
+- Required Flex deployment configuration, private deployment container, system-assigned managed-identity authentication, and identity-based runtime storage.
 
 The template must avoid storing plaintext secrets.
 
@@ -343,3 +343,30 @@ Current Function hosting authority is Azure Functions Flex Consumption FC1, Linu
 Flex ARM must use functionAppConfig for deployment source, runtime and applicable scale configuration. Deployment storage must be a private blob container accessed through the Function system-assigned managed identity. Legacy Y1 Azure Files/content-share assumptions are superseded.
 Exact deployment container, ARM API version, instance memory, maximum instance count and HTTP concurrency remain architecture/IaC implementation decisions. East US Flex availability/capacity is a deployment gate.
 API contract remains GET /api/visitors; no application/API redesign is required by Flex.
+
+
+## Phase 2 — Flex Consumption Implementation
+
+The backend Flex implementation is now represented in `s1xte3n/sixteen-resume-backend`.
+
+Implemented infrastructure controls:
+
+- Flex Consumption FC1 hosting plan.
+- Linux Function App.
+- Functions runtime v4.
+- Python 3.12 in `functionAppConfig.runtime`.
+- Zero always-ready instances.
+- Serverless scale-to-zero without a fixed maximum instance count.
+- Private Blob deployment container.
+- `functionAppConfig.deployment.storage` using `blobContainer`.
+- System-assigned managed-identity deployment authentication.
+- Identity-based runtime host storage through `AzureWebJobsStorage__accountName`.
+- No Azure Files/content-share settings.
+- No `WEBSITE_RUN_FROM_PACKAGE` setting.
+- Runtime storage RBAC and deployment-storage RBAC separated by storage account.
+- Cosmos DB Table API authorization remains table-scoped.
+- GitHub Actions production deployment remains Microsoft Entra OIDC.
+
+The exact Flex instance memory, maximum instance count, HTTP concurrency and site-update strategy are intentionally not fixed in the MVP ARM template because Phase 1 did not approve those values.
+
+Authenticated Azure deployment is still required to prove subscription-specific Flex capacity, RBAC effectiveness, package activation, runtime startup, and cost compliance.

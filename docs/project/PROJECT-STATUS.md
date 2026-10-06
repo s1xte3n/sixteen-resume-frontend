@@ -45,11 +45,11 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure HTTPS/CDN delivery layer | Architecture resolved; exact service pending implementation validation |
 | DNS hostname | Provider selected; hostname not provisioned |
 | Cosmos DB | ARM-defined as serverless Table API; Azure deployment/RBAC verification pending |
-| Azure Function | Current target: Flex Consumption (FC1), Linux, Functions v4, Python 3.12; ARM implementation update required before deployment |
+| Azure Function | Flex Consumption FC1, Linux, Functions v4, Python 3.12; ARM and deployment workflow implemented on Phase 2 backend branch; authenticated Azure verification pending |
 | Python implementation | Phase 7.2 persistence implementation complete; production runtime verification pending |
 | Python tests | Implemented; local/CI execution evidence pending |
-| ARM template | Phase 7.3 historical core infrastructure implemented in backend repository; current Flex ARM update required before Azure validation/deployment |
-| Backend GitHub Actions | Implemented with ARM structural validation; production OIDC/deployment evidence pending |
+| ARM template | Flex Consumption implementation completed in backend repository; authenticated Azure validation/deployment pending |
+| Backend GitHub Actions | Flex-aware validation, ARM deployment, package build/deployment and post-deployment verification implemented; production OIDC/deployment evidence pending |
 | Frontend GitHub Actions | Implemented: PR CI `validate` and production deployment workflow; execution evidence pending |
 | Blog — Dev.to | Not started |
 | Blog — Hashnode | Not started |
@@ -161,7 +161,7 @@ Security requirements established:
 * Browser cannot directly access Cosmos DB.
 * Azure Function provides the database API boundary.
 
-Implementation status: **Not started**
+Implementation status: **Flex infrastructure/security implementation in progress; live Azure verification pending**
 
 ## Deadline
 
@@ -208,18 +208,16 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repositories contain `develop` branches. Backend persistence and frontend CI/CD implementation exist on `main`. The existing backend ARM template is historical/superseded because it encodes Linux Consumption/Y1. Live production infrastructure, OIDC execution, HTTPS/edge routing, DNS, persistence, runtime logging, and end-to-end evidence remain blocked pending the Flex ARM update and authenticated Azure access.
+The repositories contain `develop` branches. Backend persistence and frontend CI/CD implementation exist on `main`. The existing Y1 ARM path is superseded and is no longer the current deployment path. The Phase 2 backend branch contains the Flex ARM implementation, identity/RBAC configuration, package deployment workflow, and Flex validation tests. Live production infrastructure, OIDC execution, runtime logging, HTTPS/edge routing, DNS, persistence and end-to-end evidence remain blocked pending authenticated Azure access and release validation.
 
 
-# Phase 1 — Flex Consumption PRD Re-Baseline
+# Phase 2 — Flex Consumption Infrastructure Implementation
 
-## Phase 1 — Flex Consumption PRD Re-Baseline
-Status: COMPLETE — requirements/documentation re-baselined; implementation deferred to Phase 2.
+Status: IMPLEMENTATION COMPLETE ON FEATURE BRANCH — authenticated Azure deployment evidence pending.
 Phase 0 PR #50 frontend is merged into main at d75e43eb64c995086e36e89799d09754a1ce1fa7.
 Phase 0 PR #18 backend is merged into main at 9dd83933d4341315810aed96117177da8c47cba5.
 Current hosting authority: Azure Functions Flex Consumption FC1, Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, zero always-ready instances, system-assigned managed identity, Cosmos DB Table API serverless, ARM IaC, GitHub Actions and Microsoft Entra OIDC.
 Historical Y1 failure: subscription Y1 VM quota was 0; attempted increase to 1 failed; no further Y1 quota increase is authorized.
 API contract: UNCHANGED — GET /api/visitors.
 Phase 1 added explicit requirements for Flex plan, runtime, scale-to-zero, zero always-ready, deployment storage/package deployment, identity-based storage access, runtime storage, Cosmos authorization, ARM functionAppConfig, regional capacity and CI/CD failure gating.
-No application code, Flex ARM template, production deployment or API redesign was performed.
-Phase 2 must replace superseded Y1 ARM assumptions, update package/deployment configuration and tests, and validate Flex availability/capacity.
+Phase 2 replaced the superseded Y1 ARM assumptions, updated package/deployment configuration and tests, and added automated Flex availability/runtime validation. No API redesign was performed. Production deployment evidence remains pending.
