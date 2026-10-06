@@ -86,3 +86,12 @@ The deployed Postman environment is generated operational state, not a committed
 10. OIDC deployment identity and Function managed-identity/RBAC configuration are validated.
 
 Environment differences must be configuration, not code forks. Production values must not be copied into test data.
+
+
+## Phase 1 Flex runtime configuration
+Production Function App: Flex Consumption FC1, Linux, Functions runtime v4, Python 3.12.
+Production scale: serverless scale-to-zero with zero always-ready instances for MVP.
+Production identity: system-assigned managed identity for runtime and Flex deployment-storage access, with least privilege.
+Flex runtime configuration must not depend on the obsolete FUNCTIONS_EXTENSION_VERSION setting or Y1 content-share configuration.
+Flex deployment storage: private blob container configured through functionAppConfig; exact account/container names are implementation parameters.
+East US Flex availability/capacity must be validated before production deployment.
