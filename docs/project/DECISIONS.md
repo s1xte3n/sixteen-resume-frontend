@@ -453,3 +453,19 @@ main
 ```
 
 The frontend repository now has a `develop` branch created from `main` to establish the approved development/production branch model.
+
+---
+
+## D-040 — Azure Functions Flex Consumption Re-Baseline
+
+**Status:** Approved — current hosting decision.
+
+**Decision:** Use Azure Functions Flex Consumption (FC1), Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, and zero always-ready instances for the MVP.
+
+**Reason:** Flex Consumption is the approved current serverless hosting model. It removes the blocked Y1 quota dependency and aligns the project with the current Functions hosting direction.
+
+**Scope:** This decision changes the Functions hosting model only. The frontend, API boundary, Cosmos DB Table API, managed identity, ARM IaC, GitHub Actions, OIDC, and other approved requirements remain unchanged unless a dependent Flex implementation requirement is identified in Phase 1.
+
+**Implementation consequence:** The existing Linux Consumption/Y1 ARM template and tests are historical/superseded. Phase 1 must update the ARM resource model, Function App configuration, deployment packaging, and related verification. No Y1 quota increase is an allowed workaround.
+
+**Always-ready:** 0 for MVP. The application remains scale-to-zero unless a later approved requirement changes this.
