@@ -346,3 +346,11 @@ Frontend artifacts remain implementation-aligned but production acceptance is st
 Backend ARM validation defects are resolved and the current production blocker is now deployment-identity RBAC: the GitHub Actions service principal reaches ARM but lacks `Microsoft.Authorization/roleAssignments/write` at `rg-sixteen-resume-prod`. Frontend production acceptance remains blocked and no frontend implementation change is authorized for this blocker.
 
 Required next evidence remains a fresh successful backend production workflow execution followed by the defined end-to-end frontend verification. Documentation must not mark production deployment, API, persistence, isolation, CORS, security, or cost as passed before direct evidence exists.
+
+## Phase 4 continuation — FC1 instance memory requirement — 2026-10-07
+
+The latest controlled backend production deployment reached the Function App resource but Azure rejected the Flex `functionAppConfig.scaleAndConcurrency` configuration because `instanceMemoryMB` was not explicitly set. Azure reported the supported values as 512, 2048, and 4096 MB.
+
+The backend correction sets `instanceMemoryMB` to **512 MB**, the lowest provider-supported value, while retaining `alwaysReady: []` for zero always-ready instances and scale-to-zero. No frontend architecture, API contract, credentials, direct Cosmos access, CDN/cache path, or deployment mechanism changes as a result.
+
+Frontend production acceptance remains **BLOCKED** until the corrected backend passes CI and a fresh production workflow from `main` completes the required deployment, runtime, API, persistence/concurrency, isolation, CORS, security, observability, and cost evidence.
