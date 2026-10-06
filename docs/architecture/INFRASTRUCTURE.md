@@ -336,3 +336,10 @@ Primary verification:
 - OR-004 delivery acceptance evidence
 
 ---
+
+
+## Phase 1 Flex alignment
+Current Function hosting authority is Azure Functions Flex Consumption FC1, Linux, Functions runtime v4, Python 3.12, scale-to-zero and zero always-ready instances for MVP.
+Flex ARM must use functionAppConfig for deployment source, runtime and applicable scale configuration. Deployment storage must be a private blob container accessed through the Function system-assigned managed identity. Legacy Y1 Azure Files/content-share assumptions are superseded.
+Exact deployment container, ARM API version, instance memory, maximum instance count and HTTP concurrency remain architecture/IaC implementation decisions. East US Flex availability/capacity is a deployment gate.
+API contract remains GET /api/visitors; no application/API redesign is required by Flex.
