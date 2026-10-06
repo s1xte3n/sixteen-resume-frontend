@@ -4,7 +4,7 @@
 
 ## Overall Status
 
-**Phase 0 re-baseline complete after approved hosting-model change; live Azure deployment verification BLOCKED pending Flex ARM update and authenticated Azure/production evidence**
+**Phase 0 re-baseline complete; live Azure deployment verification BLOCKED pending corrected Flex ARM validation and authenticated Azure/production evidence**
 
 The project requirements, scope, technology stack, constraints, repositories, resume source material, certification situation, and deployment target have been established.
 
@@ -37,7 +37,7 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Component | Status |
 |---|---|
 | Frontend repository | Exists |
-| Backend repository | Exists — Phase 7.2 persistence implementation and Phase 7.3 core ARM IaC implemented; production deployment evidence pending |
+| Backend repository | Exists — Phase 7.2 persistence implementation and Phase 7.3 Flex ARM IaC implemented; current ARM validation blocker is being corrected; production deployment evidence pending |
 | HTML resume | Candidate exists |
 | CSS | Implemented in `site/style.css` |
 | JavaScript visitor counter | Implemented in `site/script.js`; live API verification pending |
@@ -48,8 +48,8 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure Function | Flex Consumption FC1, Linux, Functions v4, Python 3.12; ARM and deployment workflow implemented on Phase 2 backend branch; authenticated Azure verification pending |
 | Python implementation | Phase 7.2 persistence implementation complete; production runtime verification pending |
 | Python tests | Implemented; local/CI execution evidence pending |
-| ARM template | Flex Consumption implementation completed in backend repository; authenticated Azure validation/deployment pending |
-| Backend GitHub Actions | Flex-aware validation, ARM deployment, package build/deployment and post-deployment verification implemented; production OIDC/deployment evidence pending |
+| ARM template | Flex Consumption implementation completed; role-assignment naming correction prepared; authenticated Azure validation/deployment pending |
+| Backend GitHub Actions | Flex-aware validation, ARM deployment, package build/deployment and post-deployment verification implemented; production OIDC federation progressed past the previous blocker; ARM template validation currently blocks deployment |
 | Frontend GitHub Actions | Implemented: PR CI `validate` and production deployment workflow; execution evidence pending |
 | Blog — Dev.to | Not started |
 | Blog — Hashnode | Not started |
@@ -227,14 +227,16 @@ Phase 2 replaced the superseded Y1 ARM assumptions, updated package/deployment c
 
 **Current gate: BLOCKED.**
 
-Live backend production deployment evidence was attempted from the merged Phase 2 backend main commit 53035b2d1d81d431a29180738e3a9c77f2081e23 using GitHub Actions run 37520785334. The validation job passed, but the production deployment stopped at Azure OIDC authentication with AADSTS70025 because the Azure deployment application has no configured federated identity credentials.
+The previous production OIDC federation blocker was corrected and the backend deployment workflow progressed to Azure ARM template validation. The current blocker is an ARM template defect: role-assignment resource names used reference() to obtain the Function App managed-identity principal ID. ARM does not permit reference() at that location.
 
-Consequences:
+The backend correction keeps reference(...).identity.principalId in the role-assignment properties and changes only the resource-name expressions to deterministic guid(...) values based on stable resource identifiers, the Function App name, and role identifiers.
 
-- No ARM validation was executed in the production job.
-- No ARM deployment was executed.
-- Flex subscription capacity is unproven.
+Consequences until the corrected backend branch is validated and released:
+
+- ARM validation remains unproven.
+- ARM deployment remains unproven.
+- Flex subscription capacity remains unproven.
 - Function App, Storage, RBAC, Cosmos, package activation, runtime startup, API, persistence/concurrency, CORS, observability, and cost remain unverified.
-- No manual production repair or alternate credential mechanism was introduced.
+- Frontend production deployment remains dependent on the backend release and end-to-end acceptance.
 
-The project must remain blocked until the approved GitHub-to-Azure federated credential is provisioned and a fresh production workflow run proves OIDC, ARM validation/deployment, runtime configuration, package deployment and subsequent release evidence.
+No alternate credential mechanism, manual production repair, or API redesign is authorized.
