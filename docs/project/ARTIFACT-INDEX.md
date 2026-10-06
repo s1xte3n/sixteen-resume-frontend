@@ -60,10 +60,10 @@ This document identifies authoritative project documentation, product requiremen
 
 | Artifact | Purpose | Status |
 |---|---|---|
-| `docs/architecture/ARCHITECTURE.md` | Logical/system architecture | Proposed; not frozen |
+| `docs/architecture/ARCHITECTURE.md` | Logical/system architecture | Implementation-aligned; live Azure verification pending |
 | `docs/architecture/DATA-MODEL.md` | Persistent data model | Proposed |
-| `docs/architecture/SECURITY-ARCHITECTURE.md` | Security boundaries and controls | Proposed |
-| `docs/architecture/INFRASTRUCTURE.md` | Azure resource/environment architecture | Proposed |
+| `docs/architecture/SECURITY-ARCHITECTURE.md` | Security boundaries and controls | Flex identity/RBAC alignment documented; live verification pending |
+| `docs/architecture/INFRASTRUCTURE.md` | Azure resource/environment architecture | Flex implementation-aligned; live Azure verification pending |
 | `docs/architecture/OBSERVABILITY.md` | Operational telemetry and failure signals | Proposed |
 | `docs/architecture/ADR-INDEX.md` | Architecture decision catalogue | Proposed |
 | `docs/architecture/ADR-001.md` | Static frontend architecture | Accepted |
@@ -79,7 +79,7 @@ This document identifies authoritative project documentation, product requiremen
 | Repository | Purpose | Status |
 |---|---|---|
 | `s1xte3n/sixteen-resume-frontend` | Frontend resume application and documentation | Exists |
-| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; Phase 7.2 persistence and Phase 7.3 core ARM IaC implemented on feature branch; Azure deployment/OIDC evidence pending |
+| `s1xte3n/sixteen-resume-backend` | Backend/API/IaC application | Exists; Phase 2 Flex Consumption IaC, RBAC, package deployment workflow and validation tests implemented on feature branch; Azure/OIDC execution evidence pending |
 
 Historical names `sixteen-frontend` and `sixteen-backend` are obsolete and must not be used in new requirements.
 
@@ -315,3 +315,20 @@ All implementation work must remain traceable to an approved requirement or impl
 | docs/project/PROJECT-STATUS.md | Phase 1 status updated |
 Backend infra/azure/azuredeploy.json remains the superseded Y1 implementation and is not a Phase 1 implementation artifact. Phase 2 must replace it.
 Backend tests containing Y1 assertions are stale implementation evidence and must be replaced in Phase 2. Phase 1 does not modify application/test implementation.
+
+
+## Phase 2 Implementation Artifacts
+
+| Artifact | Status |
+|---|---|
+| Backend Flex ARM template | Implemented on phase-2/flex-consumption-infrastructure branch |
+| Backend Flex ARM structural tests | Implemented; execution evidence pending |
+| Backend Flex deployment workflow | Implemented; live OIDC/Azure evidence pending |
+| Backend Flex validation documentation | Implemented |
+| Backend package deployment | Implemented using supported Flex package-deployment tooling |
+| Runtime managed identity/RBAC | Defined in ARM; live Azure verification pending |
+| Deployment storage managed identity/RBAC | Defined in ARM; live Azure verification pending |
+| Runtime identity-based host storage | Defined in ARM; live Azure verification pending |
+| API contract | Unchanged — GET /api/visitors |
+
+The backend Phase 2 branch is the implementation candidate. No Phase 2 artifact is considered production-proven until authenticated Azure evidence exists.
