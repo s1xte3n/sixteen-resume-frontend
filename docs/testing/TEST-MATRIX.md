@@ -71,3 +71,20 @@ Every P0/P1 requirement must have:
 8. regression coverage for change-sensitive behavior.
 
 A missing applicable test dimension is a coverage defect.
+
+
+## Phase 1 Flex verification rows
+| Test ID | Requirement | Scenario | Type |
+| T-FLEX-001 | REQ-AZ-FLEX-001 | FC1 Linux hosting | Configuration |
+| T-FLEX-002 | REQ-AZ-FLEX-002 | v4/Python 3.12 runtime | Configuration |
+| T-FLEX-003 | REQ-AZ-FLEX-003 | scale-to-zero/zero always-ready | Configuration |
+| T-FLEX-004 | REQ-AZ-FLEX-004 | deployment storage/package contract | Deployment |
+| T-FLEX-005 | REQ-AZ-FLEX-005 | managed-identity Storage access | Security/IAM |
+| T-FLEX-006 | REQ-AZ-FLEX-006 | identity-based runtime storage | Configuration/Security |
+| T-FLEX-007 | REQ-AZ-FLEX-007 | Cosmos Table identity authorization | Security |
+| T-FLEX-008 | REQ-AZ-FLEX-008 | Flex-compatible CI/CD deployment | CI/CD |
+| T-FLEX-009 | REQ-AZ-FLEX-009 | functionAppConfig ARM structure | IaC |
+| T-FLEX-010 | REQ-AZ-FLEX-010 | East US Flex capacity | Deployment |
+| T-FLEX-011 | REQ-AZ-FLEX-011 | GET /api/visitors regression | Contract |
+| T-FLEX-012 | REQ-AZ-FLEX-012 | deployment failure blocks release | Failure/CI |
+| T-FLEX-013 | REQ-AZ-FLEX-013 | R100/month ceiling | Cost/Governance |
