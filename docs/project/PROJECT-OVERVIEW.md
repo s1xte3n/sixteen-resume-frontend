@@ -121,7 +121,7 @@ The CV still requires editorial updating and conversion into the project's HTML 
 ### Infrastructure as Code
 
 * Azure Resource Manager (ARM) template
-* Azure Functions Consumption plan
+* Azure Functions Flex Consumption (FC1), Linux, Functions v4, Python 3.12
 
 ### Source Control and CI/CD
 
