@@ -144,9 +144,15 @@ The resume must not imply four-plus years of professional software-engineering e
 
 ## D-017 — Azure Functions Hosting Plan
 
-**Decision:** Use the Consumption plan.
+**Status:** Superseded by D-040.
 
-**Reason:** The challenge explicitly requires a Consumption plan and it is appropriate for the project's low-volume workload and cost objective.
+**Historical decision:** Use the Linux Consumption plan (Y1 / Dynamic).
+
+**Historical reason:** The original implementation selected the Consumption model for low-volume serverless workload and cost control.
+
+**Superseded because:** The project is now approved for Azure Functions Flex Consumption. The previous Y1 deployment failed because the subscription had Y1 VM quota = 0, and the attempted increase to 1 was unsuccessful. No further Y1 quota increase is authorized.
+
+
 
 ---
 
@@ -453,3 +459,19 @@ main
 ```
 
 The frontend repository now has a `develop` branch created from `main` to establish the approved development/production branch model.
+
+---
+
+## D-040 — Azure Functions Flex Consumption Re-Baseline
+
+**Status:** Approved — current hosting decision.
+
+**Decision:** Use Azure Functions Flex Consumption (FC1), Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, and zero always-ready instances for the MVP.
+
+**Reason:** Flex Consumption is the approved current serverless hosting model. It removes the blocked Y1 quota dependency and aligns the project with the current Functions hosting direction.
+
+**Scope:** This decision changes the Functions hosting model only. The frontend, API boundary, Cosmos DB Table API, managed identity, ARM IaC, GitHub Actions, OIDC, and other approved requirements remain unchanged unless a dependent Flex implementation requirement is identified in Phase 1.
+
+**Implementation consequence:** The existing Linux Consumption/Y1 ARM template and tests are historical/superseded. Phase 1 must update the ARM resource model, Function App configuration, deployment packaging, and related verification. No Y1 quota increase is an allowed workaround.
+
+**Always-ready:** 0 for MVP. The application remains scale-to-zero unless a later approved requirement changes this.

@@ -683,7 +683,7 @@ Source-controlled ARM templates and approved parameters.
 
 **Business Rules**  
 - Required project infrastructure must be represented by ARM templates.
-- Backend resources follow the approved Consumption-plan direction.
+- Backend resources use Azure Functions Flex Consumption (FC1), Linux, Functions v4, Python 3.12, serverless scale-to-zero, and zero always-ready instances for the MVP.
 - Normal production provisioning must not depend on undocumented manual configuration.
 
 **Success State**  

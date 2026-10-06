@@ -4,7 +4,7 @@
 
 ## Overall Status
 
-**Phase 7 implementation in progress — frontend CI/CD implemented; live Azure deployment verification BLOCKED pending authenticated Azure/production evidence**
+**Phase 0 re-baseline complete after approved hosting-model change; live Azure deployment verification BLOCKED pending Flex ARM update and authenticated Azure/production evidence**
 
 The project requirements, scope, technology stack, constraints, repositories, resume source material, certification situation, and deployment target have been established.
 
@@ -45,10 +45,10 @@ The project requirements, scope, technology stack, constraints, repositories, re
 | Azure HTTPS/CDN delivery layer | Architecture resolved; exact service pending implementation validation |
 | DNS hostname | Provider selected; hostname not provisioned |
 | Cosmos DB | ARM-defined as serverless Table API; Azure deployment/RBAC verification pending |
-| Azure Function | ARM-defined for Python Linux Consumption; Azure deployment/runtime verification pending |
+| Azure Function | Current target: Flex Consumption (FC1), Linux, Functions v4, Python 3.12; ARM implementation update required before deployment |
 | Python implementation | Phase 7.2 persistence implementation complete; production runtime verification pending |
 | Python tests | Implemented; local/CI execution evidence pending |
-| ARM template | Phase 7.3 core infrastructure implemented in backend repository; Azure validation/deployment pending |
+| ARM template | Phase 7.3 historical core infrastructure implemented in backend repository; current Flex ARM update required before Azure validation/deployment |
 | Backend GitHub Actions | Implemented with ARM structural validation; production OIDC/deployment evidence pending |
 | Frontend GitHub Actions | Implemented: PR CI `validate` and production deployment workflow; execution evidence pending |
 | Blog — Dev.to | Not started |
@@ -208,4 +208,4 @@ The following implementation-governing decisions are now resolved:
 | OR-008 | GitHub Actions is the deployment authority; backend and frontend pipelines must pass their defined validation/deployment gates before deployment. |
 | OR-009 | `main` represents production; feature branches flow through PR and CI into `develop`, followed by the production release into `main`. |
 
-The repositories contain `develop` branches created from `main`. Backend persistence/core ARM and frontend CI/CD implementation are present on `main`. Live production infrastructure, OIDC execution, HTTPS/edge routing, DNS, persistence, runtime logging, and end-to-end evidence remain BLOCKED pending authenticated Azure access and the unresolved edge-service implementation.
+The repositories contain `develop` branches. Backend persistence and frontend CI/CD implementation exist on `main`. The existing backend ARM template is historical/superseded because it encodes Linux Consumption/Y1. Live production infrastructure, OIDC execution, HTTPS/edge routing, DNS, persistence, runtime logging, and end-to-end evidence remain blocked pending the Flex ARM update and authenticated Azure access.

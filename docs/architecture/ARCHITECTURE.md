@@ -81,7 +81,7 @@ Browser JavaScript never communicates directly with Cosmos DB.
 
 ## 3.4 Serverless Backend
 
-Visitor-counter processing runs in Python on Azure Functions.
+Visitor-counter processing runs in Python 3.12 on Azure Functions Flex Consumption.
 
 The function uses only the permissions required to perform its persistence operation.
 
@@ -103,7 +103,7 @@ Each deployment/runtime identity receives only the permissions required for its 
 
 ## 3.8 Cost Consciousness
 
-The architecture prefers free, serverless, or consumption-based services.
+The architecture prefers free, serverless, or consumption-based services. The Function App specifically uses Azure Functions Flex Consumption (FC1), with scale-to-zero and zero always-ready instances for the MVP.
 
 The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is the hard MVP ceiling, with R0/month preferred and explicit exclusions.
 
@@ -258,7 +258,7 @@ Runtime:
 
 Azure Functions
 Python
-Consumption plan
+Flex Consumption plan (FC1)
 
 ## 5.7 Cosmos DB Table API
 
@@ -500,7 +500,7 @@ Azure Storage static website.
 Azure HTTPS/CDN delivery layer.
 Public DNS/hostname.
 Azure Function App.
-Consumption hosting plan.
+Flex Consumption hosting plan (FC1).
 Cosmos DB account with Table API.
 Required Cosmos DB table.
 Application/runtime configuration.
