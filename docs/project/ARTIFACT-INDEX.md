@@ -332,3 +332,10 @@ Backend tests containing Y1 assertions are stale implementation evidence and mus
 | API contract | Unchanged — GET /api/visitors |
 
 The backend Phase 2 branch is the implementation candidate. No Phase 2 artifact is considered production-proven until authenticated Azure evidence exists.
+
+
+## Phase 4 continuation — 2026-10-07
+
+Backend Phase 4 verification has advanced past the ARM template validation defects. The backend ARM template now validates successfully against the approved production resource group and parameters. Production deployment/runtime evidence remains blocked by the unresolved GitHub Actions OIDC subscription authorization result.
+
+Frontend artifacts remain implementation-aligned but production acceptance is still gated on authenticated backend deployment, live API verification, browser/API isolation, CORS, security, and cost evidence. No frontend architecture or API contract change was made as part of the Phase 4 ARM correction.

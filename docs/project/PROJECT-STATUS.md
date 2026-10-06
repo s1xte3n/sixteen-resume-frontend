@@ -240,3 +240,10 @@ Consequences until the corrected backend branch is validated and released:
 - Frontend production deployment remains dependent on the backend release and end-to-end acceptance.
 
 No alternate credential mechanism, manual production repair, or API redesign is authorized.
+
+
+## Phase 4 continuation — 2026-10-07
+
+The backend ARM template validation blocker is resolved: the current approved template now passes Azure deployment-group validation against the production resource group using the dedicated deployment Storage account/container. The remaining production blocker is authenticated GitHub Actions OIDC execution: the federated credential exists with the approved issuer, audience, and production repository/environment subject, but the deployment workflow still fails to obtain an Azure subscription context.
+
+Frontend production deployment remains BLOCKED and unchanged. No frontend credential, direct Cosmos access, API change, CDN/cache service, or alternative deployment path has been introduced. The frontend may proceed only after the backend production gate has a fresh authenticated execution and the required end-to-end evidence is captured.
