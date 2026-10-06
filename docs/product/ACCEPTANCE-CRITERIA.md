@@ -186,7 +186,9 @@ A checkbox is only considered passed when the stated evidence exists in the fina
 - [ ] ARM templates are stored in source control.
 - [ ] The approved provisioning workflow can apply the required infrastructure from source-controlled definitions.
 - [ ] Normal production provisioning does not require undocumented manual configuration.
-- [ ] Backend resources use the approved Consumption-plan direction.
+- [ ] Backend resources use Azure Functions Flex Consumption (FC1), Linux, Functions v4, and Python 3.12.
+- [ ] The Function App supports serverless scale-to-zero behavior.
+- [ ] The MVP uses zero always-ready instances unless a later approved requirement changes this.
 - [ ] Infrastructure changes are represented as source-controlled changes.
 - [ ] Deployed configuration remains within the approved cost ceiling.
 
