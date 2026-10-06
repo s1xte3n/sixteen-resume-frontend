@@ -256,3 +256,11 @@ The backend production verification has advanced past the ARM-template defects. 
 No frontend change is required for this blocker. Frontend production deployment remains **BLOCKED** because backend deployment/runtime evidence, API regression, persistence/concurrency, browser/Cosmos isolation, CORS, security, and cost evidence are still unavailable.
 
 The frontend architecture, API contract, OIDC model, and deployment workflow remain unchanged. No frontend credentials, direct Cosmos access, CDN/cache service, or alternative deployment path has been introduced. Phase 4 cannot pass until the backend produces a fresh successful production workflow execution and complete evidence set.
+
+## Phase 4 continuation — FC1 instance memory requirement — 2026-10-07
+
+The latest controlled backend production deployment reached the Function App resource but Azure rejected the Flex `functionAppConfig.scaleAndConcurrency` configuration because `instanceMemoryMB` was not explicitly set. Azure reported the supported values as 512, 2048, and 4096 MB.
+
+The backend correction sets `instanceMemoryMB` to **512 MB**, the lowest provider-supported value, while retaining `alwaysReady: []` for zero always-ready instances and scale-to-zero. No frontend architecture, API contract, credentials, direct Cosmos access, CDN/cache path, or deployment mechanism changes as a result.
+
+Frontend production acceptance remains **BLOCKED** until the corrected backend passes CI and a fresh production workflow from `main` completes the required deployment, runtime, API, persistence/concurrency, isolation, CORS, security, observability, and cost evidence.
