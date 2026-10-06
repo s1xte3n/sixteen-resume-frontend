@@ -339,3 +339,10 @@ The backend Phase 2 branch is the implementation candidate. No Phase 2 artifact 
 Backend Phase 4 verification has advanced past the ARM template validation defects. The backend ARM template now validates successfully against the approved production resource group and parameters. Production deployment/runtime evidence remains blocked by the unresolved GitHub Actions OIDC subscription authorization result.
 
 Frontend artifacts remain implementation-aligned but production acceptance is still gated on authenticated backend deployment, live API verification, browser/API isolation, CORS, security, and cost evidence. No frontend architecture or API contract change was made as part of the Phase 4 ARM correction.
+
+
+## Phase 4 continuation — 2026-10-07
+
+Backend ARM validation defects are resolved and the current production blocker is now deployment-identity RBAC: the GitHub Actions service principal reaches ARM but lacks `Microsoft.Authorization/roleAssignments/write` at `rg-sixteen-resume-prod`. Frontend production acceptance remains blocked and no frontend implementation change is authorized for this blocker.
+
+Required next evidence remains a fresh successful backend production workflow execution followed by the defined end-to-end frontend verification. Documentation must not mark production deployment, API, persistence, isolation, CORS, security, or cost as passed before direct evidence exists.

@@ -247,3 +247,12 @@ No alternate credential mechanism, manual production repair, or API redesign is 
 The backend ARM template validation blocker is resolved: the current approved template now passes Azure deployment-group validation against the production resource group using the dedicated deployment Storage account/container. The remaining production blocker is authenticated GitHub Actions OIDC execution: the federated credential exists with the approved issuer, audience, and production repository/environment subject, but the deployment workflow still fails to obtain an Azure subscription context.
 
 Frontend production deployment remains BLOCKED and unchanged. No frontend credential, direct Cosmos access, API change, CDN/cache service, or alternative deployment path has been introduced. The frontend may proceed only after the backend production gate has a fresh authenticated execution and the required end-to-end evidence is captured.
+
+
+## Phase 4 continuation — RBAC deployment prerequisite — 2026-10-07
+
+The backend production verification has advanced past the ARM-template defects. Direct Azure ARM validation now succeeds. The active production blocker is the GitHub Actions deployment identity's missing `Microsoft.Authorization/roleAssignments/write` permission at the approved production resource-group scope.
+
+No frontend change is required for this blocker. Frontend production deployment remains **BLOCKED** because backend deployment/runtime evidence, API regression, persistence/concurrency, browser/Cosmos isolation, CORS, security, and cost evidence are still unavailable.
+
+The frontend architecture, API contract, OIDC model, and deployment workflow remain unchanged. No frontend credentials, direct Cosmos access, CDN/cache service, or alternative deployment path has been introduced. Phase 4 cannot pass until the backend produces a fresh successful production workflow execution and complete evidence set.
