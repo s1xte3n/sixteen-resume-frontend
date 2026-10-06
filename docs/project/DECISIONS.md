@@ -144,9 +144,15 @@ The resume must not imply four-plus years of professional software-engineering e
 
 ## D-017 — Azure Functions Hosting Plan
 
-**Decision:** Use the Consumption plan.
+**Status:** Superseded by D-040.
 
-**Reason:** The challenge explicitly requires a Consumption plan and it is appropriate for the project's low-volume workload and cost objective.
+**Historical decision:** Use the Linux Consumption plan (Y1 / Dynamic).
+
+**Historical reason:** The original implementation selected the Consumption model for low-volume serverless workload and cost control.
+
+**Superseded because:** The project is now approved for Azure Functions Flex Consumption. The previous Y1 deployment failed because the subscription had Y1 VM quota = 0, and the attempted increase to 1 was unsuccessful. No further Y1 quota increase is authorized.
+
+
 
 ---
 
