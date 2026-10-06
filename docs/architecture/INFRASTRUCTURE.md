@@ -141,7 +141,7 @@ Configuration direction:
 | Platform | Azure Functions |
 | Language | Python |
 | Trigger | HTTP |
-| Hosting | Consumption |
+| Hosting | Flex Consumption (FC1) |
 | Region | East US |
 | Purpose | Visitor-counter API |
 | Database access | Cosmos DB Table API |
@@ -170,7 +170,7 @@ The template must represent:
 - Azure Storage static website.
 - The selected and validated Azure HTTPS/CDN edge-delivery layer and its required resources.
 - HTTPS/certificate configuration supported by the selected and validated delivery service.
-- Azure Function Consumption resources.
+- Azure Function Flex Consumption resources (FC1, Linux, Functions v4, Python 3.12).
 - Cosmos DB Table API resources.
 - Required deployment configuration.
 
