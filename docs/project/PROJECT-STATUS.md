@@ -221,3 +221,20 @@ Historical Y1 failure: subscription Y1 VM quota was 0; attempted increase to 1 f
 API contract: UNCHANGED — GET /api/visitors.
 Phase 1 added explicit requirements for Flex plan, runtime, scale-to-zero, zero always-ready, deployment storage/package deployment, identity-based storage access, runtime storage, Cosmos authorization, ARM functionAppConfig, regional capacity and CI/CD failure gating.
 Phase 2 replaced the superseded Y1 ARM assumptions, updated package/deployment configuration and tests, and added automated Flex availability/runtime validation. No API redesign was performed. Production deployment evidence remains pending.
+
+
+## Phase 3 — Authenticated Azure Deployment Verification
+
+**Current gate: BLOCKED.**
+
+Live backend production deployment evidence was attempted from the merged Phase 2 backend main commit 53035b2d1d81d431a29180738e3a9c77f2081e23 using GitHub Actions run 37520785334. The validation job passed, but the production deployment stopped at Azure OIDC authentication with AADSTS70025 because the Azure deployment application has no configured federated identity credentials.
+
+Consequences:
+
+- No ARM validation was executed in the production job.
+- No ARM deployment was executed.
+- Flex subscription capacity is unproven.
+- Function App, Storage, RBAC, Cosmos, package activation, runtime startup, API, persistence/concurrency, CORS, observability, and cost remain unverified.
+- No manual production repair or alternate credential mechanism was introduced.
+
+The project must remain blocked until the approved GitHub-to-Azure federated credential is provisioned and a fresh production workflow run proves OIDC, ARM validation/deployment, runtime configuration, package deployment and subsequent release evidence.
