@@ -1026,54 +1026,27 @@ Implementation may proceed without reopening the closed product decisions.
 
 # Phase 1 — Flex Consumption PRD Re-Baseline
 
-## Baseline authority
-
-Phase 0 hosting-model change is merged to `main` in both canonical repositories. The current Azure Functions hosting requirement is **Azure Functions Flex Consumption (FC1), Linux, Functions runtime v4, Python 3.12**. Linux Consumption/Y1 is historical/superseded and must not be used as a current requirement or deployment baseline.
-
-The previous Y1 deployment failed because the subscription's Y1 VM quota was 0 and the attempted increase to 1 was unsuccessful. No further Y1 quota increase is permitted.
-
-## Flex-specific requirement classification
-
-| ID | Classification | Requirement |
-|---|---|---|
-| REQ-AZ-FLEX-001 | NEW | The production Function App must use Azure Functions Flex Consumption with FC1 on Linux. |
-| REQ-AZ-FLEX-002 | NEW | The production Function App must use Functions runtime v4 and Python 3.12. Runtime v4 is a platform/runtime requirement; the obsolete `FUNCTIONS_EXTENSION_VERSION` app-setting mechanism must not be required for Flex. |
-| REQ-AZ-FLEX-003 | NEW | The MVP Function App must support serverless scale-to-zero and configure zero always-ready instances. |
-| REQ-AZ-FLEX-004 | NEW | Flex deployment must use a configured blob-container deployment source and Flex-compatible package deployment. The deployment storage account/container must exist as required by the approved IaC design. Exact resource names and provider properties remain architecture/implementation details. |
-| REQ-AZ-FLEX-005 | NEW | Flex deployment-storage access must use the Function App's system-assigned managed identity rather than a long-lived storage credential. The identity must have only the permissions required for deployment-package access. |
-| REQ-AZ-FLEX-006 | NEW | Flex runtime host storage must use the provider-supported identity-based configuration; obsolete Y1 Azure Files/content-share settings must not be required by the current architecture. |
-| REQ-AZ-FLEX-007 | NEW | Function App system-assigned managed identity must remain the runtime identity for Cosmos DB Table API access, with least-privilege data-plane authorization scoped to the VisitorCounter table. |
-| REQ-AZ-FLEX-008 | CHANGED | Backend deployment must use a Flex-compatible package deployment mechanism. Existing generic ZIP packaging may be retained only where it satisfies the Flex deployment contract; the implementation must not rely on the superseded Y1 deployment assumptions. |
-| REQ-AZ-FLEX-009 | CHANGED | ARM IaC must represent the Flex resource model through `functionAppConfig`, including deployment source and runtime/scale configuration applicable to the approved MVP. |
-| REQ-AZ-FLEX-010 | NEW | Flex regional availability/quota must be validated for East US before production deployment. A Y1 quota request is neither a dependency nor an approved fallback. |
-| REQ-AZ-FLEX-011 | UNCHANGED | The API contract remains `GET /api/visitors`; the hosting-model change does not alter request/response semantics, visitor semantics, persistence semantics, or browser/database isolation. |
-| REQ-AZ-FLEX-012 | NEW | Flex-specific deployment failures must fail the CI/CD deployment gate and must not be represented as successful production releases. |
-| REQ-AZ-FLEX-013 | NEW | The Flex implementation must preserve the approved R100/month recurring Azure/cloud ceiling; Flex pricing/availability is an implementation validation dependency, not an invented price requirement. |
-
-## Flex abstraction boundary
-
-The following are **not fixed product requirements** unless later promoted by an approved change:
-
-- exact deployment storage account/container names;
-- exact `functionAppConfig` API version;
-- exact instance memory size;
-- exact maximum instance count;
-- exact HTTP per-instance concurrency;
-- exact site-update strategy;
-- exact deployment package build tooling;
-- separate Application Insights resource;
-- exact Storage RBAC role name where the selected IaC design can prove least-privilege access by capability.
-
-These remain architecture/implementation decisions constrained by the requirements above.
-
-## Historical/superseded Y1 material
-
-Y1/Linux Consumption may remain only in explicit historical decision evidence explaining the failed deployment and supersession. It must not appear as the current hosting architecture, current requirement, current CI/CD target, or current acceptance criterion.
-
+## Current hosting authority
+Phase 0 is complete and merged in both canonical repositories. The current Functions hosting architecture is Azure Functions Flex Consumption (FC1), Linux, Functions runtime v4, Python 3.12, serverless scale-to-zero, and zero always-ready instances for the MVP.
+Linux Consumption/Y1 is historical/superseded only. The previous Y1 deployment failed because the subscription Y1 VM quota was 0 and the attempted increase to 1 was unsuccessful. No further Y1 quota increase is authorized.
+## Flex requirement classification
+| ID | Class | Requirement | Priority | Verification |
+| REQ-AZ-FLEX-001 | NEW | Production Function App uses Flex Consumption FC1 on Linux. | P1 | VT-FLEX-001 |
+| REQ-AZ-FLEX-002 | NEW | Function runtime is v4 and Python 3.12; obsolete FUNCTIONS_EXTENSION_VERSION is not required for Flex. | P1 | VT-FLEX-002 |
+| REQ-AZ-FLEX-003 | NEW | MVP supports serverless scale-to-zero and zero always-ready instances. | P1 | VT-FLEX-003 |
+| REQ-AZ-FLEX-004 | NEW | Flex uses blob-container deployment storage and provider-supported package deployment. Exact names remain architecture/implementation decisions. | P1 | VT-FLEX-004 |
+| REQ-AZ-FLEX-005 | NEW | Deployment-storage access uses the Function system-assigned managed identity and only required Storage permissions. | P1 | VT-FLEX-005 |
+| REQ-AZ-FLEX-006 | NEW | Runtime host storage uses Flex-supported identity-based configuration; obsolete Y1 Azure Files/content-share assumptions are not current requirements. | P1 | VT-FLEX-006 |
+| REQ-AZ-FLEX-007 | NEW | Function system-assigned identity retains least-privilege Cosmos Table API authorization scoped to VisitorCounter. | P1 | VT-FLEX-007 |
+| REQ-AZ-FLEX-008 | CHANGED | Backend CI/CD package/deployment behavior must be Flex-compatible and contain no Y1 deployment assumption. | P1 | VT-FLEX-008 |
+| REQ-AZ-FLEX-009 | CHANGED | ARM IaC must represent the Flex resource model through functionAppConfig for required deployment/runtime/scale behavior. | P1 | VT-FLEX-009 |
+| REQ-AZ-FLEX-010 | NEW | East US Flex availability/quota must be validated before production deployment; Y1 quota is not a fallback. | P1 | VT-FLEX-010 |
+| REQ-AZ-FLEX-011 | UNCHANGED | GET /api/visitors and approved visitor, persistence, concurrency, response and browser-isolation semantics remain unchanged. | P1 | VT-FLEX-011 |
+| REQ-AZ-FLEX-012 | NEW | Flex-specific infrastructure/package/deployment failure must fail CI/CD and cannot be reported as a successful release. | P1 | VT-FLEX-012 |
+| REQ-AZ-FLEX-013 | NEW | Flex implementation must remain within the R100/month recurring Azure/cloud ceiling; actual pricing is an implementation validation dependency. | P1 | VT-FLEX-013 |
+## Abstraction boundary
+Exact deployment container names, ARM API versions, instance memory, maximum instance count, HTTP per-instance concurrency, site-update strategy, package build tooling and exact Storage RBAC role names are not product requirements. They remain architecture/IaC decisions constrained by the requirements above.
 ## API preservation
-
-The visitor API is explicitly **UNCHANGED**. No Flex-driven API redesign has been identified.
-
-## Official platform evidence
-
-Current Microsoft documentation describes Flex-specific ARM configuration through `functionAppConfig`, including deployment source, runtime, scale/concurrency, and always-ready settings; it also documents managed-identity deployment storage and package deployment behavior. Flex runs on runtime v4, and Python 3.12 is supported. citeturn0search0turn0search2turn1search1
+The visitor API is explicitly UNCHANGED. No Flex-specific API redesign was identified.
+## Gate impact
+No P0/P1 ambiguity is hidden by the hosting change. Flex availability/quota, deployment storage, package deployment and final edge/cost validation are explicit implementation or deployment evidence gates.
