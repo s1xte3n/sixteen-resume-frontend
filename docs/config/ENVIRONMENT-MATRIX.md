@@ -38,7 +38,7 @@ Tests are deterministic and synthetic. Unit tests should mock persistence. No pr
 No staging Azure environment is approved. A future staging deployment requires explicit scope approval and must not silently become permanent.
 
 ### Production
-East US; public HTTPS; approved hostname; exact CORS origin; Azure Storage static website; Azure Function Consumption direction; Cosmos DB Table API serverless direction; CI/CD-only deployment; no plaintext secrets; ARM as source of truth.
+East US; public HTTPS; approved hostname; exact CORS origin; Azure Storage static website; Azure Function Flex Consumption (FC1), Linux, Functions v4, Python 3.12, scale-to-zero, zero always-ready direction; Cosmos DB Table API serverless direction; CI/CD-only deployment; no plaintext secrets; ARM as source of truth.
 
 ## Production configuration evidence gate
 
