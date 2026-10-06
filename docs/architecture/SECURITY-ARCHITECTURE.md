@@ -279,3 +279,32 @@ These are implementation evidence gates, not unresolved requirements-definition 
 
 
 ---
+
+
+# Phase 2 — Flex Identity and Storage Security Alignment
+
+The Function App uses a **system-assigned managed identity** for runtime Azure access.
+
+The Function identity is used for:
+
+- Flex deployment-container access.
+- Identity-based runtime host storage.
+- Cosmos DB Table API access.
+
+Deployment storage is a private Blob container. The deployment-storage identity permission is scoped to the deployment Storage account with Storage Blob Data Contributor.
+
+Runtime host storage uses a separate Storage account with identity-based AzureWebJobsStorage configuration. The Function identity receives the minimum documented host-storage permissions required for the Functions runtime and diagnostic operations.
+
+The Function App does not use:
+
+- Storage account keys.
+- SAS tokens.
+- Cosmos connection strings.
+- Cosmos account keys.
+- WEBSITE_CONTENTAZUREFILECONNECTIONSTRING.
+- WEBSITE_CONTENTSHARE.
+- WEBSITE_RUN_FROM_PACKAGE.
+
+GitHub Actions continues to use Microsoft Entra OIDC through the dedicated deployment identity. The GitHub deployment identity is distinct from the Function App system-assigned runtime identity.
+
+No API authentication is introduced by this hosting migration. The public visitor API remains GET /api/visitors.
