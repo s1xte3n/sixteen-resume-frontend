@@ -47,7 +47,7 @@ Azure Subscription
     |
     +-- Function App
     |     |
-    |     +-- Consumption Plan
+    |     +-- Flex Consumption Plan (FC1)
     |     +-- Python Runtime
     |
     +-- Cosmos DB Account
