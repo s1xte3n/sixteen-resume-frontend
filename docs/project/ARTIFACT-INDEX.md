@@ -393,3 +393,13 @@ The Phase 3 architecture deliverables remain aligned with the approved design. O
 - Frontend GitHub OIDC: Azure federated credential must exactly match the immutable production environment subject presented by GitHub.
 - Backend Flex startup: host storage identity configuration requires the documented empty `AzureWebJobsStorage` setting plus Storage Queue Data Contributor RBAC; tracked in backend PR #36.
 - No API, frontend application architecture, browser/Cosmos boundary, or hosting-model redesign was introduced.
+
+## Phase 3 blocker — frontend OIDC federated credential — 2026-10-07
+
+Frontend Phase 3 production verification remains **BLOCKED** by the Azure-side federated identity credential for the production GitHub Actions environment. The approved credential must exactly match the GitHub-issued production subject:
+
+`repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+
+with issuer `https://token.actions.githubusercontent.com` and audience `api://AzureADTokenExchange`.
+
+This is an external Azure configuration prerequisite. No application, API, Storage deployment, browser/Cosmos, secret, or alternate authentication artifact is changed. The artifact remains unverified until a fresh production OIDC workflow succeeds.
