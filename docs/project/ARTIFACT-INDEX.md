@@ -384,3 +384,12 @@ The backend IaC correction is to use the supported `Microsoft.Storage/storageAcc
 Frontend application code and deployment credentials are unchanged. A fresh production frontend deployment verification must wait until the backend infrastructure correction is merged and the production workflow proves the static website resource is successfully provisioned.
 
 **Frontend Phase 4 status: BLOCKED — infrastructure dependency.**
+
+
+## Phase 3 blocker update — 2026-10-07
+
+The Phase 3 architecture deliverables remain aligned with the approved design. Operational blockers are recorded as implementation verification blockers, not architecture changes:
+
+- Frontend GitHub OIDC: Azure federated credential must exactly match the immutable production environment subject presented by GitHub.
+- Backend Flex startup: host storage identity configuration requires the documented empty `AzureWebJobsStorage` setting plus Storage Queue Data Contributor RBAC; tracked in backend PR #36.
+- No API, frontend application architecture, browser/Cosmos boundary, or hosting-model redesign was introduced.
