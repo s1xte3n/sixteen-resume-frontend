@@ -305,3 +305,14 @@ The latest backend production workflow advanced beyond the earlier OIDC, ARM-tem
 The backend correction is limited to deployment sequencing and startup verification: wait for the documented asynchronous Flex infrastructure restart, deploy the package once, then poll for Running with a bounded timeout. No frontend code, API contract, credential, browser/Cosmos boundary, CDN/cache service, or alternative deployment path changes.
 
 Frontend production remains **BLOCKED** because the required fresh backend production execution and complete Phase 3 evidence are still unavailable. This status is a dependency record only; it is not a frontend defect.
+
+
+## Phase 3 blocker correction — Flex readiness verification — 2026-10-07
+
+The latest backend production run reached the Function App deployment stage but the workflow incorrectly used the Azure CLI Function App state field as the Flex readiness gate. Azure returned an empty state value, producing a false-negative even though the Function App resource existed.
+
+The backend delivery correction in s1xte3n/sixteen-resume-backend PR #35 changes only the verification path: deployed Flex configuration is asserted directly, followed by a bounded HTTPS smoke test against GET /api/visitors. The existing asynchronous Flex restart wait is retained.
+
+This remains a **Phase 3 deployment-verification blocker**, not a frontend implementation defect. Frontend code, API contract, browser/Cosmos isolation, OIDC model, Storage deployment model, and public hostname configuration are unchanged.
+
+**Current gate: BLOCKED** until backend PR #35 passes required CI and a fresh production deployment from main proves Function runtime readiness and the visitor API in Azure.
