@@ -1,9 +1,7 @@
-# Phase 5 — Frontend Configuration Change Log
+# Phase 5 — Configuration Change Log
 
-## 2026-10-07
-- Re-baselined frontend configuration against the approved implementation and Phase 4 contract.
-- Removed PUBLIC_API_BASE_URL, PUBLIC_API_PATH, and API_VERSION from the runtime configuration contract because the approved frontend uses same-origin /api/visitors and the API path is frozen by VC-001.
-- Documented OIDC identifiers, Storage deployment inputs, test-state separation, validation rules, and security gates.
-- Kept final hostname, HTTPS edge, CORS origin, live OIDC/RBAC evidence, and cost evidence as explicit gates.
-
-- Corrected OIDC identifier classification: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are consumed from protected GitHub production environment variables rather than GitHub Secrets. No credential model change was introduced.
+| Date | Repository | Change | Reason | Impact |
+|---|---|---|---|---|
+| 2026-10-07 | frontend | Classified Azure OIDC identifiers as protected production environment variables | Align configuration model with OIDC architecture and deployment workflow | No API/runtime behavior change |
+| 2026-10-07 | frontend | Corrected OIDC verification workflow to consume AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID from `vars.*`, matching the deployment workflow and Phase 5 secret model | Prevent false configuration failures caused by reading identifiers from `secrets.*` | Verification-only; no credential model change |
+| 2026-10-07 | frontend | Added controlled live OIDC/Azure verification procedure | Separate configuration readiness from live Azure/GitHub evidence | No product behavior change |

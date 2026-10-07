@@ -476,3 +476,13 @@ No frontend API contract, browser/Cosmos boundary, credential model, or applicat
 | Public custom hostname | Blocked | Remains dependent on the approved HTTPS/DNS edge path. |
 
 No frontend application, API contract, browser/Cosmos boundary, or authentication architecture change was introduced.
+
+
+## Phase 5 controlled live OIDC verification — 2026-10-07
+
+| Artifact | Status | Purpose |
+|---|---|---|
+| `docs/config/OIDC-AZURE-LIVE-VERIFICATION.md` | Added — pending live evidence | Controlled manual verification procedure for GitHub → Azure OIDC, frontend UAMI federation, Storage RBAC, and public HTTPS evidence |
+| `.github/workflows/verify-azure-oidc.yml` | Corrected — pending execution | Uses protected production environment variables for OIDC identifiers and performs non-deploying Azure verification |
+
+The Phase 5 gate remains **NOT PASSED** until the controlled workflow is executed successfully against the actual protected GitHub production environment and Azure tenant. Workflow existence is not live evidence.

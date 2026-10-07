@@ -21,4 +21,18 @@ Sequence: validate configuration → validate/scan static artifacts → build �
 No Storage key, SAS, connection string, Cosmos credential, or client secret is permitted.
 
 ## OIDC verification
-`.github/workflows/verify-azure-oidc.yml` validates the production OIDC relationship, Storage scope, UAMI client ID, federated credential subject/audience, and keyless Blob access. Workflow existence is not live evidence until it executes successfully.
+`.github/workflows/verify-azure-oidc.yml`
+
+The verification workflow uses the same protected production **environment variables** as the deployment workflow for AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID. These are identifiers, not secrets.
+
+The workflow validates:
+1. Required production environment variables exist.
+2. GitHub Actions can exchange its OIDC token for an Azure session.
+3. The Azure subscription/tenant context is available.
+4. The configured Storage account exists in the configured resource group.
+5. The configured frontend user-assigned managed identity client ID matches AZURE_CLIENT_ID.
+6. Exactly one federated credential matches issuer `https://token.actions.githubusercontent.com`, subject `repo:<owner>/<repo>:environment:production`, and audience `api://AzureADTokenExchange`.
+7. Blob data-plane access works through Entra login without a Storage key/SAS.
+8. The configured public hostname serves HTTPS content.
+
+The workflow's successful execution is the live evidence. A committed workflow file alone is not evidence.
