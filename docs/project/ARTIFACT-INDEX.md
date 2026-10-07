@@ -494,3 +494,16 @@ The Phase 5 gate remains **NOT PASSED** until the controlled workflow is execute
 - `docs/config/CI-CD-CONFIGURATION.md` — canonical frontend production variable names recorded.
 - `.github/workflows/deploy-frontend.yml` — resource-group variable aligned to `AZURE_RESOURCE_GROUP_NAME`.
 - Phase 5 configuration model remains authoritative; no API or browser/Cosmos boundary changed.
+
+
+## Phase 5 live OIDC correction — 2026-10-07
+
+| Artifact | Status | Change |
+|---|---|---|
+| `docs/config/ENVIRONMENT-VARIABLES.md` | Updated | Records the current reported frontend client ID `d3363a85-4425-4916-a90a-5b8494015450` and keeps the approved UAMI name explicit. |
+| `docs/config/CI-CD-CONFIGURATION.md` | Updated | Clarifies that OIDC identifiers are protected production environment variables and records the missing `AZURE_FRONTEND_IDENTITY_NAME` blocker. |
+| `docs/config/OIDC-AZURE-LIVE-VERIFICATION.md` | Updated | Records current live evidence and separates the GitHub-variable blocker from the Azure UAMI blocker. |
+| `docs/config/CONFIGURATION-SECURITY-REVIEW.md` | Updated | Keeps frontend OIDC/UAMI binding as a BLOCKER until live evidence passes. |
+| Phase 5 gate | **NOT PASSED** | The approved frontend UAMI and GitHub production configuration are not live-verified. |
+
+No frontend application code, API contract, browser/Cosmos boundary, or credential model was changed.

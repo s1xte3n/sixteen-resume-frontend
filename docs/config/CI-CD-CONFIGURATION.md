@@ -4,7 +4,7 @@
 
 `.github/workflows/deploy-frontend.yml`
 
-Protected OIDC inputs (non-secret identifiers supplied as production environment variables):
+Protected OIDC inputs (non-secret identifiers supplied as protected GitHub `production` environment variables; they are not repository secrets):
 - AZURE_CLIENT_ID
 - AZURE_TENANT_ID
 - AZURE_SUBSCRIPTION_ID
@@ -55,3 +55,12 @@ The workflow's successful execution is the live evidence. A committed workflow f
 ## Current gate status
 
 **BLOCKED — frontend UAMI and GitHub production configuration are not yet live-verified.**
+
+
+## Current live blocker — 2026-10-07
+
+- `AZURE_FRONTEND_IDENTITY_NAME` is required and currently missing from the GitHub `production` environment.
+- Approved value: `sixteen-resume-frontend-github`.
+- Current reported client ID: `d3363a85-4425-4916-a90a-5b8494015450`.
+- Azure verification of that client ID as the approved UAMI is still required; the named UAMI lookup returned `ResourceNotFound`.
+- Do not introduce a client secret or change the workflow to use long-lived credentials.

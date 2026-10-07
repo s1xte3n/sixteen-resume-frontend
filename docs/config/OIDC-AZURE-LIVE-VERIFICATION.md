@@ -75,3 +75,14 @@ The workflow is prepared for controlled execution, but this environment cannot i
 - Storage scope failure: Azure resource/configuration mismatch.
 - Blob authorization failure: frontend UAMI Storage RBAC defect.
 - Public hostname failure: approved edge/DNS/HTTPS path remains unresolved; do not bypass it with a different public URL.
+
+
+## Current live correction — 2026-10-07
+
+- Current reported frontend OIDC client ID: `d3363a85-4425-4916-a90a-5b8494015450`.
+- Approved identity resource name: `sixteen-resume-frontend-github`.
+- Approved identity resource group: `rg-sixteen-resume-prod`.
+- Direct lookup of the approved UAMI returned `ResourceNotFound`.
+- The GitHub production environment is also missing `AZURE_FRONTEND_IDENTITY_NAME`.
+- These are two separate blockers. Configure the GitHub variable and verify/provision the actual UAMI before rerunning this workflow.
+- Do not treat the reported client ID as proof of UAMI existence or substitute an Entra application/service principal without an approved architecture change.
