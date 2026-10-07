@@ -278,3 +278,10 @@ Frontend production acceptance remains **BLOCKED**. No frontend implementation c
 The latest backend production deployment reached the Function App resource and Azure rejected `FUNCTIONS_WORKER_RUNTIME` as invalid for Flex Consumption. The backend correction removes that app setting and retains Python 3.12 through `functionAppConfig.runtime`.
 
 No frontend implementation change is required. Frontend production acceptance remains **BLOCKED** until the corrected backend passes CI and a fresh production workflow from `main` completes the required deployment/runtime/API/security/cost evidence. The frontend API boundary, visitor-counter implementation, OIDC model, and deployment architecture remain unchanged.
+
+
+## Phase 4 continuation — Cosmos Table RBAC scope correction — 2026-10-07
+
+The backend production deployment reached the Cosmos Table role-assignment resource and exposed a provider payload defect: the previous assignment scope used the full `.../tables/VisitorCounter` resource ID, which the current Table RBAC provider rejected. The backend correction changes the Table role-assignment scope to the Cosmos account resource ID, matching the current provider contract. The backend still uses the Cosmos Table data-plane role and the application retains a single logical table, `VisitorCounter`.
+
+No frontend code, API contract, credentials, browser/Cosmos boundary, or deployment mechanism changes are required. Frontend production acceptance remains **BLOCKED** until the corrected backend passes CI and a fresh production workflow from `main` proves backend deployment/runtime/API/Cosmos behavior. 
