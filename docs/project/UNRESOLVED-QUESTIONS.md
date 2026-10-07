@@ -4,7 +4,7 @@
 >
 > This document is the project-level working view of the unresolved requirements recorded in the authoritative open-requirements register. It must not introduce new unresolved questions, silently resolve an open requirement, or mark an open requirement as closed.
 >
-> **Current status:** Requirements closure is **CLOSED**. OR-001 through OR-013 are resolved at the requirements-definition level. Final service validation and owner content approval remain implementation/production-acceptance gates.
+> **Current status:** Requirements closure is **CLOSED**. OR-001 through OR-013 are resolved at the requirements-definition level. Final service selection/validation, owner content approval, infrastructure deployment, and production evidence remain implementation/production-acceptance gates.
 
 ## 1. Reconciliation Rules
 
@@ -98,7 +98,7 @@ Azure Storage Static Website
 
 **CDN/delivery:** Azure-managed HTTPS/CDN delivery layer provides the required edge/CDN delivery layer.
 
-**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure ceiling is $40/month.
+**Cost basis:** Microsoft's current published Front Door pricing lists a $35/month Standard base fee, plus usage-based request and data-transfer charges. The project's total recurring Azure/cloud ceiling is R100/month.
 
 **Production validation:** Deployment evidence must verify the actual Front Door SKU, hostname, HTTPS certificate, origin, and total estimated/observed billing remain within the approved ceiling.
 
@@ -133,9 +133,9 @@ Azure Storage Static Website
 
 ---
 
-## 3. P2 Requirements
+## 3. Resolved P2 Decisions
 
-These remain open in the authoritative register and may be resolved during implementation only where doing so does not bypass an affected acceptance or closure requirement.
+All P2 decisions listed here are resolved. Their implementation and acceptance evidence remains governed by the requirements, architecture, API contract, and release gates.
 
 ### OR-006 — Backend/API Contract
 
@@ -196,37 +196,37 @@ The intended workflow is:
 ### OR-010 — Browser Support
 
 **Affected requirements:** MVP-001, MVP-003, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-The requirements say supported modern browsers/common desktop and mobile viewports but do not provide a version matrix. A final compatibility test baseline is required before objective acceptance.
+The MVP browser baseline is the latest stable release and immediately preceding major release of Chrome, Edge, Firefox, and Safari available at test execution; viewports are 375x667, 390x844, 768x1024, and 1440x900 CSS pixels.
 
 ---
 
 ### OR-011 — Availability Target
 
 **Affected requirements:** MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-No formal availability SLO is currently approved. The product must not claim an uptime target that is not defined by the project.
+No formal production availability SLO is part of the MVP. Acceptance uses the defined functional, security, deployment, DNS, HTTPS, and cost criteria.
 
 ---
 
 ### OR-012 — DNS Propagation
 
 **Affected requirements:** MVP-006, MVP-015  
-**Status:** Open
+**Status:** Resolved
 
-DNS acceptance needs a defined expectation for propagation/stability if timing is to be tested objectively.
+A DNS change is accepted when the authoritative FreeDNS nameserver returns the intended record and independent public recursive resolvers return the intended record within the provider's documented default TTL window of 1 hour.
 
 ---
 
-## 4. P3 Open Requirements
+## 4. Resolved P3 Decision
 
 ### OR-013 — Blog Link Behavior
 
-**Status:** Open
+**Status:** Resolved
 
-The project has not specified whether the project-learning link opens in the same tab or a new tab. This is a minor UX detail and does not block requirements closure unless explicitly promoted.
+Project-learning links open in a new browser tab/window using `target="_blank"` with `rel="noopener noreferrer"`.
 
 ---
 
@@ -254,24 +254,18 @@ Older product artifacts used `sixteen-frontend` and `sixteen-backend`; the appro
 
 ---
 
-## 6. Requirements Closure Blockers
+## 6. Requirements Closure Status
 
-Requirements closure remains blocked until the authoritative closure rule in `OPEN-REQUIREMENTS.md` is satisfied:
+Requirements-definition closure is **CLOSED**. The closure conditions are satisfied:
 
 1. Every MVP feature has testable acceptance criteria and a verification ID.
 2. No P0 ambiguity remains.
 3. No P1 ambiguity remains hidden.
-4. All deliberate deviations from the original challenge are documented.
-5. The numeric cost constraint is defined.
-6. Visitor-count semantics are defined.
-7. Public hostname interpretation is defined.
-8. HTTPS/CDN configuration is validated.
-9. Final public resume content is approved.
-10. Product and project documents use the canonical repository names and agree on the approved blog-platform direction.
+4. Deliberate deviations from the original challenge are documented.
+5. The numeric cost constraint is fixed at R100/month recurring Azure/cloud cost, with R0/month preferred and approved exclusions.
+6. Visitor-count semantics, public-hostname interpretation, API behavior, persistence behavior, browser baseline, DNS acceptance, CI/CD authority, and production branch authority are defined.
 
-**Current closure status: CLOSED for requirements definition.** Final production acceptance still requires implementation evidence, selected edge-service validation, and explicit owner approval of the final public HTML resume content.
-
----
+The remaining items are implementation or production-acceptance evidence gates: final public HTML owner approval, exact edge-service/SKU validation, hostname provisioning, infrastructure deployment, concurrency-safe persistence evidence, CI/CD implementation, and production deployment evidence.
 
 ## 7. Resolved Context — Not Open Questions
 

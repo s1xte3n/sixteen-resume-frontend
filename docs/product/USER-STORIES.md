@@ -219,3 +219,15 @@ Broken link, private/deleted article, or incomplete article.
 ## 6. Scope Note
 
 These stories describe the approved product behavior. They do not authorize additional functionality, resolve open requirements, or create implementation tasks.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex story mapping
+### US-016 — Demonstrate current serverless Azure hosting
+As a technical interviewer, I want the backend to use the approved Azure Functions Flex Consumption architecture so I can evaluate current Azure serverless, IaC and deployment practices without a legacy Y1 dependency.
+Maps to: REQ-AZ-FLEX-001 through REQ-AZ-FLEX-010 and REQ-AZ-FLEX-012.
+### US-017 — Preserve the visitor API across hosting changes
+As a visitor and website client, I want the existing visitor API to remain stable when the backend hosting model changes so the hosting change does not create unnecessary product behavior changes.
+Maps to: REQ-AZ-FLEX-011.
+UC-003 Backend CI/CD now includes Flex-compatible ARM/package deployment, OIDC authentication, managed-identity prerequisites and failure gating. No new public API use case is introduced.

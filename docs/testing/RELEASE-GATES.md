@@ -40,3 +40,9 @@ Record repository, branch, commit SHA, environment, test IDs, result, timestamp,
 
 ## Override
 Only an explicitly recorded requirement-level deviation may change a release condition. A failed test cannot be relabeled as passed.
+
+
+## Phase 1 Flex release gate
+Before production acceptance, verify Flex FC1/Linux, Functions v4, Python 3.12, zero always-ready, scale-to-zero, deployment storage and package deployment, managed-identity storage access, Cosmos Table authorization, functionAppConfig ARM configuration, East US Flex capacity, OIDC CI/CD, and API regression.
+Any Y1/Dynamic plan, Y1 quota dependency, legacy content-share requirement, or Flex deployment failure is a release blocker.
+API contract remains GET /api/visitors and must pass regression validation.

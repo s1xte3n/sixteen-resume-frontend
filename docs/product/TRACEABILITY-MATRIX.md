@@ -74,3 +74,23 @@ Trace each canonical requirement from user need through contract/UI, acceptance 
 All canonical requirements have IDs, priorities, dependencies, affected components, acceptance criteria, and verification IDs. Implementation and release evidence are intentionally pending because implementation has not been completed.
 
 Requirements unblocked by Step 7 are now implementation-ready. This does not claim implementation, verification evidence, or production acceptance; those remain pending.
+
+
+# Phase 1 — Flex Consumption PRD Re-Baseline
+
+## Flex traceability
+| Requirement | User story/use case | Acceptance | Verification | Component | Dependency |
+| REQ-AZ-FLEX-001 | US-009 / UC-002 | AC-FLEX-001 | VT-FLEX-001 | Function plan | East US Flex availability |
+| REQ-AZ-FLEX-002 | US-009 / UC-002 | AC-FLEX-002 | VT-FLEX-002 | Function runtime | Python 3.12 / Functions v4 |
+| REQ-AZ-FLEX-003 | US-009 / UC-002 | AC-FLEX-003 | VT-FLEX-003 | Scale config | Flex scale model |
+| REQ-AZ-FLEX-004 | US-012 / UC-003 | AC-FLEX-004 | VT-FLEX-004 | Deployment storage/package | Storage |
+| REQ-AZ-FLEX-005 | US-012 / UC-003 | AC-FLEX-005 | VT-FLEX-005 | Managed identity/Storage | Storage authorization |
+| REQ-AZ-FLEX-006 | US-012 / UC-003 | AC-FLEX-006 | VT-FLEX-006 | Runtime storage | Flex storage model |
+| REQ-AZ-FLEX-007 | US-008/US-009 / UC-002 | AC-FLEX-007 | VT-FLEX-007 | Function identity/Cosmos | Cosmos authorization |
+| REQ-AZ-FLEX-008 | US-012 / UC-003 | AC-FLEX-008 | VT-FLEX-008 | Backend CI/CD | OIDC/package deployment |
+| REQ-AZ-FLEX-009 | US-011 / UC-003 | AC-FLEX-009 | VT-FLEX-009 | ARM | Flex resource model |
+| REQ-AZ-FLEX-010 | US-012 / UC-003 | AC-FLEX-010 | VT-FLEX-010 | Azure subscription | Flex capacity |
+| REQ-AZ-FLEX-011 | US-008/US-009 / UC-002 | AC-FLEX-011 | VT-FLEX-011 | API/frontend/backend | Existing API contract |
+| REQ-AZ-FLEX-012 | US-012 / UC-003 | AC-FLEX-012 | VT-FLEX-012 | GitHub Actions | ARM/package deployment |
+| REQ-AZ-FLEX-013 | US-012/US-014 | AC-FLEX-013 | VT-FLEX-013 | Azure resources | Cost policy |
+Verification catalogue: VT-FLEX-001 plan/OS; 002 runtime; 003 scale/always-ready; 004 deployment storage/package; 005 Storage identity; 006 runtime storage; 007 Cosmos identity; 008 CI/CD; 009 ARM; 010 regional capacity; 011 API regression; 012 failure gates; 013 cost.

@@ -1,0 +1,110 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install frontend dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -f package-lock.json ]]; then
+            if [[ ! -f package.json ]]; then
+              echo "::error::package-lock.json exists but package.json is missing."
+              exit 1
+            fi
+            npm ci
+          elif [[ -f package.json ]]; then
+            npm install
+          else
+            echo "No frontend package manifest is present; approved frontend architecture is plain HTML/CSS/JavaScript with no dependency manifest."
+          fi
+
+      - name: Validate approved frontend source
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -f site/index.html ]]; then
+            echo "::error::site/index.html is required for the approved Azure Storage static website."
+            exit 1
+          fi
+
+          if [[ -z "$(find site -type f -print -quit)" ]]; then
+            echo "::error::site/ contains no frontend artifacts."
+            exit 1
+          fi
+
+          if find site -type f \( -name '*.pem' -o -name '*.key' -o -name '.env' -o -name '.env.*' \) -print -quit | grep -q .; then
+            echo "::error::Potential credential-bearing file found in site/."
+            exit 1
+          fi
+
+          if grep -RniE 'AccountKey=|DefaultEndpointsProtocol=|SharedAccessSignature=|client_secret|AZURE_CLIENT_SECRET|COSMOS_CONNECTION_STRING' site; then
+            echo "::error::Potential Azure/database credential material found in frontend artifacts."
+            exit 1
+          fi
+
+          grep -qi '<html' site/index.html
+          grep -qi '<head' site/index.html
+          grep -qi '<body' site/index.html
+          grep -qi 'href="style.css"' site/index.html
+          grep -qi 'src="script.js"' site/index.html
+          grep -q '/api/visitors' site/script.js
+          grep -q 'X-Request-ID' site/script.js
+
+      - name: Build production static website
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist
+          cp -a site/. dist/
+
+          test -f dist/index.html
+          test "$(find dist -type f | wc -l)" -gt 0
+
+      - name: Publish build evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          find dist -type f -printf '%P\n' | sort > evidence/dist-manifest.txt
+          (
+            cd dist
+            while IFS= read -r file; do
+              sha256sum "$file"
+            done < ../evidence/dist-manifest.txt
+          ) > evidence/dist-sha256.txt
+          printf 'commit_sha=%s\n' "${GITHUB_SHA}" > evidence/build-metadata.txt
+
+      - name: Upload build evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build-evidence-${{ github.sha }}
+          path: evidence/
+          retention-days: 14

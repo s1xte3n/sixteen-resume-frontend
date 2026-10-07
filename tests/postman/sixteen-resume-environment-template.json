@@ -1,12 +1,37 @@
 {
   "name": "sixteen-resume-api-template",
   "values": [
-    {"key": "apiBaseUrl", "value": "", "type": "default", "enabled": true},
-    {"key": "apiPath", "value": "/api/visitors", "type": "default", "enabled": true},
-    {"key": "apiVersion", "value": "v1", "type": "default", "enabled": true},
-    {"key": "publicOrigin", "value": "", "type": "default", "enabled": true},
-    {"key": "requestId", "value": "", "type": "default", "enabled": true}
+    {
+      "key": "apiBaseUrl",
+      "value": "http://localhost:7071",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "apiPath",
+      "value": "/api/visitors",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "apiVersion",
+      "value": "v1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "publicOrigin",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "requestId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
   ],
   "_type": "environment",
-  "_comment": "Non-secret template only. VC-001 is GET /api/visitors with no request body. Never add Azure credentials, Cosmos keys, connection strings, tokens, or other secrets."
+  "_comment": "Safe non-secret template. This is a local/development template; deployed apiBaseUrl and publicOrigin are intentionally not committed. `apiBaseUrl` is the Postman/lower-camel-case representation of the canonical application variable `PUBLIC_API_BASE_URL` documented in docs/config/ENVIRONMENT-VARIABLES.md. `apiPath` maps to `PUBLIC_API_PATH`. Defaults to the standard local Azure Functions HTTP endpoint (http://localhost:7071). For deployed testing, create a local/uncommitted environment derived from this template and replace apiBaseUrl with the actual deployed API origin and publicOrigin with the approved frontend origin. Do not commit that deployed environment. Never add Azure credentials, Cosmos keys, connection strings, passwords, access tokens, or private resume data."
 }

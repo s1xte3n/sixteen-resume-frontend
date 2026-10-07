@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | System | Azure Cloud Resume Challenge |
-| Architecture Status | Proposed — implementation not started |
+| Architecture Status | **Phase 3 edge feasibility blocker; application architecture remains frozen** |
 | Requirements Source | `docs/product/REQUIREMENTS.md` |
 | Acceptance Source | `docs/product/ACCEPTANCE-CRITERIA.md` |
 | Dependency Source | `docs/product/DEPENDENCY-MATRIX.md` |
@@ -81,7 +81,7 @@ Browser JavaScript never communicates directly with Cosmos DB.
 
 ## 3.4 Serverless Backend
 
-Visitor-counter processing runs in Python on Azure Functions.
+Visitor-counter processing runs in Python 3.12 on Azure Functions Flex Consumption.
 
 The function uses only the permissions required to perform its persistence operation.
 
@@ -103,7 +103,7 @@ Each deployment/runtime identity receives only the permissions required for its 
 
 ## 3.8 Cost Consciousness
 
-The architecture prefers free, serverless, or consumption-based services.
+The architecture prefers free, serverless, or consumption-based services. The Function App specifically uses Azure Functions Flex Consumption (FC1), with scale-to-zero and zero always-ready instances for the MVP.
 
 The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is the hard MVP ceiling, with R0/month preferred and explicit exclusions.
 
@@ -123,6 +123,8 @@ The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is t
                     +----------------------+
                     | HTTPS / CDN /        |
                     | Delivery Layer       |
+                    | SERVICE NOT YET     |
+                    | APPROVED — ADR-006  |
                     +----------+-----------+
                                |
                                v
@@ -258,7 +260,7 @@ Runtime:
 
 Azure Functions
 Python
-Consumption plan
+Flex Consumption plan (FC1)
 
 ## 5.7 Cosmos DB Table API
 
@@ -500,7 +502,7 @@ Azure Storage static website.
 Azure HTTPS/CDN delivery layer.
 Public DNS/hostname.
 Azure Function App.
-Consumption hosting plan.
+Flex Consumption hosting plan (FC1).
 Cosmos DB account with Table API.
 Required Cosmos DB table.
 Application/runtime configuration.
@@ -714,3 +716,30 @@ Architecture is considered implementation-ready when all P0/P1 architecture/secu
 
 
 ---
+
+
+# Phase 2 — Flex Hosting Implementation Alignment
+
+The backend implementation now follows the approved Azure Functions Flex Consumption architecture:
+
+- Flex Consumption FC1.
+- Linux.
+- Functions runtime v4.
+- Python 3.12.
+- Serverless scale-to-zero.
+- Zero always-ready instances for MVP.
+- System-assigned Function App managed identity.
+- Private Blob deployment container configured through functionAppConfig.
+- Identity-based runtime storage through AzureWebJobsStorage__accountName.
+- Azure Cosmos DB Table API with table-scoped authorization.
+- ARM infrastructure as code.
+- GitHub Actions with Microsoft Entra OIDC.
+
+The API boundary remains unchanged at GET /api/visitors.
+
+The backend CI workflow validates the Flex region/runtime, ARM configuration, package creation, package deployment, and deployed Function App state. Live Azure evidence remains a separate release gate.
+
+
+## Phase 3 Feasibility Blocker
+
+The application/data boundaries remain frozen. The unresolved architecture blocker is the public HTTPS/CDN edge. Azure Storage static website custom-domain HTTPS requires an Azure CDN/Front Door layer, but the current Azure Front Door Standard fixed base fee conflicts with the project's hard R100/month recurring Azure/cloud ceiling. No edge SKU is approved until the requirement conflict is explicitly resolved.
