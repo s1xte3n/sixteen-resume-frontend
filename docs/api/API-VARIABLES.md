@@ -18,7 +18,7 @@ None.
 |---|---|---:|---|---|
 | `Origin` | Request | Browser-generated | string | Must match production CORS allowlist |
 | `Accept` | Request | Recommended | media type | Should permit `application/json` |
-| `Content-Type` | Request | No | media type | No body is defined |
+| `Content-Type` | Request | No | media type | No body is defined; not required |
 | `X-Request-ID` | Request | No | UUID string | UUID v4 when present |
 
 ### Response headers
@@ -26,6 +26,7 @@ None.
 | Header | Direction | Required | Rule |
 |---|---|---:|---|
 | `Content-Type` | Response | Yes | `application/json` |
+| `X-Request-ID` | Response | Yes | UUID v4; preserves valid caller value or returns a generated UUID v4 |
 
 ### Request body
 
