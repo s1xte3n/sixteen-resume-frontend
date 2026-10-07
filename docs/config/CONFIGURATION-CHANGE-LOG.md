@@ -1,5 +1,15 @@
 # Phase 5 — Configuration Change Log
 
+## 2026-10-07 — Frontend UAMI recreation and OIDC correction
+
+- Recreated the approved user-assigned managed identity `sixteen-resume-frontend-github` in `rg-sixteen-resume-prod`.
+- New client ID: `2d19e037-cc57-462c-a950-862f9b8a80e6`.
+- New principal ID: `200b60d9-b05a-4733-81f4-1053834de5c3`.
+- Corrected the federated credential subject to `repo:s1xte3n/sixteen-resume-frontend:environment:production`.
+- Added GitHub production `AZURE_FRONTEND_IDENTITY_NAME`.
+- Required next correction: set GitHub production `AZURE_CLIENT_ID` to the new UAMI client ID and verify `Storage Blob Data Contributor` on `st16resumeweb`.
+- No application code, API contract, browser/Cosmos boundary, or credential model changed.
+
 | Date | Repository | Change | Reason | Impact |
 |---|---|---|---|---|
 | 2026-10-07 | frontend | Classified Azure OIDC identifiers as protected production environment variables | Align configuration model with OIDC architecture and deployment workflow | No API/runtime behavior change |
