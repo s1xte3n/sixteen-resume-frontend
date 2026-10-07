@@ -432,3 +432,14 @@ No frontend application code, API contract, browser/Cosmos boundary, or authenti
 - The public HTTPS endpoint timeout is caused by the incomplete edge path and the unresolved edge-service decision.
 - Azure Front Door Standard is not production-approved because its current fixed base fee conflicts with the hard R100/month recurring Azure/cloud ceiling.
 - No frontend application/API contract/browser-Cosmos architecture change is required.
+
+
+## Phase 3 blocker remediation — 2026-10-07
+
+| Artifact | Status | Change |
+|---|---|---|
+| `docs/ci-cd/PHASE-3-BLOCKER-STATUS.md` | Updated | Records the separation of Storage deployment verification from the unresolved public edge/DNS path. |
+| Frontend Storage deployment | Corrected verification | Azure Storage upload and Storage website reachability are now independently verified. |
+| Public HTTPS verification | Blocked | Custom hostname verification is conditional on `VERIFY_PUBLIC_ENDPOINT=true`; it must remain false until the edge/DNS path is actually provisioned. |
+
+No frontend application, API, authentication, or browser/Cosmos boundary change was introduced.
