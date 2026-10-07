@@ -2,7 +2,7 @@
 
 ## Status
 
-**Configuration defined; operational verification requires one controlled GitHub Actions run.**
+**BLOCKED — Azure federated credential subject mismatch observed on 2026-10-07.**
 
 This document is the source of truth for the frontend repository's GitHub Actions → Azure authentication.
 
@@ -21,7 +21,11 @@ Because this repository was created after 15 July 2026, GitHub uses immutable OI
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
-Verify the actual subject in the GitHub Actions OIDC token if GitHub changes or customizes the repository OIDC subject format before provisioning the Azure federated credential.
+The latest failed production run presented exactly this subject:
+
+`repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+
+The Azure federated credential must contain this exact subject. The workflow itself is already aligned and does not require a code change.
 
 ## Azure identity
 
@@ -144,7 +148,19 @@ PRINCIPAL_ID="$(az identity show \
   --query principalId -o tsv)"
 ```
 
-Create the federated credential using the Microsoft Entra workload identity federation command appropriate to the current Azure CLI version. The immutable subject above must be used exactly.
+For the current Azure CLI, create the credential directly on the user-assigned managed identity:
+
+```bash
+az identity federated-credential create \
+  --identity-name "sixteen-resume-frontend-github" \
+  --resource-group "<RESOURCE_GROUP>" \
+  --name "github-frontend-production" \
+  --issuer "https://token.actions.githubusercontent.com" \
+  --subject "repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production" \
+  --audiences "api://AzureADTokenExchange"
+```
+
+Then verify the returned subject, issuer, and audience before rerunning the production workflow. The current Azure CLI supports federated credentials directly under user-assigned identities. citeturn1search0turn1search2
 
 Then assign the storage data role:
 
