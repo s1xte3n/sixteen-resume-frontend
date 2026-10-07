@@ -443,3 +443,15 @@ No frontend application code, API contract, browser/Cosmos boundary, or authenti
 | Public HTTPS verification | Blocked | Custom hostname verification is conditional on `VERIFY_PUBLIC_ENDPOINT=true`; it must remain false until the edge/DNS path is actually provisioned. |
 
 No frontend application, API, authentication, or browser/Cosmos boundary change was introduced.
+
+
+## Current deployment incident — 2026-10-07
+
+| Artifact | Status | Change |
+|---|---|---|
+| Frontend application | Unchanged | No HTML/CSS/JS/API-contract change is required for the current failures. |
+| Frontend deployment workflow | Unchanged | OIDC and Storage RBAC are already working; the failing Storage smoke test is treated as an infrastructure dependency check. |
+| Azure Storage static website | Blocked by backend deployment | Rerun after the corrected backend ARM deployment completes successfully. |
+| Visitor-counter API | Blocked by backend | Backend `DEPENDENCY_UNAVAILABLE` must be cleared before frontend end-to-end verification. |
+| Public HTTPS hostname | Blocked | Keep `VERIFY_PUBLIC_ENDPOINT=false` until the approved edge/DNS path is provisioned and verified. |
+| Phase gate | **BLOCKED** | Requires fresh backend deployment evidence, Storage-origin reachability, API health, and then public HTTPS evidence. |
