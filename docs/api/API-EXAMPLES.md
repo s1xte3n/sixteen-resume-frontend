@@ -1,8 +1,8 @@
 # API Examples
 
-## 1. Successful counter operation
+## 1. Successful visitor operation
 
-### Request
+Request:
 
 ```http
 GET /api/visitors HTTP/1.1
@@ -12,20 +12,16 @@ Accept: application/json
 X-Request-ID: 7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10
 ```
 
-### Response
+Response:
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{
-  "count": 42
-}
+{"count":42}
 ```
 
 ## 2. Unsupported method
-
-### Request
 
 ```http
 POST /api/visitors HTTP/1.1
@@ -33,7 +29,7 @@ Host: api.example.invalid
 Accept: application/json
 ```
 
-### Response
+Response:
 
 ```http
 HTTP/1.1 405 Method Not Allowed
@@ -48,7 +44,30 @@ Content-Type: application/json
 }
 ```
 
-## 3. Persistence dependency unavailable
+## 3. Invalid request
+
+```http
+GET /api/visitors?unexpected=value HTTP/1.1
+Host: api.example.invalid
+Accept: application/json
+```
+
+Response:
+
+```http
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+  "error": {
+    "code": "BAD_REQUEST",
+    "message": "The request is invalid.",
+    "requestId": "a0c6e9d3-6b4d-4f2f-9b18-0a8d7e6c5b41"
+  }
+}
+```
+
+## 4. Dependency unavailable
 
 ```http
 HTTP/1.1 503 Service Unavailable
@@ -63,7 +82,7 @@ Content-Type: application/json
 }
 ```
 
-## 4. Timeout
+## 5. Dependency timeout
 
 ```http
 HTTP/1.1 504 Gateway Timeout
@@ -78,8 +97,19 @@ Content-Type: application/json
 }
 ```
 
-## Example constraints
+## 6. Internal failure
 
-Examples use reserved `.invalid` hostnames and synthetic UUIDs. They are documentation examples only.
+```http
+HTTP/1.1 500 Internal Server Error
+Content-Type: application/json
 
-The response count is illustrative; OR-001 defines the increment semantics and OR-007 requires concurrency-safe persistence.
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "The visitor counter is temporarily unavailable.",
+    "requestId": "4c9a6f10-3b3d-4e6b-8c1a-2f5e7d9b0a11"
+  }
+}
+```
+
+All hostnames are documentation placeholders. UUIDs are synthetic examples.

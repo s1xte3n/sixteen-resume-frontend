@@ -1,8 +1,8 @@
-# API Errors and HTTP Status Contract
+# API Errors and Error Taxonomy
 
-## 1. Canonical error envelope
+## 1. Canonical envelope
 
-Every application-generated error uses:
+All application-generated VC-001 errors use:
 
 ```json
 {
@@ -17,43 +17,88 @@ Every application-generated error uses:
 }
 ```
 
-`details` is optional. Clients must not depend on fields inside `details`.
+Required:
 
-## 2. Status contract
+- `error.code`
+- `error.message`
+- `error.requestId`
 
-| HTTP status | Error code | When used | Retry guidance |
-|---:|---|---|---|
-| 400 | `BAD_REQUEST` | Invalid/malformed request | Do not retry unchanged request |
-| 405 | `METHOD_NOT_ALLOWED` | Unsupported HTTP method | Do not retry |
-| 415 | `UNSUPPORTED_MEDIA_TYPE` | Unsupported content type | Do not retry unchanged request |
-| 429 | `RATE_LIMITED` | Platform/application throttling | Retry only according to platform/client backoff policy |
-| 500 | `INTERNAL_ERROR` | Unexpected server failure | Client may retry cautiously |
-| 503 | `DEPENDENCY_UNAVAILABLE` | Cosmos DB or required backend dependency unavailable | Retry with bounded backoff |
-| 504 | `DEPENDENCY_TIMEOUT` | Dependency timeout | Retry with bounded backoff |
+Optional:
 
-The API does not expose 401/403 for normal public counter invocation because no end-user authentication/authorization is required. CORS rejection is handled at the browser/platform boundary and is not an application JSON error contract.
+- `error.details`
+- `error.details.timestamp`
 
-## 3. Error message rules
+Clients must use `error.code` for machine behavior and must not parse `message`.
 
-Messages must:
+## 2. Error taxonomy
 
-- Be safe for public clients.
-- Explain the failure category without exposing internal implementation.
-- Never contain secrets, credentials, tokens, stack traces, database connection information, or sensitive infrastructure details.
-- Remain stable enough for human debugging but are not machine-parsed; clients must use `error.code`.
+| Code | HTTP | Meaning | Trigger | Client behavior | Server behavior | Logging | Related requirements/tests |
+|---|---:|---|---|---|---|---|---|
+| `BAD_REQUEST` | 400 | Request violates contract | Invalid method-specific input, invalid UUID, unsupported query/body | Do not retry unchanged request | No state mutation | Log validation category + requestId; never sensitive input | REQ-AZ-009 / VT-009 |
+| `METHOD_NOT_ALLOWED` | 405 | Method unsupported | Non-GET method | Do not retry | No state mutation | Log method/status | REQ-AZ-009 / VT-009 |
+| `RATE_LIMITED` | 429 | Platform/runtime throttling | Provider or approved runtime limit | Do not blindly retry; no client retry is mandated | No successful count claim | Log throttling status + requestId | REQ-AZ-007, REQ-AZ-010 / VT-007, VT-010 |
+| `INTERNAL_ERROR` | 500 | Unexpected/internal failure | Runtime defect, configuration error, backend authorization failure | Treat counter unavailable; continue page | Safe response; no unconfirmed count | Error log with requestId; no secrets | REQ-AZ-009, REQ-AZ-010 / VT-009, VT-010 |
+| `DEPENDENCY_UNAVAILABLE` | 503 | Required dependency unavailable | Cosmos/service unavailable before commit | Treat counter unavailable | No successful count claim | Dependency failure + requestId | REQ-AZ-008..010 / VT-008..010 |
+| `DEPENDENCY_TIMEOUT` | 504 | Required dependency timed out | Dependency exceeds configured boundary | Treat result as unknown; do not automatically retry | Do not return unconfirmed count | Timeout + requestId + duration if safe | REQ-AZ-008..010 / VT-008..010 |
 
-## 4. Correlation
+## 3. Authentication failures
 
-`error.requestId` identifies the request in application telemetry.
+There is no end-user authentication.
 
-If the caller supplies `X-Request-ID`, the value may be reused only after UUID v4 validation. Otherwise the server generates a UUID v4.
+Therefore:
 
-## 5. Unknown/unspecified failures
+- Missing user credentials: not an error; the endpoint is public.
+- Invalid user credentials: no authentication scheme exists, so clients must not send them.
+- Function-to-Cosmos authentication failure: internal server-side configuration/security failure; map safely to `500 INTERNAL_ERROR` and log the actual authorization failure server-side.
 
-Unexpected failures map to `500 INTERNAL_ERROR`.
+## 4. Authorization failures
 
-A confirmed downstream dependency outage maps to `503 DEPENDENCY_UNAVAILABLE`.
+Public caller authorization is intentionally not user-based.
 
-A confirmed downstream timeout maps to `504 DEPENDENCY_TIMEOUT`.
+A caller cannot request arbitrary database state.
 
-The implementation must not leak the raw downstream error.
+A Function identity authorization failure against Cosmos is internal and must not disclose Cosmos authorization details. Public mapping: `500 INTERNAL_ERROR`.
+
+## 5. CORS failures
+
+CORS failures are enforced by the browser/platform boundary.
+
+They are not represented as a guaranteed application JSON error because a browser may block access to the response before JavaScript can read it.
+
+Production configuration must use the final approved resume origin and must not use wildcard origin.
+
+## 6. Safe error exposure
+
+Never return:
+
+- stack traces;
+- exception messages containing secrets;
+- access keys;
+- tokens;
+- connection strings;
+- Cosmos credentials;
+- raw database errors;
+- internal resource names where unnecessary.
+
+## 7. Retry semantics
+
+### Client
+
+No automatic retry is defined for VC-001. This is deliberate because the operation is non-idempotent and an unknown-outcome request may already have incremented the counter.
+
+### Server
+
+Only safe, known optimistic-concurrency conflicts may be retried before a successful commit is confirmed. The server must not blindly repeat an operation after an ambiguous write outcome.
+
+Exact retry counts/backoff are Phase 5 configuration, not public wire behavior.
+
+## 8. Error consistency rules
+
+Every application-generated error must:
+
+1. use the canonical envelope;
+2. use one canonical code;
+3. include a UUID requestId;
+4. use a contract-defined HTTP status;
+5. avoid sensitive details;
+6. preserve the counter invariant by never claiming an unconfirmed commit.
