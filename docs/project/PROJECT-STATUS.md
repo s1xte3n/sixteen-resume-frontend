@@ -383,3 +383,23 @@ The frontend workflow already consumes `secrets.AZURE_CLIENT_ID` and uses OIDC; 
 The Azure-side identity recreation, RBAC assignment, and protected GitHub environment-secret replacement require control-plane write access that is not exposed by the current tool connection. They therefore must not be represented as completed or verified in project evidence.
 
 A fresh production OIDC verification run remains the acceptance evidence for this blocker. Until it succeeds, Phase 3 remains **BLOCKED**.
+
+
+## Current deployment incident — 2026-10-07
+
+Frontend production verification is **BLOCKED by shared backend/Azure infrastructure**, not by frontend application code.
+
+- The backend production ARM deployment failed while creating Cosmos Table RBAC because the deployment operation used the obsolete `2023-04-15` API version. The backend correction uses `2024-08-15-preview` and the backend CI workflow now preflights the provider contract.
+- The backend Function subsequently returned `DEPENDENCY_UNAVAILABLE` / HTTP 503 and request timeouts because its Cosmos dependency was not successfully provisioned and verified.
+- The frontend Storage smoke test also timed out. This must be rechecked only after the backend deployment successfully provisions the Storage static website resource. No frontend application or authentication change is authorized for this failure.
+- `VERIFY_PUBLIC_ENDPOINT=false` remains correct. The public hostname check is a separate gate and must not be used to mask Storage-origin failures.
+
+### Recovery gate
+
+Frontend production acceptance remains blocked until the following evidence is fresh and successful:
+
+1. Backend ARM provisioning state is `Succeeded`.
+2. Function managed identity and Cosmos Table RBAC verification pass.
+3. `GET /api/visitors` returns a successful contract response.
+4. Azure Storage static website endpoint returns the deployed HTML.
+5. Only after those pass should public HTTPS/DNS verification be enabled.
