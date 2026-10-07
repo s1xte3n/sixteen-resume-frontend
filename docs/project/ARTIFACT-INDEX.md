@@ -51,7 +51,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/config/SECRETS-MANAGEMENT.md` | Secret names, sources, rotation, ownership, and handling rules | Complete; values excluded |
 | `docs/config/TEST-DATA.md` | Synthetic API/database test state and lifecycle | Complete |
 | `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
-| `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete |
+| `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete; exact UAMI recreation target recorded; live Azure evidence blocked |
 | `docs/ci-cd/CI-CD-READINESS.md` | Frontend CI/CD operational readiness and evidence gate | Complete |
 | `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; execution evidence **BLOCKED** |
 | `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; live execution/evidence **BLOCKED** |
@@ -403,3 +403,10 @@ Frontend Phase 3 production verification remains **BLOCKED** by the Azure-side f
 with issuer `https://token.actions.githubusercontent.com` and audience `api://AzureADTokenExchange`.
 
 This is an external Azure configuration prerequisite. No application, API, Storage deployment, browser/Cosmos, secret, or alternate authentication artifact is changed. The artifact remains unverified until a fresh production OIDC workflow succeeds.
+
+
+## Phase 3 blocker-correction artifact
+
+| Artifact | Purpose | Status |
+|---|---|---|
+| `docs/ci-cd/PHASE-3-FRONTEND-UAMI-RECREATION.md` | Exact frontend UAMI, federated credential, narrow Storage RBAC, GitHub production environment binding, exclusions, and verification gate | Current; Azure/GitHub mutation evidence **BLOCKED** |
