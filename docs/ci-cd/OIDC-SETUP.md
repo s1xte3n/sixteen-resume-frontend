@@ -2,7 +2,7 @@
 
 ## Status
 
-**BLOCKED — Azure federated credential subject mismatch observed on 2026-10-07.**
+**OIDC RESOLVED — verified by frontend production run #33 on 2026-10-07.**
 
 This document is the source of truth for the frontend repository's GitHub Actions → Azure authentication.
 
@@ -21,7 +21,7 @@ Because this repository was created after 15 July 2026, GitHub uses immutable OI
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
-The latest failed production run presented exactly this subject:
+The successful production run presented exactly this subject:
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
@@ -238,7 +238,7 @@ The workflow verifies:
 6. The deployment identity can access Blob data using Microsoft Entra login.
 7. No storage key or connection string is required.
 
-A successful run is the required operational evidence for frontend OIDC readiness.
+Production run #33 is the required operational evidence: Azure OIDC login succeeded with the exact immutable subject and the subsequent Storage upload succeeded with Microsoft Entra authorization. The remaining Phase 3 frontend blocker is public HTTPS/DNS delivery, not OIDC.
 
 ## Security verification
 
