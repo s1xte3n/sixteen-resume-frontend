@@ -523,7 +523,7 @@ No frontend application code, API contract, browser/Cosmos boundary, or credenti
 
 ## Phase 5 live OIDC correction — 2026-10-07
 
-The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, while GitHub presented the immutable subject:
+The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, while GitHub presented the immutable subject:
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
