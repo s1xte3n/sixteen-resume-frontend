@@ -160,7 +160,7 @@ az identity federated-credential create \
   --audiences "api://AzureADTokenExchange"
 ```
 
-Then verify the returned subject, issuer, and audience before rerunning the production workflow. The current Azure CLI supports federated credentials directly under user-assigned identities. citeturn1search0turn1search2
+Then verify the returned subject, issuer, and audience before rerunning the production workflow. The current Azure CLI supports federated credentials directly under user-assigned identities.
 
 Then assign the storage data role:
 
