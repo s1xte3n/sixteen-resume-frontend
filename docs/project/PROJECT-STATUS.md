@@ -316,3 +316,13 @@ The backend delivery correction in s1xte3n/sixteen-resume-backend PR #35 changes
 This remains a **Phase 3 deployment-verification blocker**, not a frontend implementation defect. Frontend code, API contract, browser/Cosmos isolation, OIDC model, Storage deployment model, and public hostname configuration are unchanged.
 
 **Current gate: BLOCKED** until backend PR #35 passes required CI and a fresh production deployment from main proves Function runtime readiness and the visitor API in Azure.
+
+
+## Phase 3 blocker update — 2026-10-07
+
+**Status: BLOCKED — external Azure/GitHub configuration plus backend Flex startup verification.**
+
+- Frontend OIDC failure is confirmed as an Azure federated-credential subject mismatch. GitHub presented the immutable production subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`; the deployment workflow already matches this subject.
+- Required external correction: update/create the frontend user-assigned managed identity federated credential with the exact issuer, subject, and audience documented in `docs/ci-cd/OIDC-SETUP.md`.
+- Backend Phase 3 startup verification also remains blocked by the Flex host-storage configuration correction in backend PR #36.
+- No frontend application, API contract, browser/Cosmos boundary, or deployment mechanism change is authorized for these blockers.
