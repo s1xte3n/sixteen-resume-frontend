@@ -54,3 +54,9 @@ The frontend OIDC verification cannot pass until the approved UAMI exists. The m
 - GitHub production `AZURE_CLIENT_ID` must now be synchronized to `2d19e037-cc57-462c-a950-862f9b8a80e6`; leaving the old `d3363a85-4425-4916-a90a-5b8494015450` value would make the verifier fail the identity/client-ID equality check.
 - Storage Blob Data Contributor for principal `200b60d9-b05a-4733-81f4-1053834de5c3` on `st16resumeweb` is still **unverified/blocked** because local `az role assignment` calls returned `MissingSubscription`.
 - Phase 5 remains **NOT PASSED** until client-ID synchronization and Storage RBAC are live-verified.
+
+## Live OIDC subject correction — 2026-10-07
+
+The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact subject.
+
+Current frontend UAMI: `sixteen-resume-frontend-github`; client ID `2d19e037-cc57-462c-a950-862f9b8a80e6`; principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.

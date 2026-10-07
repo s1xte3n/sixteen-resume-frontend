@@ -80,8 +80,26 @@ The workflow is prepared for controlled execution, but this environment cannot i
 ## Current live correction — 2026-10-07
 
 - The approved UAMI `sixteen-resume-frontend-github` now exists in `rg-sixteen-resume-prod` with client ID `2d19e037-cc57-462c-a950-862f9b8a80e6` and principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.
-- The federated credential `github-production` now has issuer `https://token.actions.githubusercontent.com`, subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, and audience `api://AzureADTokenExchange`.
+- The federated credential `github-production` now has issuer `https://token.actions.githubusercontent.com`, subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, and audience `api://AzureADTokenExchange`.
 - `AZURE_FRONTEND_IDENTITY_NAME` has been added to the GitHub `production` environment with value `sixteen-resume-frontend-github`.
 - `AZURE_CLIENT_ID` must be updated to `2d19e037-cc57-462c-a950-862f9b8a80e6` before verification; the previously reported `d3363a85-4425-4916-a90a-5b8494015450` is superseded.
 - Storage Blob Data Contributor on `st16resumeweb` remains unverified because local Azure CLI RBAC commands return `MissingSubscription`.
 - Do not add a client secret, Storage key, SAS token, or alternate identity type.
+
+## Phase 5 live OIDC correction — 2026-10-07
+
+The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, while GitHub presented the immutable subject:
+
+`repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+
+This is the authoritative subject observed in the live GitHub OIDC assertion. The verification workflow has been corrected to derive that subject from the GitHub repository owner/repository IDs. The Azure federated credential must be recreated with the exact observed subject before the next verification run.
+
+Current frontend identity evidence:
+- UAMI: `sixteen-resume-frontend-github`
+- Client ID: `2d19e037-cc57-462c-a950-862f9b8a80e6`
+- Principal ID: `200b60d9-b05a-4733-81f4-1053834de5c3`
+- GitHub production `AZURE_FRONTEND_IDENTITY_NAME`: configured
+- GitHub production `AZURE_CLIENT_ID`: set to the UAMI client ID
+- Storage Blob Data Contributor: assigned at `st16resumeweb` scope
+
+**Phase 5 remains NOT PASSED** until a fresh controlled workflow run succeeds through OIDC login, identity matching, federated-credential validation, and Storage data-plane access.
