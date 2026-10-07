@@ -25,15 +25,14 @@ jobs:
       - name: Validate required GitHub configuration
         shell: bash
         env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
         run: |
           set -euo pipefail
-
           for name in AZURE_CLIENT_ID AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID; do
             if [[ -z "${!name}" ]]; then
-              echo "::error::Missing GitHub environment secret: $name"
+              echo "::error::Missing GitHub production environment variable: $name"
               exit 1
             fi
           done
@@ -41,9 +40,9 @@ jobs:
       - name: Azure login with OIDC
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: false
 
       - name: Verify Azure subscription context
@@ -52,7 +51,6 @@ jobs:
           AZURE_CORE_OUTPUT: none
         run: |
           set -euo pipefail
-
           az account show --query '{subscriptionId:id,tenantId:tenantId,isDefault:isDefault}' --output json
 
       - name: Validate required production environment variables
@@ -65,7 +63,6 @@ jobs:
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
         run: |
           set -euo pipefail
-
           for name in AZURE_RESOURCE_GROUP_NAME AZURE_STORAGE_ACCOUNT_NAME AZURE_FRONTEND_IDENTITY_NAME AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP PUBLIC_HOSTNAME; do
             if [[ -z "${!name}" ]]; then
               echo "::error::Missing GitHub production environment variable: $name"
@@ -81,7 +78,6 @@ jobs:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
         run: |
           set -euo pipefail
-
           storage_json="$(az storage account show --name "${AZURE_STORAGE_ACCOUNT_NAME}" --resource-group "${AZURE_RESOURCE_GROUP_NAME}" --output json)"
           actual_rg="$(jq -r '.resourceGroup' <<<"${storage_json}")"
           actual_name="$(jq -r '.name' <<<"${storage_json}")"
@@ -95,11 +91,10 @@ jobs:
           AZURE_CORE_OUTPUT: none
           AZURE_FRONTEND_IDENTITY_NAME: ${{ vars.AZURE_FRONTEND_IDENTITY_NAME }}
           AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP: ${{ vars.AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-
           identity_json="$(az identity show --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --output json)"
           identity_client_id="$(jq -r '.clientId' <<<"${identity_json}")"
           [[ "${identity_client_id}" == "${AZURE_CLIENT_ID}" ]] || { echo "::error::AZURE_CLIENT_ID does not match the provisioned frontend managed identity."; exit 1; }
@@ -134,13 +129,13 @@ jobs:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
         run: |
           set -euo pipefail
-
           az storage blob list \
             --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
             --container-name '$web' \
             --auth-mode login \
             --num-results 1 \
             --output none
+
       - name: Azure logout
         if: always()
         shell: bash
