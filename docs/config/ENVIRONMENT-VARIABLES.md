@@ -60,3 +60,14 @@ The frontend OIDC verification cannot pass until the approved UAMI exists. The m
 The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact subject.
 
 Current frontend UAMI: `sixteen-resume-frontend-github`; client ID `2d19e037-cc57-462c-a950-862f9b8a80e6`; principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.
+
+## 2026-10-07 controlled verification correction
+
+The failed run exposed two separate issues that must not be conflated:
+
+1. **OIDC federation:** the Azure federated credential must exactly match the immutable GitHub subject observed in the live assertion: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`.
+2. **RBAC verification:** `Storage Blob Data Contributor` authorizes blob data operations but does not grant `Microsoft.Storage/storageAccounts/read`. Therefore `az storage account show` is not a valid least-privilege verification step for the frontend deployment identity. The verification workflow now proves the authenticated client through `az account show` and tests Storage through Entra-authenticated data-plane operations instead.
+
+The frontend deployment workflow was likewise changed to verify static website service properties and the published `$web/index.html` through Entra-authenticated Storage data-plane calls. It no longer requires management-plane Reader access solely for deployment verification.
+
+This is a verification/RBAC-boundary correction only. No API route, frontend runtime contract, persistence model, or authentication architecture changed.
