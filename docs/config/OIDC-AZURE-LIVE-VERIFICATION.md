@@ -61,7 +61,7 @@ The live gate passes only when the run proves all of the following:
 
 ## Current gate status
 
-**BLOCKED — GitHub production environment configuration is incomplete.**
+**BLOCKED — frontend UAMI exists and federation is configured, but GitHub client-ID synchronization and Storage RBAC remain unverified.**
 
 The latest controlled verification failed during configuration validation because `AZURE_FRONTEND_IDENTITY_NAME` is missing from the GitHub `production` environment. Azure login was not reached.
 
@@ -79,10 +79,9 @@ The workflow is prepared for controlled execution, but this environment cannot i
 
 ## Current live correction — 2026-10-07
 
-- Current reported frontend OIDC client ID: `d3363a85-4425-4916-a90a-5b8494015450`.
-- Approved identity resource name: `sixteen-resume-frontend-github`.
-- Approved identity resource group: `rg-sixteen-resume-prod`.
-- Direct lookup of the approved UAMI returned `ResourceNotFound`.
-- The GitHub production environment is also missing `AZURE_FRONTEND_IDENTITY_NAME`.
-- These are two separate blockers. Configure the GitHub variable and verify/provision the actual UAMI before rerunning this workflow.
-- Do not treat the reported client ID as proof of UAMI existence or substitute an Entra application/service principal without an approved architecture change.
+- The approved UAMI `sixteen-resume-frontend-github` now exists in `rg-sixteen-resume-prod` with client ID `2d19e037-cc57-462c-a950-862f9b8a80e6` and principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.
+- The federated credential `github-production` now has issuer `https://token.actions.githubusercontent.com`, subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, and audience `api://AzureADTokenExchange`.
+- `AZURE_FRONTEND_IDENTITY_NAME` has been added to the GitHub `production` environment with value `sixteen-resume-frontend-github`.
+- `AZURE_CLIENT_ID` must be updated to `2d19e037-cc57-462c-a950-862f9b8a80e6` before verification; the previously reported `d3363a85-4425-4916-a90a-5b8494015450` is superseded.
+- Storage Blob Data Contributor on `st16resumeweb` remains unverified because local Azure CLI RBAC commands return `MissingSubscription`.
+- Do not add a client secret, Storage key, SAS token, or alternate identity type.

@@ -507,3 +507,15 @@ The Phase 5 gate remains **NOT PASSED** until the controlled workflow is execute
 | Phase 5 gate | **NOT PASSED** | The approved frontend UAMI and GitHub production configuration are not live-verified. |
 
 No frontend application code, API contract, browser/Cosmos boundary, or credential model was changed.
+
+## Phase 5 live OIDC correction — 2026-10-07
+
+| Artifact | Status | Evidence / change |
+|---|---|---|
+| `docs/config/ENVIRONMENT-VARIABLES.md` | Updated | Records recreated frontend UAMI client/principal IDs and the remaining client-ID/RBAC gate. |
+| `docs/config/CI-CD-CONFIGURATION.md` | Updated | Records current protected production variables and the remaining verification blocker. |
+| `docs/config/OIDC-AZURE-LIVE-VERIFICATION.md` | Updated | Records corrected federated credential and controlled verification prerequisites. |
+| `docs/config/CONFIGURATION-SECURITY-REVIEW.md` | Updated | UAMI provisioning is no longer a blocker; client-ID synchronization and Storage RBAC remain open. |
+| `docs/config/CONFIGURATION-CHANGE-LOG.md` | Updated | Records the identity recreation and OIDC correction. |
+| Phase 5 gate | **NOT PASSED** | Controlled frontend OIDC workflow must still prove client-ID equality and Storage Blob Data Contributor access. |
+
