@@ -120,53 +120,80 @@ Do not trust every repository owned by `s1xte3n`.
 
 Do not create a credential for `pull_request` or feature branches with production permissions.
 
-## Azure CLI setup
+## Manual Azure-side recreation procedure
 
-Run these commands from an authenticated administrative Azure shell. Replace only local shell variables; do not put resulting credentials into Git.
+If the existing frontend deployment identity is being removed, **do not create a normal app registration with `az ad app create` for the frontend workflow**. The approved frontend identity is a **user-assigned managed identity**. Recreate that identity and attach the federated credential to it.
+
+Run from an authenticated Azure administrative shell:
 
 ```bash
-az login
-
-SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
-TENANT_ID="$(az account show --query tenantId -o tsv)"
+SUBSCRIPTION_ID="aab5f649-b686-4f86-95cc-aa72ae71f03b"
+TENANT_ID="936720d3-5742-4aa8-a632-b7731b0f24ff"
+RESOURCE_GROUP="rg-sixteen-resume-prod"
+LOCATION="eastus"
+IDENTITY_NAME="sixteen-resume-frontend-github"
 
 az account set --subscription "$SUBSCRIPTION_ID"
 
+az account show \
+  --query "{subscriptionId:id,tenantId:tenantId,name:name,state:state}" \
+  --output table
+```
+
+If the old identity has already been deleted, create the replacement:
+
+```bash
 az identity create \
-  --name "sixteen-resume-frontend-github" \
-  --resource-group "<RESOURCE_GROUP>" \
-  --location "eastus"
+  --name "$IDENTITY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
+  --location "$LOCATION"
 
 CLIENT_ID="$(az identity show \
-  --resource-group "<RESOURCE_GROUP>" \
-  --name "sixteen-resume-frontend-github" \
+  --resource-group "$RESOURCE_GROUP" \
+  --name "$IDENTITY_NAME" \
   --query clientId -o tsv)"
 
 PRINCIPAL_ID="$(az identity show \
-  --resource-group "<RESOURCE_GROUP>" \
-  --name "sixteen-resume-frontend-github" \
+  --resource-group "$RESOURCE_GROUP" \
+  --name "$IDENTITY_NAME" \
   --query principalId -o tsv)"
+
+echo "Frontend managed identity client ID: $CLIENT_ID"
+echo "Frontend managed identity principal ID: $PRINCIPAL_ID"
 ```
 
-For the current Azure CLI, create the credential directly on the user-assigned managed identity:
+Create exactly one production federated credential:
 
 ```bash
 az identity federated-credential create \
-  --identity-name "sixteen-resume-frontend-github" \
-  --resource-group "<RESOURCE_GROUP>" \
+  --identity-name "$IDENTITY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
   --name "github-frontend-production" \
   --issuer "https://token.actions.githubusercontent.com" \
   --subject "repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production" \
   --audiences "api://AzureADTokenExchange"
 ```
 
-Then verify the returned subject, issuer, and audience before rerunning the production workflow. The current Azure CLI supports federated credentials directly under user-assigned identities.
+Verify the credential before touching GitHub:
 
-Then assign the storage data role:
+```bash
+az identity federated-credential list \
+  --identity-name "$IDENTITY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
+  --output table
+```
+
+The row must show exactly:
+
+- issuer: `https://token.actions.githubusercontent.com`
+- subject: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+- audience: `api://AzureADTokenExchange`
+
+Then restore only the approved storage data-plane role:
 
 ```bash
 STORAGE_ID="$(az storage account show \
-  --resource-group "<RESOURCE_GROUP>" \
+  --resource-group "$RESOURCE_GROUP" \
   --name "<STORAGE_ACCOUNT_NAME>" \
   --query id -o tsv)"
 
@@ -177,7 +204,21 @@ az role assignment create \
   --scope "$STORAGE_ID"
 ```
 
-Azure RBAC propagation can take several minutes.
+Finally update the GitHub `production` environment:
+
+- `AZURE_CLIENT_ID` = the **new frontend managed identity client ID**
+- `AZURE_TENANT_ID` = `936720d3-5742-4aa8-a632-b7731b0f24ff`
+- `AZURE_SUBSCRIPTION_ID` = `aab5f649-b686-4f86-95cc-aa72ae71f03b`
+
+Do not add a client secret or publish profile.
+
+## Backend app-registration recreation impact
+
+The backend identity is a separate deployment identity from the frontend managed identity. If the backend app registration is recreated, the new backend application/client ID must replace the old value in the backend repository's protected `production` GitHub environment secret `AZURE_CLIENT_ID`.
+
+The backend federated credential must use the backend repository's own immutable production subject. Do not reuse the frontend subject.
+
+The new backend service principal must retain only the approved deployment permissions required by the backend pipeline. Existing resource-provider managed-identity permissions in the ARM template are separate from the GitHub deployment identity.
 
 ## Verification workflow
 

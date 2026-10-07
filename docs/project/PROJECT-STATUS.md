@@ -340,3 +340,21 @@ The frontend production deployment identity must have exactly one approved feder
 The correction is Azure-side only. No frontend source, API contract, browser/Cosmos boundary, Storage deployment model, secret, publish profile, or alternate authentication mechanism is introduced.
 
 After correction, a fresh production GitHub Actions OIDC execution must prove that the deployment identity resolves to the expected tenant/subscription and can authenticate successfully. Until that evidence exists, this Phase 3 blocker remains open and production frontend deployment is not considered verified.
+
+
+## Phase 3 — OIDC identity recreation — 2026-10-07
+
+**Current gate: BLOCKED — Azure-side identity recreation and fresh production OIDC evidence pending.**
+
+The backend GitHub deployment application registration has been recreated. Its new client ID must replace the old backend `AZURE_CLIENT_ID` in the protected backend `production` environment, and the new service principal must retain the approved deployment permissions.
+
+The frontend is **not** to be recreated as a normal app registration. Its approved deployment identity is a dedicated user-assigned managed identity. If the existing frontend identity is being removed, the replacement must be created as a user-assigned managed identity with exactly one production federated credential:
+
+- Issuer: `https://token.actions.githubusercontent.com`
+- Subject: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+- Audience: `api://AzureADTokenExchange`
+
+The frontend GitHub `production` environment `AZURE_CLIENT_ID` must then be updated to the new managed identity client ID.
+
+This is an Azure/GitHub configuration correction only. No frontend source, API contract, browser/Cosmos isolation, storage deployment model, or alternate credential mechanism is changed.
+
