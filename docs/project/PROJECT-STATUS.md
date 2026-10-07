@@ -383,3 +383,10 @@ The frontend workflow already consumes `secrets.AZURE_CLIENT_ID` and uses OIDC; 
 The Azure-side identity recreation, RBAC assignment, and protected GitHub environment-secret replacement require control-plane write access that is not exposed by the current tool connection. They therefore must not be represented as completed or verified in project evidence.
 
 A fresh production OIDC verification run remains the acceptance evidence for this blocker. Until it succeeds, Phase 3 remains **BLOCKED**.
+
+
+## Phase 3 blocker correction — 2026-10-07
+
+The frontend production identity and Storage deployment boundary are now treated as resolved prerequisites. The remaining frontend blocker is external to the application: the Azure Storage static website endpoint timed out during production verification, while the custom hostname remains dependent on an approved HTTPS edge/DNS path. Backend API/persistence verification remains blocked until the backend production Function/Cosmos gate passes.
+
+No frontend application code, API contract, direct Cosmos access, or credential model was changed. The frontend deployment workflow continues to use GitHub OIDC and Microsoft Entra authorization for Storage uploads.
