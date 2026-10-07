@@ -2,43 +2,55 @@
 
 ## Scope
 
-This document records only the frontend Phase 3 deployment-verification blocker. It does not change the approved static-hosting architecture, deployment workflow, or GitHub OIDC authentication model.
+This document records the current frontend Phase 3 production blocker. No frontend source, API, static-hosting, CDN, or OIDC workflow redesign is required.
 
-## Frontend blocker — federated identity recreation
+## Frontend blocker — missing storage data-plane authorization
 
-The production workflow already uses GitHub Actions OIDC with the protected `production` environment. No workflow authentication change is required.
+The production workflow successfully authenticated to Azure and reached the storage upload step. The upload failed because the deployment identity does not currently have permission to write blobs.
 
-The dedicated user-assigned managed identity must be recreated or corrected so that its federated identity credential exactly matches the immutable GitHub production subject:
+Required correction:
 
-- Issuer: `https://token.actions.githubusercontent.com`
-- Subject: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
-- Audience: `api://AzureADTokenExchange`
+- **Storage Blob Data Contributor**
+- Scope: production frontend Storage account only: `st16resumeweb`
+- Authentication: Microsoft Entra/OIDC via `azure/login` and `az storage blob upload-batch --auth-mode login`
 
-No wildcard subject, branch-wide subject, pull-request subject, client secret, publish profile, storage key, SAS token, or connection string is permitted.
+Do not replace this with storage account keys, SAS, connection strings, client secrets, publish profiles, or broader Contributor/Owner access.
 
-## Azure-side remediation
+### Azure-side correction
 
-Recreate the dedicated user-assigned managed identity if the existing identity is not trusted with the exact subject.
+Assign `Storage Blob Data Contributor` to the existing frontend production OIDC principal at the storage-account scope only.
 
-The recreated identity must:
+The exact principal must be the identity configured in the GitHub `production` environment as `AZURE_CLIENT_ID`.
 
-1. contain exactly the production GitHub federated credential above;
-2. have `Storage Blob Data Contributor` scoped only to the production frontend storage account;
-3. have no Cosmos DB permissions;
-4. have no Function App deployment permissions;
-5. have no subscription Owner or Contributor role;
-6. have no resource-group-wide Contributor role unless separately approved.
+### Command-line correction
 
-Update the GitHub `production` environment's `AZURE_CLIENT_ID` to the recreated identity's client ID. Keep `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` unchanged.
+Run as an administrator authorized to assign storage data-plane RBAC:
+
+```bash
+SUBSCRIPTION_ID="aab5b649-b686-4f86-95cc-aa72ae71f03b"
+RESOURCE_GROUP="rg-sixteen-resume-prod"
+FRONTEND_STORAGE_ACCOUNT="st16resumeweb"
+FRONTEND_DEPLOYMENT_PRINCIPAL_OBJECT_ID="<frontend-oidc-principal-object-id>"
+
+az account set --subscription "$SUBSCRIPTION_ID"
+
+STORAGE_SCOPE="/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.Storage/storageAccounts/$FRONTEND_STORAGE_ACCOUNT"
+
+az role assignment create \
+  --assignee-object-id "$FRONTEND_DEPLOYMENT_PRINCIPAL_OBJECT_ID" \
+  --assignee-principal-type ServicePrincipal \
+  --role "Storage Blob Data Contributor" \
+  --scope "$STORAGE_SCOPE"
+```
 
 ## Verification gate
 
-Phase 3 remains **BLOCKED** until the existing `.github/workflows/verify-azure-oidc.yml` workflow succeeds against the recreated identity and confirms:
+Phase 3 remains **BLOCKED** until a fresh `main` production run proves:
 
-- GitHub OIDC token issuance;
-- Azure federated authentication;
-- expected subscription context;
-- frontend storage access using Microsoft Entra authorization;
-- absence of storage keys/connection strings from the deployment path.
+- GitHub OIDC federation succeeds;
+- expected Azure subscription context is established;
+- blob upload to `$web` succeeds with `--auth-mode login`;
+- public HTTPS verification succeeds;
+- no storage keys or connection strings are used.
 
-No frontend source-code, API-contract, hosting, or CDN change is part of this blocker remediation.
+No frontend implementation change is part of this remediation.
