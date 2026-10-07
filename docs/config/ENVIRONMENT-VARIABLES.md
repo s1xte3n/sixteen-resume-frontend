@@ -1,6 +1,6 @@
 # Phase 5 — Frontend Environment & Configuration Inventory
 
-Status: **Phase 5 baseline — configuration model complete; live OIDC provisioning blocked**
+Status: **Phase 5 baseline — configuration model complete; live OIDC verification blocked on RBAC/client-ID synchronization**
 
 The frontend is a static HTML/CSS/JavaScript application. Its approved runtime API call is same-origin `/api/visitors`. It does not use a browser-configured API base URL.
 
@@ -47,7 +47,10 @@ The frontend OIDC verification cannot pass until the approved UAMI exists. The m
 ## Current OIDC identity record — 2026-10-07
 
 - `AZURE_FRONTEND_IDENTITY_NAME` must be the GitHub production environment variable `sixteen-resume-frontend-github`.
-- Current reported frontend OIDC client ID: `d3363a85-4425-4916-a90a-5b8494015450`.
-- The tested Azure command `az identity show --name sixteen-resume-frontend-github --resource-group rg-sixteen-resume-prod` returned `ResourceNotFound`; therefore the reported client ID is **not** sufficient evidence that the required UAMI exists under the approved name/resource group.
-- Before creating a second identity, search Azure for the reported client ID and confirm its resource type. If it is not the required UAMI, provision the approved UAMI and bind the new client ID instead.
-- Phase 5 remains **NOT PASSED**.
+- Previous reported frontend OIDC client ID `d3363a85-4425-4916-a90a-5b8494015450` is superseded by the newly provisioned UAMI client ID `2d19e037-cc57-462c-a950-862f9b8a80e6`.
+- Newly provisioned UAMI principal ID: `200b60d9-b05a-4733-81f4-1053834de5c3`.
+- The approved UAMI `sixteen-resume-frontend-github` now exists in `rg-sixteen-resume-prod`.
+- Its federated credential `github-production` was recreated with the exact production subject `repo:s1xte3n/sixteen-resume-frontend:environment:production` and audience `api://AzureADTokenExchange`.
+- GitHub production `AZURE_CLIENT_ID` must now be synchronized to `2d19e037-cc57-462c-a950-862f9b8a80e6`; leaving the old `d3363a85-4425-4916-a90a-5b8494015450` value would make the verifier fail the identity/client-ID equality check.
+- Storage Blob Data Contributor for principal `200b60d9-b05a-4733-81f4-1053834de5c3` on `st16resumeweb` is still **unverified/blocked** because local `az role assignment` calls returned `MissingSubscription`.
+- Phase 5 remains **NOT PASSED** until client-ID synchronization and Storage RBAC are live-verified.
