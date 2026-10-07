@@ -358,3 +358,28 @@ The frontend GitHub `production` environment `AZURE_CLIENT_ID` must then be upda
 
 This is an Azure/GitHub configuration correction only. No frontend source, API contract, browser/Cosmos isolation, storage deployment model, or alternate credential mechanism is changed.
 
+
+
+## Phase 3 — Frontend UAMI recreation and production OIDC binding — 2026-10-07
+
+**Status: BLOCKED — Azure/GitHub control-plane execution is not available through the current connected tooling.**
+
+The required correction is now frozen to the existing approved deployment model:
+
+- Azure identity type: user-assigned managed identity.
+- Identity name: `sixteen-resume-frontend-github`.
+- Federated credential: exactly one production credential named `github-frontend-production`.
+- Issuer: `https://token.actions.githubusercontent.com`.
+- Subject: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`.
+- Audience: `api://AzureADTokenExchange`.
+- GitHub production environment secret to replace: `AZURE_CLIENT_ID` with the replacement managed identity client ID.
+- `AZURE_TENANT_ID` remains `936720d3-5742-4aa8-a632-b7731b0f24ff`.
+- `AZURE_SUBSCRIPTION_ID` remains `aab5f649-b686-4f86-95cc-aa72ae71f03b`.
+- Azure RBAC: `Storage Blob Data Contributor` scoped only to the production frontend Storage account (`st16resumeweb`).
+- No client secret, publish profile, subscription-wide Contributor/Owner, Cosmos permission, Function deployment permission, or alternative authentication mechanism is authorized.
+
+The frontend workflow already consumes `secrets.AZURE_CLIENT_ID` and uses OIDC; no workflow/application change is required for this correction.
+
+The Azure-side identity recreation, RBAC assignment, and protected GitHub environment-secret replacement require control-plane write access that is not exposed by the current tool connection. They therefore must not be represented as completed or verified in project evidence.
+
+A fresh production OIDC verification run remains the acceptance evidence for this blocker. Until it succeeds, Phase 3 remains **BLOCKED**.
