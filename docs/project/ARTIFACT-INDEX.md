@@ -519,3 +519,22 @@ No frontend application code, API contract, browser/Cosmos boundary, or credenti
 | `docs/config/CONFIGURATION-CHANGE-LOG.md` | Updated | Records the identity recreation and OIDC correction. |
 | Phase 5 gate | **NOT PASSED** | Controlled frontend OIDC workflow must still prove client-ID equality and Storage Blob Data Contributor access. |
 
+
+
+## Phase 5 live OIDC correction — 2026-10-07
+
+The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, while GitHub presented the immutable subject:
+
+`repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+
+This is the authoritative subject observed in the live GitHub OIDC assertion. The verification workflow has been corrected to derive that subject from the GitHub repository owner/repository IDs. The Azure federated credential must be recreated with the exact observed subject before the next verification run.
+
+Current frontend identity evidence:
+- UAMI: `sixteen-resume-frontend-github`
+- Client ID: `2d19e037-cc57-462c-a950-862f9b8a80e6`
+- Principal ID: `200b60d9-b05a-4733-81f4-1053834de5c3`
+- GitHub production `AZURE_FRONTEND_IDENTITY_NAME`: configured
+- GitHub production `AZURE_CLIENT_ID`: set to the UAMI client ID
+- Storage Blob Data Contributor: assigned at `st16resumeweb` scope
+
+**Phase 5 remains NOT PASSED** until a fresh controlled workflow run succeeds through OIDC login, identity matching, federated-credential validation, and Storage data-plane access.
