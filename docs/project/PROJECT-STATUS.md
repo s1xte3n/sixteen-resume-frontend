@@ -285,3 +285,14 @@ No frontend implementation change is required. Frontend production acceptance re
 The backend production deployment reached the Cosmos Table role-assignment resource and exposed a provider payload defect: the previous assignment scope used the full `.../tables/VisitorCounter` resource ID, which the current Table RBAC provider rejected. The backend correction changes the Table role-assignment scope to the Cosmos account resource ID, matching the current provider contract. The backend still uses the Cosmos Table data-plane role and the application retains a single logical table, `VisitorCounter`.
 
 No frontend code, API contract, credentials, browser/Cosmos boundary, or deployment mechanism changes are required. Frontend production acceptance remains **BLOCKED** until the corrected backend passes CI and a fresh production workflow from `main` proves backend deployment/runtime/API/Cosmos behavior. 
+
+
+## Phase 4 continuation — 2026-10-07 — Static website provider correction
+
+The frontend production deployment remains blocked by the shared Azure Storage static website infrastructure owned by the backend ARM deployment. The latest controlled deployment reached the frontend Storage account and Azure rejected the static website request with `InvalidRequestParameters: properties.staticWebsiteEnabled`.
+
+The backend IaC correction is to use the supported `Microsoft.Storage/storageAccounts/blobServices@2025-08-01` API for the static website resource. The approved frontend hosting model is unchanged: Azure Storage static website, public website content, and no CDN/cache-purge service selection beyond the approved project scope.
+
+Frontend application code and deployment credentials are unchanged. A fresh production frontend deployment verification must wait until the backend infrastructure correction is merged and the production workflow proves the static website resource is successfully provisioned.
+
+**Frontend Phase 4 status: BLOCKED — infrastructure dependency.**
