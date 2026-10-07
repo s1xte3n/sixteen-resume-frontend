@@ -44,10 +44,10 @@ The workflow validates:
 1. Required production environment variables exist.
 2. GitHub Actions can exchange its OIDC token for an Azure session.
 3. The Azure subscription/tenant context is correct.
-4. The configured Storage account exists in the configured resource group.
-5. The configured frontend user-assigned managed identity exists and its client ID matches AZURE_CLIENT_ID.
-6. Exactly one federated credential matches the approved GitHub production subject, issuer `https://token.actions.githubusercontent.com`, and audience `api://AzureADTokenExchange`.
-7. Blob data-plane access works through Entra login without a Storage key/SAS.
+4. The Azure login session principal matches `AZURE_CLIENT_ID`.
+5. The configured frontend UAMI and federated credential are verified separately from the workflow using Azure control-plane evidence; the credential must match the immutable GitHub production subject, issuer `https://token.actions.githubusercontent.com`, and audience `api://AzureADTokenExchange`.
+6. Blob data-plane access works through Entra login without a Storage key/SAS.
+7. Static website service configuration is readable through the Storage data plane and is enabled.
 8. The configured public hostname serves HTTPS content when edge verification is enabled.
 
 The workflow's successful execution is the live evidence. A committed workflow file alone is not evidence.
