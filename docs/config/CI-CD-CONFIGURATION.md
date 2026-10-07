@@ -31,7 +31,7 @@ The workflow validates:
 3. The Azure subscription/tenant context is available.
 4. The configured Storage account exists in the configured resource group.
 5. The configured frontend user-assigned managed identity client ID matches AZURE_CLIENT_ID.
-6. Exactly one federated credential matches issuer `https://token.actions.githubusercontent.com`, subject `repo:<owner>/<repo>:environment:production`, and audience `api://AzureADTokenExchange`.
+6. Exactly one federated credential matches issuer `https://token.actions.githubusercontent.com`, the approved immutable production subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, and audience `api://AzureADTokenExchange`.
 7. Blob data-plane access works through Entra login without a Storage key/SAS.
 8. The configured public hostname serves HTTPS content.
 
