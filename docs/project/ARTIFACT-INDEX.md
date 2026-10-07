@@ -47,15 +47,21 @@ This document identifies authoritative project documentation, product requiremen
 
 | Artifact | Purpose | Status |
 |---|---|---|
-| `docs/config/ENVIRONMENT-VARIABLES.md` | Canonical non-secret environment/configuration inventory | Complete |
-| `docs/config/ENVIRONMENT-MATRIX.md` | Local/dev/test/staging/prod context requirements | Complete |
-| `docs/config/SECRETS-MANAGEMENT.md` | Secret names, sources, rotation, ownership, and handling rules | Complete; values excluded |
-| `docs/config/TEST-DATA.md` | Synthetic API/database test state and lifecycle | Complete |
-| `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
-| `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete; exact UAMI recreation target recorded; live Azure evidence blocked |
-| `docs/ci-cd/CI-CD-READINESS.md` | Frontend CI/CD operational readiness and evidence gate | Complete |
-| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; OIDC/Storage RBAC evidence resolved; edge verification remains pending |
-| `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; Azure OIDC and Storage upload resolved; static-site reachability/edge evidence pending |
+| `docs/config/ENVIRONMENT-VARIABLES.md` | Canonical frontend configuration inventory aligned to the approved implementation | Updated — Phase 5 |
+| `docs/config/ENVIRONMENT-MATRIX.md` | Local/test/CI/deployment/production context matrix | Updated — Phase 5 |
+| `docs/config/SECRETS-MANAGEMENT.md` | OIDC identifiers, prohibited credentials, and handling rules | Updated — Phase 5 |
+| `docs/config/TEST-DATA.md` | Synthetic frontend test data and lifecycle | Updated — Phase 5 |
+| `docs/config/CI-CD-CONFIGURATION.md` | Frontend deployment/OIDC configuration matrix | Added — Phase 5 |
+| `docs/config/CONFIGURATION-VALIDATION-RULES.md` | Configuration validation rules | Added — Phase 5 |
+| `docs/config/CONFIGURATION-SECURITY-REVIEW.md` | Configuration security findings | Added — Phase 5 |
+| `docs/config/CONFIGURATION-CHANGE-LOG.md` | Phase 5 configuration changes | Added — Phase 5 |
+| `tests/postman/sixteen-resume-environment-template.json` | Non-secret API-client environment template | Current |
+
+### Phase 5 correction
+
+The frontend runtime does **not** consume `PUBLIC_API_BASE_URL`, `PUBLIC_API_PATH`, or `API_VERSION`. The approved JavaScript uses the same-origin frozen path `/api/visitors`. Those variables are therefore not part of the frontend configuration contract.
+
+Final hostname, HTTPS edge service, final CORS origin, live OIDC/RBAC evidence, and cost evidence remain configuration/acceptance gates.
 
 ## 6. Architecture Documentation
 
