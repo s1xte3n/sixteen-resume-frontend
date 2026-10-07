@@ -44,10 +44,10 @@ The workflow validates:
 1. Required production environment variables exist.
 2. GitHub Actions can exchange its OIDC token for an Azure session.
 3. The Azure subscription/tenant context is correct.
-4. The configured Storage account exists in the configured resource group.
-5. The configured frontend user-assigned managed identity exists and its client ID matches AZURE_CLIENT_ID.
-6. Exactly one federated credential matches the approved GitHub production subject, issuer `https://token.actions.githubusercontent.com`, and audience `api://AzureADTokenExchange`.
-7. Blob data-plane access works through Entra login without a Storage key/SAS.
+4. The Azure login session principal matches `AZURE_CLIENT_ID`.
+5. The configured frontend UAMI and federated credential are verified separately from the workflow using Azure control-plane evidence; the credential must match the immutable GitHub production subject, issuer `https://token.actions.githubusercontent.com`, and audience `api://AzureADTokenExchange`.
+6. Blob data-plane access works through Entra login without a Storage key/SAS.
+7. Static website service configuration is readable through the Storage data plane and is enabled.
 8. The configured public hostname serves HTTPS content when edge verification is enabled.
 
 The workflow's successful execution is the live evidence. A committed workflow file alone is not evidence.
@@ -69,6 +69,17 @@ The workflow's successful execution is the live evidence. A committed workflow f
 
 ## Live OIDC subject correction — 2026-10-07
 
-The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact subject.
+The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact immutable subject.
 
 Current frontend UAMI: `sixteen-resume-frontend-github`; client ID `2d19e037-cc57-462c-a950-862f9b8a80e6`; principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.
+
+## 2026-10-07 controlled verification correction
+
+The failed run exposed two separate issues that must not be conflated:
+
+1. **OIDC federation:** the Azure federated credential must exactly match the immutable GitHub subject observed in the live assertion: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`.
+2. **RBAC verification:** `Storage Blob Data Contributor` authorizes blob data operations but does not grant `Microsoft.Storage/storageAccounts/read`. Therefore `az storage account show` is not a valid least-privilege verification step for the frontend deployment identity. The verification workflow now proves the authenticated client through `az account show` and tests Storage through Entra-authenticated data-plane operations instead.
+
+The frontend deployment workflow was likewise changed to verify static website service properties and the published `$web/index.html` through Entra-authenticated Storage data-plane calls. It no longer requires management-plane Reader access solely for deployment verification.
+
+This is a verification/RBAC-boundary correction only. No API route, frontend runtime contract, persistence model, or authentication architecture changed.
