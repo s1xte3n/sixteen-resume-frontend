@@ -410,3 +410,17 @@ This is an external Azure configuration prerequisite. No application, API, Stora
 | Artifact | Purpose | Status |
 |---|---|---|
 | `docs/ci-cd/PHASE-3-FRONTEND-UAMI-RECREATION.md` | Exact frontend UAMI, federated credential, narrow Storage RBAC, GitHub production environment binding, exclusions, and verification gate | Current; Azure/GitHub mutation evidence **BLOCKED** |
+
+
+## Phase 3 blocker resolution update — 2026-10-07
+
+| Artifact | Status | Evidence |
+|---|---|---|
+| Frontend OIDC / UAMI binding | **RESOLVED** | Production run #33: Azure OIDC login succeeded with the exact immutable production subject |
+| Frontend Storage RBAC | **RESOLVED** | Production run #33: Storage upload succeeded with `--auth-mode login` |
+| Frontend public HTTPS endpoint | **BLOCKED** | Production run #33: `https://sixteen-resume.mooo.com/` timed out after 20 seconds |
+| Backend OIDC binding | **BLOCKED** | Production run #153: `AADSTS700016`; recreated backend client ID must replace the stale GitHub production `AZURE_CLIENT_ID` |
+| Backend deployment RBAC | **PENDING VERIFICATION** | Recreated service principal has User Access Administrator; Contributor deployment permission must be verified |
+| API / persistence / end-to-end evidence | **BLOCKED BY BACKEND** | Requires fresh successful backend production deployment |
+
+No frontend application code, API contract, browser/Cosmos boundary, or authentication mechanism is changed by these corrections.
