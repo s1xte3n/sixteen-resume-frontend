@@ -53,8 +53,8 @@ This document identifies authoritative project documentation, product requiremen
 | `tests/postman/sixteen-resume-environment-template.json` | Non-secret Postman environment template | Complete |
 | `docs/ci-cd/OIDC-SETUP.md` | Frontend GitHub Actions → Azure OIDC configuration and verification procedure | Complete; exact UAMI recreation target recorded; live Azure evidence blocked |
 | `docs/ci-cd/CI-CD-READINESS.md` | Frontend CI/CD operational readiness and evidence gate | Complete |
-| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; execution evidence **BLOCKED** |
-| `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; live execution/evidence **BLOCKED** |
+| `.github/workflows/verify-azure-oidc.yml` | Manual production-environment OIDC and Storage RBAC verification workflow | Implemented; OIDC/Storage RBAC evidence resolved; edge verification remains pending |
+| `.github/workflows/deploy-frontend.yml` | Production frontend deployment via OIDC to Azure Storage with HTTPS smoke test | Implemented; Azure OIDC and Storage upload resolved; static-site reachability/edge evidence pending |
 
 ## 6. Architecture Documentation
 
@@ -443,3 +443,29 @@ No frontend application code, API contract, browser/Cosmos boundary, or authenti
 | Public HTTPS verification | Blocked | Custom hostname verification is conditional on `VERIFY_PUBLIC_ENDPOINT=true`; it must remain false until the edge/DNS path is actually provisioned. |
 
 No frontend application, API, authentication, or browser/Cosmos boundary change was introduced.
+
+
+## Phase 3 blocker correction — 2026-10-07
+
+| Area | Current status | Boundary |
+|---|---|---|
+| GitHub Actions OIDC | **Resolved** | Production environment federated identity now matches the GitHub-issued subject; no application change required. |
+| Storage Blob Data Contributor | **Resolved** | Frontend deployment identity is authorized only against `st16resumeweb`; deployment continues to use `--auth-mode login`. |
+| Static website endpoint | **Blocked for verification** | The latest deployment attempt timed out while reaching the Azure Storage website endpoint. This is an infrastructure/network verification issue, not a frontend code defect. |
+| Public custom hostname | **Blocked** | `sixteen-resume.mooo.com` remains dependent on the approved HTTPS edge/DNS path. |
+| Visitor API integration | **Blocked by backend** | End-to-end verification waits for the backend Function/Cosmos production gate. |
+
+No frontend API contract, browser/Cosmos boundary, credential model, or application architecture was changed for these blockers.
+
+
+## Phase 3 blocker correction — 2026-10-07
+
+| Artifact | Status | Change |
+|---|---|---|
+| `docs/ci-cd/PHASE-3-BLOCKER-STATUS.md` | Updated | Records the latest Azure Storage static-site reachability timeout as the current frontend infrastructure blocker. |
+| Frontend OIDC | Resolved | Production Azure login is no longer the active blocker. |
+| Storage Blob Data Contributor | Resolved | Upload authorization is no longer the active blocker. |
+| Static website reachability | Blocked | Latest verification timed out before the public site could be accepted. |
+| Public custom hostname | Blocked | Remains dependent on the approved HTTPS/DNS edge path. |
+
+No frontend application, API contract, browser/Cosmos boundary, or authentication architecture change was introduced.
