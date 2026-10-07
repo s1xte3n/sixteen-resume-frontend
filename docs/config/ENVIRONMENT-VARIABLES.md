@@ -12,7 +12,7 @@ The frontend is a static HTML/CSS/JavaScript application. Its approved runtime A
 | FE-CFG-002 | VERIFY_PUBLIC_ENDPOINT | boolean | production CI | Yes | Release owner | deploy-frontend.yml | false until approved edge/DNS exists; true only after acceptance | No | Yes |
 | FE-CFG-003 | AZURE_RESOURCE_GROUP_NAME | string | production CI | Yes | Azure/IaC owner | deployment + OIDC verification | Approved production RG | No | Value is deployment metadata |
 | FE-CFG-004 | AZURE_STORAGE_ACCOUNT_NAME | string | production CI | Yes | IaC/Azure | deployment + OIDC verification | Must resolve to frontend Storage account | No | Deployment-specific |
-| FE-CFG-005 | AZURE_FRONTEND_IDENTITY_NAME | string | production CI | Yes | Azure identity owner | OIDC verification | Dedicated frontend UAMI | No | Deployment-specific |
+| FE-CFG-005 | AZURE_FRONTEND_IDENTITY_NAME | string | production CI | Yes | Azure identity owner | OIDC verification | Dedicated frontend UAMI; current documented name is `sixteen-resume-frontend-github` and must be verified in Azure before use | No | Deployment-specific |
 | FE-CFG-006 | AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP | string | production CI | Yes | Azure identity owner | OIDC verification | RG containing frontend UAMI | No | Deployment-specific |
 | FE-CFG-007 | AZURE_CLIENT_ID | OIDC identifier | production CI | Yes | GitHub/Azure identity owner | azure/login | Must match frontend UAMI client ID | No — identifier only | GitHub production environment variable |
 | FE-CFG-008 | AZURE_TENANT_ID | OIDC identifier | production CI | Yes | Azure tenant owner | azure/login | Approved tenant UUID | No — identifier only | GitHub production environment variable |
