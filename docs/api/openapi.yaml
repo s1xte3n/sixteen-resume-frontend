@@ -30,47 +30,88 @@ paths:
       responses:
         '200':
           description: Counter operation committed successfully.
+          headers:
+            X-Request-ID:
+              description: UUID v4 correlation identifier.
+              required: true
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VisitorCountResponse'
         '400':
           description: Invalid request.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '405':
-          description: Method not allowed.
+          description: Method not allowed for methods other than GET.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '429':
           description: Platform/runtime rate limiting.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Unexpected or internal failure.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '503':
           description: Required dependency unavailable.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '504':
           description: Required dependency timed out.
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security: []
+      x-unsupported-method-response:
+        status: 405
+        code: METHOD_NOT_ALLOWED
+        description: Methods other than GET are outside the operation contract and must not mutate state.
       x-requirements:
         - REQ-AZ-007
         - REQ-AZ-008
