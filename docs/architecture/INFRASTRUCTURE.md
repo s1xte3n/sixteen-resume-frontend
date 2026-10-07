@@ -370,3 +370,8 @@ Implemented infrastructure controls:
 The exact Flex instance memory, maximum instance count, HTTP concurrency and site-update strategy are intentionally not fixed in the MVP ARM template because Phase 1 did not approve those values.
 
 Authenticated Azure deployment is still required to prove subscription-specific Flex capacity, RBAC effectiveness, package activation, runtime startup, and cost compliance.
+
+
+## Phase 3 Blocker — Public Edge
+
+The Azure Front Door Standard profile created during troubleshooting is temporary and must not be recorded as production infrastructure. The public hostname currently times out because the edge is not wired to an approved production route/domain. More importantly, the current Standard base fee conflicts with the hard R100/month recurring Azure/cloud ceiling. ADR-006 therefore remains blocked.

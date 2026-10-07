@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | System | Azure Cloud Resume Challenge |
-| Architecture Status | Implementation-aligned; live Azure verification pending |
+| Architecture Status | **Phase 3 edge feasibility blocker; application architecture remains frozen** |
 | Requirements Source | `docs/product/REQUIREMENTS.md` |
 | Acceptance Source | `docs/product/ACCEPTANCE-CRITERIA.md` |
 | Dependency Source | `docs/product/DEPENDENCY-MATRIX.md` |
@@ -123,6 +123,8 @@ The numeric cost ceiling is resolved: R100/month recurring Azure/cloud cost is t
                     +----------------------+
                     | HTTPS / CDN /        |
                     | Delivery Layer       |
+                    | SERVICE NOT YET     |
+                    | APPROVED — ADR-006  |
                     +----------+-----------+
                                |
                                v
@@ -736,3 +738,8 @@ The backend implementation now follows the approved Azure Functions Flex Consump
 The API boundary remains unchanged at GET /api/visitors.
 
 The backend CI workflow validates the Flex region/runtime, ARM configuration, package creation, package deployment, and deployed Function App state. Live Azure evidence remains a separate release gate.
+
+
+## Phase 3 Feasibility Blocker
+
+The application/data boundaries remain frozen. The unresolved architecture blocker is the public HTTPS/CDN edge. Azure Storage static website custom-domain HTTPS requires an Azure CDN/Front Door layer, but the current Azure Front Door Standard fixed base fee conflicts with the project's hard R100/month recurring Azure/cloud ceiling. No edge SKU is approved until the requirement conflict is explicitly resolved.

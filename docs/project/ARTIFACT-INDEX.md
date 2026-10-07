@@ -71,7 +71,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/architecture/ADR-003.md` | Cosmos DB persistence | Accepted |
 | `docs/architecture/ADR-004.md` | ARM and CI/CD architecture | Accepted |
 | `docs/architecture/ADR-005.md` | CI/CD security/authentication | Accepted in principle |
-| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | Accepted at capability level; service validation pending |
+| `docs/architecture/ADR-006.md` | HTTPS/CDN architecture | **Blocked — cost/service feasibility conflict; decision reopened** |
 | `docs/architecture/ADR-007.md` | Visitor-count semantics | Accepted |
 
 ## 7. Canonical Repository Names
@@ -424,3 +424,11 @@ This is an external Azure configuration prerequisite. No application, API, Stora
 | API / persistence / end-to-end evidence | **BLOCKED BY BACKEND** | Requires fresh successful backend production deployment |
 
 No frontend application code, API contract, browser/Cosmos boundary, or authentication mechanism is changed by these corrections.
+
+
+## Phase 3 blocker correction — 2026-10-07
+
+- Frontend OIDC and Storage RBAC are already resolved and are not the current Phase 3 blocker.
+- The public HTTPS endpoint timeout is caused by the incomplete edge path and the unresolved edge-service decision.
+- Azure Front Door Standard is not production-approved because its current fixed base fee conflicts with the hard R100/month recurring Azure/cloud ceiling.
+- No frontend application/API contract/browser-Cosmos architecture change is required.
