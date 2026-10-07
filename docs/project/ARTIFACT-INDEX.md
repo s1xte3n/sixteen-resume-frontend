@@ -41,6 +41,7 @@ This document identifies authoritative project documentation, product requiremen
 | `docs/api/API-EXAMPLES.md` | Representative HTTP examples | Current | Yes |
 | `docs/api/API-CHANGELOG.md` | API contract decisions and version history | Current | Yes |
 | `docs/api/openapi.yaml` | Machine-readable OpenAPI 3.0.3 contract | Current | Yes |
+| `docs/api/API-CONSISTENCY-REVIEW.md` | Phase 4 contract consistency, ambiguity, security and QA review | Current | Yes |
 
 ## 5. Configuration and Test Data Documentation
 
