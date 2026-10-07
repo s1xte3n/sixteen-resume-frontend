@@ -1,6 +1,6 @@
 # Phase 5 — Frontend Environment & Configuration Inventory
 
-Status: **Phase 5 baseline — implementation-ready; live production values pending**
+Status: **Phase 5 baseline — configuration model complete; live OIDC provisioning blocked**
 
 The frontend is a static HTML/CSS/JavaScript application. Its approved runtime API call is same-origin `/api/visitors`. It does not use a browser-configured API base URL.
 
@@ -9,11 +9,11 @@ The frontend is a static HTML/CSS/JavaScript application. Its approved runtime A
 | ID | Name | Type | Context | Required | Source/owner | Consumer | Constraints | Secret | Commit |
 |---|---|---|---|---|---|---|---|---|---|
 | FE-CFG-001 | PUBLIC_HOSTNAME | hostname | production/deployment | Yes | DNS/delivery owner | GitHub deployment workflow | Approved hostname; exact value TBD until edge/DNS path is accepted | No | Name only; deployment value external |
-| FE-CFG-002 | VERIFY_PUBLIC_ENDPOINT | boolean | production CI | Yes | Release owner | deploy-frontend.yml | false until approved edge/DNS exists; true only after acceptance | No | Yes |
-| FE-CFG-003 | AZURE_RESOURCE_GROUP_NAME | string | production CI | Yes | Azure/IaC owner | deployment + OIDC verification | Approved production RG | No | Value is deployment metadata |
-| FE-CFG-004 | AZURE_STORAGE_ACCOUNT_NAME | string | production CI | Yes | IaC/Azure | deployment + OIDC verification | Must resolve to frontend Storage account | No | Deployment-specific |
-| FE-CFG-005 | AZURE_FRONTEND_IDENTITY_NAME | string | production CI | Yes | Azure identity owner | OIDC verification | Dedicated frontend UAMI; current documented name is `sixteen-resume-frontend-github` and must be verified in Azure before use | No | Deployment-specific |
-| FE-CFG-006 | AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP | string | production CI | Yes | Azure identity owner | OIDC verification | RG containing frontend UAMI | No | Deployment-specific |
+| FE-CFG-002 | VERIFY_PUBLIC_ENDPOINT | boolean | production CI | Yes | Release owner | deploy-frontend.yml / verify-azure-oidc.yml | false until approved edge/DNS exists; true only after acceptance | No | Yes |
+| FE-CFG-003 | AZURE_RESOURCE_GROUP_NAME | string | production CI | Yes | Azure/IaC owner | frontend deployment + OIDC verification | `rg-sixteen-resume-prod` | No | Deployment metadata |
+| FE-CFG-004 | AZURE_STORAGE_ACCOUNT_NAME | string | production CI | Yes | IaC/Azure | frontend deployment + OIDC verification | `st16resumeweb` | No | Deployment metadata |
+| FE-CFG-005 | AZURE_FRONTEND_IDENTITY_NAME | string | production CI | Yes | Azure identity owner | OIDC verification | Approved UAMI name: `sixteen-resume-frontend-github`; live existence currently **BLOCKED** | No | Deployment metadata |
+| FE-CFG-006 | AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP | string | production CI | Yes | Azure identity owner | OIDC verification | Current approved resource-group boundary: `rg-sixteen-resume-prod` | No | Deployment metadata |
 | FE-CFG-007 | AZURE_CLIENT_ID | OIDC identifier | production CI | Yes | GitHub/Azure identity owner | azure/login | Must match frontend UAMI client ID | No — identifier only | GitHub production environment variable |
 | FE-CFG-008 | AZURE_TENANT_ID | OIDC identifier | production CI | Yes | Azure tenant owner | azure/login | Approved tenant UUID | No — identifier only | GitHub production environment variable |
 | FE-CFG-009 | AZURE_SUBSCRIPTION_ID | OIDC identifier | production CI | Yes | Azure subscription owner | azure/login | Approved subscription UUID | No — identifier only | GitHub production environment variable |
@@ -29,7 +29,15 @@ The canonical API path remains the Phase 4 contract value `GET /api/visitors`.
 
 ## OIDC identifier classification
 
-`AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are non-secret OIDC identifiers. They belong in protected GitHub production environment variables, not GitHub Secrets. No client secret is required.
+`AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are non-secret OIDC identifiers. They belong in the protected GitHub `production` environment, not source files. No client secret is required.
+
+## Current live blocker
+
+The controlled live check reported:
+
+`(ResourceNotFound) ... userAssignedIdentities/sixteen-resume-frontend-github ... rg-sixteen-resume-prod`
+
+The frontend OIDC verification cannot pass until the approved UAMI exists. The missing GitHub variable `AZURE_FRONTEND_IDENTITY_NAME` is a separate GitHub production-environment configuration defect and must also be corrected.
 
 ## Production configuration gate
 

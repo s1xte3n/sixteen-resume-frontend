@@ -111,12 +111,12 @@ jobs:
         shell: bash
         env:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
         run: |
           set -euo pipefail
 
           STORAGE_WEB_ENDPOINT="$(
-            az storage account show               --resource-group "${AZURE_RESOURCE_GROUP}"               --name "${AZURE_STORAGE_ACCOUNT_NAME}"               --query "primaryEndpoints.web"               --output tsv
+            az storage account show               --resource-group "${AZURE_RESOURCE_GROUP_NAME}"               --name "${AZURE_STORAGE_ACCOUNT_NAME}"               --query "primaryEndpoints.web"               --output tsv
           )"
 
           if [[ -z "${STORAGE_WEB_ENDPOINT}" ]]; then

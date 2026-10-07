@@ -486,3 +486,11 @@ No frontend application, API contract, browser/Cosmos boundary, or authenticatio
 | `.github/workflows/verify-azure-oidc.yml` | Corrected — pending execution | Uses protected production environment variables for OIDC identifiers and performs non-deploying Azure verification |
 
 The Phase 5 gate remains **NOT PASSED** until the controlled workflow is executed successfully against the actual protected GitHub production environment and Azure tenant. Workflow existence is not live evidence.
+
+
+## Phase 5 live OIDC remediation — 2026-10-07
+
+- `docs/config/ENVIRONMENT-VARIABLES.md` — **BLOCKED / live OIDC provisioning pending**; frontend UAMI requirement and missing GitHub environment variable are recorded.
+- `docs/config/CI-CD-CONFIGURATION.md` — canonical frontend production variable names recorded.
+- `.github/workflows/deploy-frontend.yml` — resource-group variable aligned to `AZURE_RESOURCE_GROUP_NAME`.
+- Phase 5 configuration model remains authoritative; no API or browser/Cosmos boundary changed.
