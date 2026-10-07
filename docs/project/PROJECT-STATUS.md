@@ -296,3 +296,12 @@ The backend IaC correction is to use the supported `Microsoft.Storage/storageAcc
 Frontend application code and deployment credentials are unchanged. A fresh production frontend deployment verification must wait until the backend infrastructure correction is merged and the production workflow proves the static website resource is successfully provisioned.
 
 **Frontend Phase 4 status: BLOCKED — infrastructure dependency.**
+
+
+## Phase 3 blocker correction — backend Flex startup verification — 2026-10-07
+
+The latest backend production workflow advanced beyond the earlier OIDC, ARM-template, RBAC, Flex configuration, Cosmos Table RBAC, and static-website provider blockers. The remaining observed failure was the backend workflow checking the Function App state immediately after package deployment and receiving an empty/non-Running value.
+
+The backend correction is limited to deployment sequencing and startup verification: wait for the documented asynchronous Flex infrastructure restart, deploy the package once, then poll for Running with a bounded timeout. No frontend code, API contract, credential, browser/Cosmos boundary, CDN/cache service, or alternative deployment path changes.
+
+Frontend production remains **BLOCKED** because the required fresh backend production execution and complete Phase 3 evidence are still unavailable. This status is a dependency record only; it is not a frontend defect.
