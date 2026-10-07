@@ -6,7 +6,7 @@
 | GitHub deployment authentication | PASS — OIDC, no client secret |
 | Storage authorization | PASS — Entra identity + Storage Blob Data Contributor |
 | Static artifact credential scanning | PASS |
-| OIDC identifiers stored as GitHub secrets | WARNING — protected identifiers, not client secrets |
+| OIDC identifiers stored as GitHub secrets | PASS after correction — identifiers are now protected production environment variables; no client secret is used |
 | Public hostname | TBD / configuration gate |
 | HTTPS edge service | TBD / configuration gate |
 | CORS origin | TBD / configuration gate |

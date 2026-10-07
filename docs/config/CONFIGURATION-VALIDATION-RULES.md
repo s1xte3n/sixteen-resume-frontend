@@ -12,3 +12,5 @@
 | FE-VAL-008 | API path remains exactly /api/visitors; no independent runtime URL variable may be invented. | BLOCKER |
 | FE-VAL-009 | VERIFY_PUBLIC_ENDPOINT remains false until edge/DNS acceptance. | BLOCKER |
 | FE-VAL-010 | Backend CORS origin must equal the final approved frontend origin. | BLOCKER |
+
+| FE-VAL-011 | OIDC identifiers must be stored as protected production environment variables, not GitHub Secrets; no client secret may be introduced. | BLOCKER |

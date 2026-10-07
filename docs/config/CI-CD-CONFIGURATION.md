@@ -3,7 +3,7 @@
 ## Production workflow
 `.github/workflows/deploy-frontend.yml`
 
-Protected OIDC inputs:
+Protected OIDC inputs (non-secret identifiers supplied as production environment variables):
 - AZURE_CLIENT_ID
 - AZURE_TENANT_ID
 - AZURE_SUBSCRIPTION_ID
