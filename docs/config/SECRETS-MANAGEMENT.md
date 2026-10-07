@@ -1,42 +1,34 @@
-# Secrets Management
+# Phase 5 — Frontend Secrets Management
 
-## Purpose
+## Approved authentication model
 
-Canonical inventory and handling rules. **No secret values are stored here.**
+Frontend deployment uses GitHub Actions OIDC → dedicated Azure user-assigned managed identity → Storage Blob Data Contributor on the frontend Storage account.
 
-## Secret inventory
+The browser has no Azure credentials.
 
-| Logical secret | Status | Source | Consumer | Rotation/owner | Commit |
-|---|---|---|---|---|---|
-| AZURE_CLIENT_SECRET | Not used | N/A | None | N/A; OIDC federation is required | **Never** |
-| COSMOS_CONNECTION_STRING | Not used | N/A | None | N/A; Function managed identity + Cosmos RBAC | **Never** |
-| COSMOS_ACCOUNT_KEY | Not used | N/A | None | N/A; Function managed identity + Cosmos RBAC | **Never** |
-| AZURE_STORAGE_CONNECTION_STRING | Not used | N/A | None | N/A; frontend CI uses federated Azure identity | **Never** |
-| Azure Function platform secrets | Platform-managed | Azure | Function runtime | Azure/resource owner | **Never** |
-| Future deployment token | Conditional | GitHub/Azure secure store | CI/CD only | Deployment owner | **Never** |
+## Inventory
 
-Authentication is frozen by ADR-005: GitHub Actions uses OIDC workload identity federation; the Function uses managed identity with Cosmos DB for Table native data-plane RBAC. Do not create long-lived Azure client secrets, Cosmos keys, or Storage connection strings.
+| ID | Reference | Classification | Storage | Consumer | Injection | Rotation/replacement |
+|---|---|---|---|---|---|---|
+| FE-SEC-001 | AZURE_CLIENT_ID | OIDC identifier | GitHub production environment secret in current workflow | azure/login + verification | GitHub Actions OIDC | Replace when UAMI changes |
+| FE-SEC-002 | AZURE_TENANT_ID | OIDC identifier | GitHub production environment secret in current workflow | azure/login | GitHub Actions OIDC | Change only if tenant changes |
+| FE-SEC-003 | AZURE_SUBSCRIPTION_ID | OIDC identifier | GitHub production environment secret in current workflow | azure/login | GitHub Actions OIDC | Change only if subscription changes |
+| FE-SEC-004 | Azure client secret | prohibited | None | None | None | Must never be created |
+| FE-SEC-005 | Storage account key | prohibited | None | None | None | Must never be created |
+| FE-SEC-006 | Storage SAS token | prohibited | None | None | None | Must never be created |
+| FE-SEC-007 | Cosmos credential | prohibited | None | None | None | Must never exist in frontend |
 
-## Non-secret identifiers
+The OIDC values are identifiers, not client secrets. They are protected as GitHub Environment Secrets because the current workflow consumes them there; this does not change the underlying credential model.
 
-AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, Azure resource names, Cosmos endpoint, API hostname, and production origin are identifiers/configuration, not passwords or keys. They still must not be hardcoded into client bundles when avoidable.
+## Exposure rules
 
-## Storage rules
+Never place credentials in:
+- site HTML/CSS/JavaScript;
+- committed `.env` files;
+- Postman environments;
+- build artifacts;
+- screenshots/evidence;
+- workflow logs;
+- API responses.
 
-Secrets may be stored only in GitHub encrypted secrets/environment secrets and/or Azure-supported secure configuration/identity mechanisms selected by the final security decision.
-
-Never store secrets in source files, committed .env files, HTML/CSS/JavaScript, ARM plaintext, Postman environments, test fixtures, docs, PR comments, logs, or build artifacts.
-
-## CI/CD rules
-
-Read secrets only when required; use least privilege; mask values; never echo them; never place them in frontend artifacts; fail closed when required credentials are absent; prefer short-lived/federated authentication where supported; run secret scanning.
-
-## Rotation
-
-After suspected exposure: revoke/rotate, inspect repository/workflow history, remove exposed material, rerun secret scanning, validate the replacement, and record the event. Removing a secret from the latest commit is not rotation.
-
-## Review rule
-
-Any connection string, access key, bearer token, client secret, private certificate, or credential-like file blocks release until removed and rotated if exposed.
-
-Production must have zero plaintext credentials in source control. The browser never receives Azure management or Cosmos credentials.
+If credential material is exposed, revoke/replace it and inspect Git history separately.
