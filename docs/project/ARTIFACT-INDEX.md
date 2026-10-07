@@ -373,3 +373,14 @@ No frontend artifact or architecture requires modification for this backend-only
 ## Phase 4 continuation — Cosmos Table RBAC scope correction — 2026-10-07
 
 Backend IaC has been corrected for the current Azure Cosmos DB for Table RBAC provider contract: `tableRoleAssignments.properties.scope` now uses the Cosmos account resource ID rather than the rejected full `/tables/VisitorCounter` resource path. The frontend has no implementation change for this backend-only provider correction. Frontend live deployment, API, browser isolation, CORS, security, and cost evidence remain **BLOCKED** until a fresh successful backend production workflow provides the required dependency evidence.
+
+
+## Phase 4 continuation — 2026-10-07 — Static website provider correction
+
+The frontend production deployment remains blocked by the shared Azure Storage static website infrastructure owned by the backend ARM deployment. The latest controlled deployment reached the frontend Storage account and Azure rejected the static website request with `InvalidRequestParameters: properties.staticWebsiteEnabled`.
+
+The backend IaC correction is to use the supported `Microsoft.Storage/storageAccounts/blobServices@2025-08-01` API for the static website resource. The approved frontend hosting model is unchanged: Azure Storage static website, public website content, and no CDN/cache-purge service selection beyond the approved project scope.
+
+Frontend application code and deployment credentials are unchanged. A fresh production frontend deployment verification must wait until the backend infrastructure correction is merged and the production workflow proves the static website resource is successfully provisioned.
+
+**Frontend Phase 4 status: BLOCKED — infrastructure dependency.**
