@@ -326,3 +326,17 @@ This remains a **Phase 3 deployment-verification blocker**, not a frontend imple
 - Required external correction: update/create the frontend user-assigned managed identity federated credential with the exact issuer, subject, and audience documented in `docs/ci-cd/OIDC-SETUP.md`.
 - Backend Phase 3 startup verification also remains blocked by the Flex host-storage configuration correction in backend PR #36.
 - No frontend application, API contract, browser/Cosmos boundary, or deployment mechanism change is authorized for these blockers.
+
+## Phase 3 blocker — frontend OIDC federated credential — 2026-10-07
+
+**Status: BLOCKED — manual Azure-side identity correction required.**
+
+The frontend production deployment identity must have exactly one approved federated identity credential for the GitHub Actions production environment with:
+
+- Issuer: `https://token.actions.githubusercontent.com`
+- Subject: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
+- Audience: `api://AzureADTokenExchange`
+
+The correction is Azure-side only. No frontend source, API contract, browser/Cosmos boundary, Storage deployment model, secret, publish profile, or alternate authentication mechanism is introduced.
+
+After correction, a fresh production GitHub Actions OIDC execution must prove that the deployment identity resolves to the expected tenant/subscription and can authenticate successfully. Until that evidence exists, this Phase 3 blocker remains open and production frontend deployment is not considered verified.
