@@ -31,10 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           for name in AZURE_CLIENT_ID AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID; do
-            if [[ -z "${!name}" ]]; then
-              echo "::error::Missing GitHub production environment variable: $name"
-              exit 1
-            fi
+            if [[ -z "${!name}" ]]; then echo "::error::Missing GitHub production environment variable: $name"; exit 1; fi
           done
 
       - name: Azure login with OIDC
@@ -47,11 +44,7 @@ jobs:
 
       - name: Verify Azure subscription context
         shell: bash
-        env:
-          AZURE_CORE_OUTPUT: none
-        run: |
-          set -euo pipefail
-          az account show --query '{subscriptionId:id,tenantId:tenantId,isDefault:isDefault}' --output json
+        run: az account show --query '{subscriptionId:id,tenantId:tenantId,isDefault:isDefault}' --output json
 
       - name: Validate required production environment variables
         shell: bash
@@ -60,20 +53,21 @@ jobs:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
           AZURE_FRONTEND_IDENTITY_NAME: ${{ vars.AZURE_FRONTEND_IDENTITY_NAME }}
           AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP: ${{ vars.AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP }}
+          VERIFY_PUBLIC_ENDPOINT: ${{ vars.VERIFY_PUBLIC_ENDPOINT }}
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
         run: |
           set -euo pipefail
-          for name in AZURE_RESOURCE_GROUP_NAME AZURE_STORAGE_ACCOUNT_NAME AZURE_FRONTEND_IDENTITY_NAME AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP PUBLIC_HOSTNAME; do
-            if [[ -z "${!name}" ]]; then
-              echo "::error::Missing GitHub production environment variable: $name"
-              exit 1
-            fi
+          for name in AZURE_RESOURCE_GROUP_NAME AZURE_STORAGE_ACCOUNT_NAME AZURE_FRONTEND_IDENTITY_NAME AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP VERIFY_PUBLIC_ENDPOINT; do
+            if [[ -z "${!name}" ]]; then echo "::error::Missing GitHub production environment variable: $name"; exit 1; fi
           done
+          if [[ "${VERIFY_PUBLIC_ENDPOINT}" == "true" && -z "${PUBLIC_HOSTNAME}" ]]; then
+            echo "::error::PUBLIC_HOSTNAME is required when VERIFY_PUBLIC_ENDPOINT=true"
+            exit 1
+          fi
 
       - name: Verify storage deployment scope
         shell: bash
         env:
-          AZURE_CORE_OUTPUT: none
           AZURE_RESOURCE_GROUP_NAME: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
         run: |
@@ -83,60 +77,42 @@ jobs:
           actual_name="$(jq -r '.name' <<<"${storage_json}")"
           [[ "${actual_rg}" == "${AZURE_RESOURCE_GROUP_NAME}" ]] || { echo "::error::Storage resource group mismatch"; exit 1; }
           [[ "${actual_name}" == "${AZURE_STORAGE_ACCOUNT_NAME}" ]] || { echo "::error::Storage account mismatch"; exit 1; }
-          echo "Storage account and resource group match the production environment configuration."
 
       - name: Verify frontend OIDC identity and federated credential
         shell: bash
         env:
-          AZURE_CORE_OUTPUT: none
           AZURE_FRONTEND_IDENTITY_NAME: ${{ vars.AZURE_FRONTEND_IDENTITY_NAME }}
           AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP: ${{ vars.AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP }}
           AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-          identity_json="$(az identity show --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --output json)"
-          identity_client_id="$(jq -r '.clientId' <<<"${identity_json}")"
-          [[ "${identity_client_id}" == "${AZURE_CLIENT_ID}" ]] || { echo "::error::AZURE_CLIENT_ID does not match the provisioned frontend managed identity."; exit 1; }
-
+          identity_client_id="$(az identity show --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --query clientId -o tsv)"
+          [[ "${identity_client_id}" == "${AZURE_CLIENT_ID}" ]] || { echo "::error::AZURE_CLIENT_ID does not match the frontend managed identity."; exit 1; }
           expected_subject="repo:${GITHUB_REPOSITORY}:environment:production"
           credentials_json="$(az identity federated-credential list --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --output json)"
           match_count="$(jq --arg subject "${expected_subject}" '[.[] | select(.issuer == "https://token.actions.githubusercontent.com" and .subject == $subject and (.audiences | index("api://AzureADTokenExchange")))] | length' <<<"${credentials_json}")"
-          if [[ "${match_count}" -ne 1 ]]; then
-            echo "::error::Expected exactly one GitHub Actions OIDC federated credential for subject ${expected_subject}."
-            exit 1
-          fi
-          echo "OIDC issuer, repository/environment subject, audience, and client ID match."
+          [[ "${match_count}" -eq 1 ]] || { echo "::error::Expected exactly one matching GitHub Actions federated credential."; exit 1; }
 
-      - name: Verify public hostname configuration
+      - name: Verify Blob data-plane access without storage keys
+        shell: bash
+        env:
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+        run: |
+          set -euo pipefail
+          az storage blob list --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" --container-name '$web' --auth-mode login --num-results 1 --output none
+
+      - name: Verify public hostname when edge verification is enabled
+        if: ${{ vars.VERIFY_PUBLIC_ENDPOINT == 'true' }}
         shell: bash
         env:
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
         run: |
           set -euo pipefail
-          if [[ ! "${PUBLIC_HOSTNAME}" =~ ^[A-Za-z0-9.-]+$ ]]; then
-            echo "::error::PUBLIC_HOSTNAME is not a valid hostname"
-            exit 1
-          fi
+          [[ "${PUBLIC_HOSTNAME}" =~ ^[A-Za-z0-9.-]+$ ]] || { echo "::error::PUBLIC_HOSTNAME is not a valid hostname"; exit 1; }
           curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --max-time 20 "https://${PUBLIC_HOSTNAME}/" > /tmp/production.html
           grep -qi '<html' /tmp/production.html
-          echo "Production hostname resolves and serves HTTPS content."
-
-      - name: Verify Blob data-plane access without storage keys
-        shell: bash
-        env:
-          AZURE_CORE_OUTPUT: none
-          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
-        run: |
-          set -euo pipefail
-          az storage blob list \
-            --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
-            --container-name '$web' \
-            --auth-mode login \
-            --num-results 1 \
-            --output none
 
       - name: Azure logout
         if: always()
-        shell: bash
         run: az logout
