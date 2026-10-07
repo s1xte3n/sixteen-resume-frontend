@@ -29,3 +29,11 @@ The public HTTPS requirement remains **BLOCKED** until the complete edge path is
 ## Security boundary
 
 No client secret, publish profile, direct Cosmos access, API change, or alternate authentication mechanism is introduced.
+
+
+## Current evidence — 2026-10-07
+
+- Frontend OIDC authentication and Storage Blob Data Contributor are resolved.
+- The latest frontend deployment verification fails at the Azure Storage static website endpoint with `curl: (28) Connection timed out after 20002 milliseconds`.
+- This keeps the frontend Phase 3 gate **BLOCKED** at infrastructure reachability verification; no frontend application-code change is authorized by this evidence.
+- The custom hostname remains a separate blocked public-edge/DNS/HTTPS concern.
