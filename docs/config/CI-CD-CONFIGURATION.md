@@ -69,7 +69,7 @@ The workflow's successful execution is the live evidence. A committed workflow f
 
 ## Live OIDC subject correction — 2026-10-07
 
-The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact subject.
+The production GitHub OIDC assertion observed during controlled verification uses the exact subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`. The frontend verifier now derives this form from GitHub owner/repository IDs. The Azure UAMI federated credential must use this exact immutable subject.
 
 Current frontend UAMI: `sixteen-resume-frontend-github`; client ID `2d19e037-cc57-462c-a950-862f9b8a80e6`; principal ID `200b60d9-b05a-4733-81f4-1053834de5c3`.
 
