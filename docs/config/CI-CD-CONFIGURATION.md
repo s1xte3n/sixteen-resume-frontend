@@ -54,13 +54,15 @@ The workflow's successful execution is the live evidence. A committed workflow f
 
 ## Current gate status
 
-**BLOCKED — frontend UAMI and GitHub production configuration are not yet live-verified.**
+**BLOCKED — frontend UAMI and federated credential are provisioned, but the protected GitHub client ID and Storage RBAC still require live verification.**
 
 
-## Current live blocker — 2026-10-07
+## Current live correction — 2026-10-07
 
-- `AZURE_FRONTEND_IDENTITY_NAME` is required and currently missing from the GitHub `production` environment.
-- Approved value: `sixteen-resume-frontend-github`.
-- Current reported client ID: `d3363a85-4425-4916-a90a-5b8494015450`.
-- Azure verification of that client ID as the approved UAMI is still required; the named UAMI lookup returned `ResourceNotFound`.
-- Do not introduce a client secret or change the workflow to use long-lived credentials.
+- `AZURE_FRONTEND_IDENTITY_NAME` is now configured as `sixteen-resume-frontend-github` in the GitHub `production` environment.
+- The approved UAMI now exists in `rg-sixteen-resume-prod`.
+- Current UAMI client ID: `2d19e037-cc57-462c-a950-862f9b8a80e6`.
+- GitHub production `AZURE_CLIENT_ID` must be synchronized to that client ID; the prior `d3363a85-4425-4916-a90a-5b8494015450` value is superseded.
+- Federated credential is corrected to the exact production subject and audience.
+- Storage Blob Data Contributor remains unverified because local `az role assignment` operations return `MissingSubscription`.
+- Do not introduce a client secret, Storage key, SAS token, or alternate authentication mechanism.
