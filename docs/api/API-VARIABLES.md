@@ -1,61 +1,78 @@
 # API Variables
 
-## 1. Path variables
+## 1. Public endpoint
 
-VC-001 has no path variables.
+### VC-001 — GET /api/visitors
 
-| Variable | Type | Required | Constraints |
-|---|---|---:|---|
-| None | — | — | — |
+### Path parameters
 
-## 2. Query variables
+None.
 
-VC-001 has no query parameters.
+### Query parameters
 
-| Variable | Type | Required | Constraints |
-|---|---|---:|---|
-| None | — | — | — |
+None.
 
-No pagination, filtering, or sorting parameters are supported.
+### Request headers
 
-## 3. Headers
-
-| Header | Direction | Required | Type | Constraints |
+| Header | Direction | Required | Type | Validation |
 |---|---|---:|---|---|
-| `Origin` | Request | Browser-generated | string | Must match configured production CORS origin |
-| `Content-Type` | Request | No | media type | Not required; VC-001 has no request body |
-| `Accept` | Request | Recommended | media type | `application/json` |
+| `Origin` | Request | Browser-generated | string | Must match production CORS allowlist |
+| `Accept` | Request | Recommended | media type | Should permit `application/json` |
+| `Content-Type` | Request | No | media type | No body is defined |
 | `X-Request-ID` | Request | No | UUID string | UUID v4 when present |
-| `Content-Type` | Response | Yes | media type | `application/json` |
 
-## 4. Body variables
+### Response headers
 
-VC-001 has no request body.
+| Header | Direction | Required | Rule |
+|---|---|---:|---|
+| `Content-Type` | Response | Yes | `application/json` |
 
-| Variable | Type | Required | Nullable | Constraints |
-|---|---|---:|---:|---|
-| None | — | — | — | No request body |
+### Request body
 
-## 5. Response variables
+None.
 
-### Success
+### Success response
 
-| Variable | Type | Required | Nullable | Constraints |
+| Field | Type | Required | Nullable | Constraint |
 |---|---|---:|---:|---|
 | `count` | integer | Yes | No | >= 0 |
 
-### Error
+### Error response
 
-| Variable | Type | Required | Nullable | Constraints |
+| Field | Type | Required | Nullable | Constraint |
 |---|---|---:|---:|---|
-| `error.code` | string | Yes | No | Uppercase identifier, 3–64 chars |
+| `error.code` | string | Yes | No | uppercase identifier, 3–64 chars |
 | `error.message` | string | Yes | No | 1–256 chars |
-| `error.requestId` | UUID v4 string | Yes | No | UUID |
-| `error.details` | object | No | No | Implementation-safe metadata only |
-| `error.details.timestamp` | RFC 3339 date-time | No | No | UTC |
+| `error.requestId` | UUID string | Yes | No | UUID v4 |
+| `error.details` | object | No | No | Safe metadata only |
+| `error.details.timestamp` | date-time | No | No | RFC 3339 UTC |
 
-## 6. Identifier rules
+## 2. Internal DB-001 variables
 
-- API request IDs: UUID v4.
-- Cosmos DB `PartitionKey` and `RowKey`: internal implementation identifiers; not public API fields.
-- No visitor/user identifier is defined by v1.
+| Variable | Type | Public | Rule |
+|---|---|---:|---|
+| `PartitionKey` | string | No | Stable internal logical partition |
+| `RowKey` | string | No | Stable internal counter entity |
+| `Count` | integer | No | >= 0 |
+| Entity version/ETag | provider-specific | No | Used for concurrency control where supported |
+
+## 3. Deployment interfaces
+
+DEP-001 and DEP-002 use workflow/control-plane inputs rather than public API fields.
+
+They may include:
+
+- repository/ref;
+- approved non-secret configuration;
+- deployment resource identifiers;
+- secure identity context.
+
+Secret values are never API/interface fields and are supplied through approved secret/OIDC mechanisms.
+
+## 4. Identifier rules
+
+- `X-Request-ID`: UUID v4.
+- No visitor/user identifier.
+- No session identifier.
+- No IP address field.
+- No Cosmos `PartitionKey` or `RowKey` exposed publicly.
