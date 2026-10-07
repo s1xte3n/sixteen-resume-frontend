@@ -1,27 +1,38 @@
 # API Endpoint Inventory
 
-| Contract ID | Method | Path | Auth | Priority | Status | Owning requirements |
-|---|---|---|---|---|---|---|
-| VC-001 | GET | `/api/visitors` | Public; no end-user auth | P1 | Resolved for implementation | REQ-AZ-007, REQ-AZ-008, REQ-AZ-009, REQ-AZ-010 |
+## Public application endpoints
 
-## Non-endpoints
+| Contract ID | Method | Path | Authentication | Authorization | Priority | Status | Requirements |
+|---|---|---|---|---|---:|---|---|
+| VC-001 | GET | `/api/visitors` | None | Public counter invocation only | P1 | Implementation-ready | REQ-AZ-007..010 |
 
-The v1 API intentionally exposes no:
+## Public non-endpoints
 
-- Reset/delete endpoint.
-- Admin endpoint.
-- Health endpoint.
-- Authentication endpoint.
-- User/profile endpoint.
-- Analytics endpoint.
-- Pagination/filtering/sorting endpoint.
+The v1 public API intentionally exposes no:
 
-Operational health checks, if required by Azure infrastructure, are not part of the public application contract and must not expose application or database state.
+- authentication/login endpoint;
+- admin endpoint;
+- reset/delete endpoint;
+- analytics endpoint;
+- user/profile endpoint;
+- health endpoint;
+- pagination/filtering/sorting endpoint;
+- Cosmos DB endpoint.
 
-## Endpoint governance
+Operational health and Azure management interfaces remain platform/control-plane concerns and are not public application APIs.
 
-- Public endpoint is `/api/visitors`.
-- Cosmos DB is never a public interface.
-- Endpoint behavior is governed by `API-CONTRACT.md`.
-- Schemas are governed by `API-SCHEMAS.md`.
-- Status/error behavior is governed by `API-ERRORS.md`.
+## Architecturally significant internal interfaces
+
+| Contract ID | Interface | Direction | Requirements |
+|---|---|---|---|
+| DB-001 | VisitorCounter persistence | Azure Function → Cosmos DB Table API | REQ-AZ-008, REQ-AZ-010, REQ-AZ-SEC-003 |
+| DEP-001 | Frontend production publication | GitHub Actions → Azure Storage/edge delivery | REQ-AZ-004, REQ-AZ-005, REQ-AZ-014 |
+| DEP-002 | Backend production deployment | GitHub Actions → ARM/Function/Cosmos | REQ-AZ-010..013, REQ-AZ-DEV-001, REQ-AZ-FLEX-001..013 |
+| DNS-001 | Public hostname resolution | FreeDNS → approved edge endpoint | REQ-AZ-006, REQ-AZ-015 |
+
+## Governance
+
+- VC-001 is the sole public application operation.
+- Cosmos DB is never a public browser interface.
+- Any new public endpoint requires an approved requirements and contract change.
+- No implementation may invent a second contract for the same operation.
