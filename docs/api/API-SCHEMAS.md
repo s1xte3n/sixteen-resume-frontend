@@ -1,43 +1,37 @@
 # API Schemas
 
-## 1. Common conventions
+## 1. Schema conventions
 
-- Media type: `application/json`.
 - JSON property names use lower camel case.
-- No JSON property is nullable unless explicitly marked nullable.
-- Unknown request properties are rejected.
-- Numeric `count` is a JSON integer, not a string.
-- IDs use UUID v4.
-- No date/time field is required by the v1 success response.
-- Error timestamps, when emitted, are RFC 3339 UTC.
+- Unknown request properties are not part of the VC-001 contract.
+- No success property is nullable.
+- `count` is a JSON integer >= 0.
+- Public identifiers are UUID v4 only where defined.
+- Error timestamps, when present, are RFC 3339 UTC.
+- Internal Cosmos fields are never public API fields.
 
-## 2. VC-001 Request
+## 2. VC-001 request
 
-### VisitorCountRequest
+VC-001 is bodyless.
 
-```json
-{}
+There is **no request JSON schema** and no request body is required.
+
+Canonical request:
+
+```http
+GET /api/visitors HTTP/1.1
+Accept: application/json
 ```
 
-Schema:
+A JSON object such as `{}` is not required and is not part of the wire contract.
+
+## 3. VC-001 success — VisitorCountResponse
 
 ```yaml
 type: object
 additionalProperties: false
-maxProperties: 0
-```
-
-There are no request fields.
-
-## 3. VC-001 Success
-
-### VisitorCountResponse
-
-```yaml
-type: object
 required:
   - count
-additionalProperties: false
 properties:
   count:
     type: integer
@@ -47,28 +41,24 @@ properties:
 Example:
 
 ```json
-{
-  "count": 42
-}
+{"count":42}
 ```
 
-## 4. Error
-
-### ErrorResponse
+## 4. ErrorResponse
 
 ```yaml
 type: object
+additionalProperties: false
 required:
   - error
-additionalProperties: false
 properties:
   error:
     type: object
+    additionalProperties: false
     required:
       - code
       - message
       - requestId
-    additionalProperties: false
     properties:
       code:
         type: string
@@ -89,33 +79,37 @@ properties:
             format: date-time
 ```
 
-Example:
+## 5. Error code enum
 
-```json
-{
-  "error": {
-    "code": "DEPENDENCY_UNAVAILABLE",
-    "message": "The visitor counter is temporarily unavailable.",
-    "requestId": "7d3f4a22-1b4f-4d7b-9c0d-7f1c4a8b2d10",
-    "details": {
-      "timestamp": "2026-09-18T12:00:00Z"
-    }
-  }
-}
-```
+The canonical application error codes are:
 
-## 5. Error codes
+- `BAD_REQUEST`
+- `METHOD_NOT_ALLOWED`
+- `RATE_LIMITED`
+- `INTERNAL_ERROR`
+- `DEPENDENCY_UNAVAILABLE`
+- `DEPENDENCY_TIMEOUT`
 
-Canonical codes and status mappings are defined in `API-ERRORS.md`.
+## 6. Internal persistence schema
 
-## 6. Database schema boundary
+The single logical Cosmos DB Table entity contains:
 
-The following Cosmos DB Table API fields are internal and are never accepted from or returned to the browser:
+| Field | Type | Constraint |
+|---|---|---|
+| `PartitionKey` | string | Stable internal key |
+| `RowKey` | string | Stable internal key |
+| `Count` | integer | >= 0 |
 
-- `PartitionKey`
-- `RowKey`
-- database/table names
-- connection strings
-- access tokens
+The actual key values are internal and are not exposed through VC-001.
 
-The public contract exposes only `count`.
+## 7. Deployment interface payloads
+
+DEP-001 and DEP-002 do not define public JSON request/response payloads. Their contract is workflow/control-plane behavior:
+
+- authenticated workflow identity;
+- approved repository state;
+- required validation gates;
+- Azure resource/deployment operations;
+- explicit success/failure status.
+
+No deployment credential or secret value is a contract field.
