@@ -20,7 +20,7 @@
 - UAMI created: `sixteen-resume-frontend-github`.
 - Client ID: `2d19e037-cc57-462c-a950-862f9b8a80e6`.
 - Principal ID: `200b60d9-b05a-4733-81f4-1053834de5c3`.
-- Federated credential subject corrected to `repo:s1xte3n/sixteen-resume-frontend:environment:production`.
+- Federated credential subject corrected to `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`.
 - GitHub `AZURE_FRONTEND_IDENTITY_NAME` has been configured.
 - Storage Blob Data Contributor remains unverified because local RBAC CLI calls return `MissingSubscription`.
 - Phase 5 remains blocked until the new client ID is synchronized and Storage RBAC is verified.
@@ -29,7 +29,7 @@ The controlled verification stopped at frontend production configuration validat
 
 ## Phase 5 live OIDC correction — 2026-10-07
 
-The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, while GitHub presented the immutable subject:
+The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, while GitHub presented the immutable subject:
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
