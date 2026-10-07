@@ -92,7 +92,7 @@ jobs:
           set -euo pipefail
           identity_client_id="$(az identity show --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --query clientId -o tsv)"
           [[ "${identity_client_id}" == "${AZURE_CLIENT_ID}" ]] || { echo "::error::AZURE_CLIENT_ID does not match the frontend managed identity."; exit 1; }
-          expected_subject="repo:${GITHUB_REPOSITORY_OWNER}@${GITHUB_REPOSITORY_OWNER_ID}/${GITHUB_REPOSITORY_NAME}@${GITHUB_REPOSITORY_ID}:environment:production"
+          expected_subject="repo:${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}:environment:production"
           credentials_json="$(az identity federated-credential list --name "${AZURE_FRONTEND_IDENTITY_NAME}" --resource-group "${AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP}" --output json)"
           match_count="$(jq --arg subject "${expected_subject}" '[.[] | select(.issuer == "https://token.actions.githubusercontent.com" and .subject == $subject and (.audiences | index("api://AzureADTokenExchange")))] | length' <<<"${credentials_json}")"
           [[ "${match_count}" -eq 1 ]] || { echo "::error::Expected exactly one matching GitHub Actions federated credential."; exit 1; }
