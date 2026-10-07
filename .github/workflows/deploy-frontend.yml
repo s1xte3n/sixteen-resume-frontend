@@ -124,7 +124,21 @@ jobs:
             exit 1
           fi
 
-          curl --fail --silent --show-error --location             --proto '=https'             --proto-redir '=https'             --max-time 20             "${STORAGE_WEB_ENDPOINT}"             > /tmp/storage-resume.html
+          for attempt in {1..6}; do
+            if curl --fail --silent --show-error --location \
+              --proto '=https' \
+              --proto-redir '=https' \
+              --max-time 20 \
+              --retry 3 \
+              --retry-delay 5 \
+              --retry-all-errors \
+              "${STORAGE_WEB_ENDPOINT}" \
+              > /tmp/storage-resume.html; then
+              break
+            fi
+            echo "Static website endpoint not reachable yet (${attempt}/6): ${STORAGE_WEB_ENDPOINT}"
+            sleep 10
+          done
 
           grep -qi '<html' /tmp/storage-resume.html
           printf 'storage_web_endpoint=%s\nstorage_verification=passed\n' "${STORAGE_WEB_ENDPOINT}" >> evidence/deployment-result.txt
