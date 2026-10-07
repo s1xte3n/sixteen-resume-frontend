@@ -1,5 +1,12 @@
 # API Contract Changelog
 
+## 1.1.1 — Phase 4 gate correction
+
+- Made `X-Request-ID` a documented response header on VC-001.
+- Kept the existing UUID v4 correlation semantics unchanged.
+- Kept the canonical error taxonomy and `count >= 0` success schema unchanged.
+- No new public endpoint or authentication mechanism introduced.
+
 ## 1.1.0 — Phase 4 contract completion
 
 ### Frozen
