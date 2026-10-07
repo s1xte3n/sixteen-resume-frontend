@@ -361,3 +361,10 @@ Frontend production acceptance remains **BLOCKED** until the corrected backend p
 The latest controlled backend deployment advanced to the Function App resource and Azure rejected an empty Flex `maximumInstanceCount`. Azure requires an explicit value in the range 1–1000. The backend correction sets `maximumInstanceCount: 1`, the lowest provider-permitted active-instance ceiling, while retaining `instanceMemoryMB: 512` and `alwaysReady: []`. This is a provider-required configuration correction and does not change the frontend API contract, browser/Cosmos isolation, credentials, CDN/cache architecture, or frontend deployment mechanism.
 
 Frontend production acceptance remains **BLOCKED**. No frontend implementation change is required for this backend infrastructure correction. A fresh successful backend production workflow from `main` remains mandatory before end-to-end frontend/API, CORS, security, and cost evidence can be accepted.
+
+
+## Phase 4 continuation — Flex worker runtime setting correction — 2026-10-07
+
+Backend production verification identified a provider-level Flex configuration defect: `FUNCTIONS_WORKER_RUNTIME` is invalid for Flex Consumption. The backend ARM template removes that app setting and retains Python 3.12 in `functionAppConfig.runtime`.
+
+No frontend artifact or architecture requires modification for this backend-only correction. Frontend production evidence remains blocked pending a fresh successful backend production workflow and the defined end-to-end acceptance evidence.
