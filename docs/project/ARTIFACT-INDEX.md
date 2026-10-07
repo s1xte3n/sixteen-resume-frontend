@@ -456,3 +456,16 @@ No frontend application, API, authentication, or browser/Cosmos boundary change 
 | Visitor API integration | **Blocked by backend** | End-to-end verification waits for the backend Function/Cosmos production gate. |
 
 No frontend API contract, browser/Cosmos boundary, credential model, or application architecture was changed for these blockers.
+
+
+## Phase 3 blocker correction — 2026-10-07
+
+| Artifact | Status | Change |
+|---|---|---|
+| `docs/ci-cd/PHASE-3-BLOCKER-STATUS.md` | Updated | Records the latest Azure Storage static-site reachability timeout as the current frontend infrastructure blocker. |
+| Frontend OIDC | Resolved | Production Azure login is no longer the active blocker. |
+| Storage Blob Data Contributor | Resolved | Upload authorization is no longer the active blocker. |
+| Static website reachability | Blocked | Latest verification timed out before the public site could be accepted. |
+| Public custom hostname | Blocked | Remains dependent on the approved HTTPS/DNS edge path. |
+
+No frontend application, API contract, browser/Cosmos boundary, or authentication architecture change was introduced.
