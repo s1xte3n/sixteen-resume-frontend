@@ -44,7 +44,7 @@ The live gate passes only when the run proves all of the following:
 | Storage account scope | Configured account exists in configured RG |
 | Frontend UAMI client ID | Matches AZURE_CLIENT_ID |
 | Federated credential issuer | `https://token.actions.githubusercontent.com` |
-| Federated credential subject | `repo:s1xte3n/sixteen-resume-frontend:environment:production` |
+| Federated credential subject | `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production` |
 | Federated credential audience | `api://AzureADTokenExchange` |
 | Federated credential count | Exactly one matching credential |
 | Storage data-plane access | Success with `--auth-mode login` |
@@ -61,7 +61,9 @@ The live gate passes only when the run proves all of the following:
 
 ## Current gate status
 
-**PENDING LIVE EVIDENCE.**
+**BLOCKED — GitHub production environment configuration is incomplete.**
+
+The latest controlled verification failed during configuration validation because `AZURE_FRONTEND_IDENTITY_NAME` is missing from the GitHub `production` environment. Azure login was not reached.
 
 The workflow is prepared for controlled execution, but this environment cannot independently dispatch a `workflow_dispatch` run or inspect Azure tenant-side RBAC/federated-credential state. Therefore no live pass is claimed here.
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-**OIDC RESOLVED — verified by frontend production run #33 on 2026-10-07.**
+**OIDC model corrected; current live verification is blocked by incomplete GitHub production configuration.**
 
 This document is the source of truth for the frontend repository's GitHub Actions → Azure authentication.
 
@@ -49,19 +49,25 @@ The frontend identity must not have:
 - Subscription Contributor.
 - Resource-group-wide Contributor unless explicitly required and justified.
 
-## Required GitHub production environment secrets
+## Required GitHub production environment variables
 
 Configure these under:
 
-**Repository → Settings → Environments → production → Environment secrets**
+**Repository → Settings → Environments → production → Environment variables**
 
-| Name | Type | Value |
+| Name | Type | Purpose |
 |---|---|---|
-| `AZURE_CLIENT_ID` | Secret | Client ID of the dedicated user-assigned managed identity |
-| `AZURE_TENANT_ID` | Secret | Azure tenant/directory ID |
-| `AZURE_SUBSCRIPTION_ID` | Secret | Target Azure subscription ID |
+| `AZURE_CLIENT_ID` | Non-secret OIDC identifier | Client ID of the dedicated user-assigned managed identity |
+| `AZURE_TENANT_ID` | Non-secret OIDC identifier | Azure tenant/directory ID |
+| `AZURE_SUBSCRIPTION_ID` | Non-secret OIDC identifier | Target Azure subscription ID |
+| `AZURE_RESOURCE_GROUP_NAME` | Non-secret | Frontend Storage resource group |
+| `AZURE_STORAGE_ACCOUNT_NAME` | Non-secret | Frontend static website Storage account |
+| `AZURE_FRONTEND_IDENTITY_NAME` | Non-secret | Dedicated frontend UAMI name used by live verification |
+| `AZURE_FRONTEND_IDENTITY_RESOURCE_GROUP` | Non-secret | Resource group containing the frontend UAMI |
+| `PUBLIC_HOSTNAME` | Non-secret | Approved public hostname; only needed when public endpoint verification is enabled |
+| `VERIFY_PUBLIC_ENDPOINT` | Non-secret boolean | Controls approved public HTTPS verification |
 
-These are identifiers rather than passwords, but they remain environment-scoped secrets so that production deployment configuration is not exposed unnecessarily.
+The current documented frontend UAMI name is `sixteen-resume-frontend-github`; verify that this exact identity still exists before entering it. Do not invent a replacement name.
 
 Do **not** create:
 
@@ -73,20 +79,6 @@ Do **not** create:
 
 for the frontend deployment path.
 
-## Required GitHub production environment variables
-
-Configure these under:
-
-**Repository → Settings → Environments → production → Environment variables**
-
-| Name | Purpose |
-|---|---|
-| `AZURE_STORAGE_ACCOUNT_NAME` | Storage account receiving the static website artifacts |
-| `PUBLIC_SITE_URL` | Approved public HTTPS resume URL |
-| `PUBLIC_API_BASE_URL` | Approved visitor-counter API origin |
-| `PUBLIC_API_PATH` | Frozen API path: `/api/visitors` |
-
-Only non-secret values belong here.
 
 ## Azure RBAC
 
@@ -230,7 +222,7 @@ Run it manually from the GitHub Actions UI against `main`.
 
 The workflow verifies:
 
-1. The three required production environment secrets exist.
+1. The required protected production environment variables exist.
 2. GitHub can issue an OIDC token.
 3. Azure accepts the federated identity.
 4. The workflow receives the expected Azure subscription context.
@@ -238,7 +230,7 @@ The workflow verifies:
 6. The deployment identity can access Blob data using Microsoft Entra login.
 7. No storage key or connection string is required.
 
-Production run #33 is the required operational evidence: Azure OIDC login succeeded with the exact immutable subject and the subsequent Storage upload succeeded with Microsoft Entra authorization. The remaining Phase 3 frontend blocker is public HTTPS/DNS delivery, not OIDC.
+The current controlled verification must be rerun after the missing `AZURE_FRONTEND_IDENTITY_NAME` variable is added. Do not treat the previous run #33 evidence as proof that the current workflow/configuration gate is closed.
 
 ## Security verification
 
