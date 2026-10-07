@@ -47,6 +47,6 @@ The correction is **not complete** until all of the following have direct eviden
 
 ## Current execution status
 
-**BLOCKED.** The current connected tooling does not expose Azure control-plane write access or GitHub protected-environment secret mutation. The target state is documented, but no Azure/GitHub mutation is claimed as completed without direct evidence.
+**RESOLVED — OIDC and Storage RBAC evidence captured by production run #33 on 2026-10-07.** The run presented the exact immutable subject, Azure login succeeded, and the Storage upload to `st16resumeweb` succeeded using `--auth-mode login`. The remaining Phase 3 blocker is the public HTTPS/DNS delivery path for `sixteen-resume.mooo.com`.
 
 The existing frontend deployment workflow remains unchanged because it already uses `azure/login@v2` with `secrets.AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID`, plus `permissions.id-token: write`.
