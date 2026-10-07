@@ -107,22 +107,47 @@ jobs:
 
           printf 'deployment_result=storage_upload_succeeded\ncommit_sha=%s\n' "${GITHUB_SHA}" > evidence/deployment-result.txt
 
-      - name: Verify deployed HTTPS endpoint
+      - name: Verify Azure Storage static website endpoint
+        shell: bash
+        env:
+          AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+        run: |
+          set -euo pipefail
+
+          STORAGE_WEB_ENDPOINT="$(
+            az storage account show               --resource-group "${AZURE_RESOURCE_GROUP}"               --name "${AZURE_STORAGE_ACCOUNT_NAME}"               --query "primaryEndpoints.web"               --output tsv
+          )"
+
+          if [[ -z "${STORAGE_WEB_ENDPOINT}" ]]; then
+            echo "::error::Azure Storage static website endpoint is not configured."
+            exit 1
+          fi
+
+          curl --fail --silent --show-error --location             --proto '=https'             --proto-redir '=https'             --max-time 20             "${STORAGE_WEB_ENDPOINT}"             > /tmp/storage-resume.html
+
+          grep -qi '<html' /tmp/storage-resume.html
+          printf 'storage_web_endpoint=%s\nstorage_verification=passed\n' "${STORAGE_WEB_ENDPOINT}" >> evidence/deployment-result.txt
+
+      - name: Verify public HTTPS endpoint when edge is provisioned
+        if: ${{ vars.VERIFY_PUBLIC_ENDPOINT == 'true' }}
         shell: bash
         env:
           PUBLIC_HOSTNAME: ${{ vars.PUBLIC_HOSTNAME }}
         run: |
           set -euo pipefail
 
-          curl --fail --silent --show-error --location \
-            --proto '=https' \
-            --proto-redir '=https' \
-            --max-time 20 \
-            "https://${PUBLIC_HOSTNAME}/" \
-            > /tmp/resume.html
+          curl --fail --silent --show-error --location             --proto '=https'             --proto-redir '=https'             --max-time 20             "https://${PUBLIC_HOSTNAME}/"             > /tmp/public-resume.html
 
-          grep -qi '<html' /tmp/resume.html
-          printf 'public_endpoint=https://%s/\nverification=passed\n' "${PUBLIC_HOSTNAME}" >> evidence/deployment-result.txt
+          grep -qi '<html' /tmp/public-resume.html
+          printf 'public_endpoint=https://%s/\npublic_verification=passed\n' "${PUBLIC_HOSTNAME}" >> evidence/deployment-result.txt
+
+      - name: Record public HTTPS verification as pending when edge is not provisioned
+        if: ${{ vars.VERIFY_PUBLIC_ENDPOINT != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'public_endpoint=https://${{ vars.PUBLIC_HOSTNAME }}/\npublic_verification=pending-edge-and-dns\n' >> evidence/deployment-result.txt
 
       - name: Upload deployment evidence
         if: always()
