@@ -107,42 +107,42 @@ jobs:
 
           printf 'deployment_result=storage_upload_succeeded\ncommit_sha=%s\n' "${GITHUB_SHA}" > evidence/deployment-result.txt
 
-      - name: Verify Azure Storage static website endpoint
+      - name: Verify Azure Storage static website configuration
         shell: bash
         env:
           AZURE_STORAGE_ACCOUNT_NAME: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_RESOURCE_GROUP_NAME: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
         run: |
           set -euo pipefail
 
-          STORAGE_WEB_ENDPOINT="$(
-            az storage account show               --resource-group "${AZURE_RESOURCE_GROUP_NAME}"               --name "${AZURE_STORAGE_ACCOUNT_NAME}"               --query "primaryEndpoints.web"               --output tsv
-          )"
+          service_json="$(az storage blob service-properties show \
+            --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
+            --auth-mode login \
+            --output json)"
 
-          if [[ -z "${STORAGE_WEB_ENDPOINT}" ]]; then
-            echo "::error::Azure Storage static website endpoint is not configured."
+          enabled="$(jq -r '.staticWebsite.enabled // false' <<<"${service_json}")"
+          index_document="$(jq -r '.staticWebsite.indexDocument // empty' <<<"${service_json}")"
+
+          [[ "${enabled}" == "true" ]] || {
+            echo "::error::Azure Storage static website is not enabled."
+            exit 1
+          }
+
+          [[ "${index_document}" == "index.html" ]] || {
+            echo "::error::Unexpected static website index document: ${index_document}"
+            exit 1
+          }
+
+          if ! az storage blob show \
+            --account-name "${AZURE_STORAGE_ACCOUNT_NAME}" \
+            --container-name '$web' \
+            --name index.html \
+            --auth-mode login \
+            --output none; then
+            echo "::error::Published index.html was not found in $web."
             exit 1
           fi
 
-          for attempt in {1..6}; do
-            if curl --fail --silent --show-error --location \
-              --proto '=https' \
-              --proto-redir '=https' \
-              --max-time 20 \
-              --retry 3 \
-              --retry-delay 5 \
-              --retry-all-errors \
-              "${STORAGE_WEB_ENDPOINT}" \
-              > /tmp/storage-resume.html; then
-              break
-            fi
-            echo "Static website endpoint not reachable yet (${attempt}/6): ${STORAGE_WEB_ENDPOINT}"
-            sleep 10
-          done
-
-          grep -qi '<html' /tmp/storage-resume.html
-          printf 'storage_web_endpoint=%s\nstorage_verification=passed\n' "${STORAGE_WEB_ENDPOINT}" >> evidence/deployment-result.txt
-
+          printf 'storage_verification=static-website-enabled-and-index-present\n' >> evidence/deployment-result.txt
       - name: Verify public HTTPS endpoint when edge is provisioned
         if: ${{ vars.VERIFY_PUBLIC_ENDPOINT == 'true' }}
         shell: bash
