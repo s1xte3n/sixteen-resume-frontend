@@ -523,7 +523,7 @@ No frontend application code, API contract, browser/Cosmos boundary, or credenti
 
 ## Phase 5 live OIDC correction — 2026-10-07
 
-The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n/sixteen-resume-frontend:environment:production`, while GitHub presented the immutable subject:
+The controlled run reached Azure login and failed with **AADSTS700213** because Azure had the federated credential subject `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`, while GitHub presented the immutable subject:
 
 `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`
 
@@ -538,3 +538,14 @@ Current frontend identity evidence:
 - Storage Blob Data Contributor: assigned at `st16resumeweb` scope
 
 **Phase 5 remains NOT PASSED** until a fresh controlled workflow run succeeds through OIDC login, identity matching, federated-credential validation, and Storage data-plane access.
+
+## 2026-10-07 controlled verification correction
+
+The failed run exposed two separate issues that must not be conflated:
+
+1. **OIDC federation:** the Azure federated credential must exactly match the immutable GitHub subject observed in the live assertion: `repo:s1xte3n@39813590/sixteen-resume-frontend@1373840239:environment:production`.
+2. **RBAC verification:** `Storage Blob Data Contributor` authorizes blob data operations but does not grant `Microsoft.Storage/storageAccounts/read`. Therefore `az storage account show` is not a valid least-privilege verification step for the frontend deployment identity. The verification workflow now proves the authenticated client through `az account show` and tests Storage through Entra-authenticated data-plane operations instead.
+
+The frontend deployment workflow was likewise changed to verify static website service properties and the published `$web/index.html` through Entra-authenticated Storage data-plane calls. It no longer requires management-plane Reader access solely for deployment verification.
+
+This is a verification/RBAC-boundary correction only. No API route, frontend runtime contract, persistence model, or authentication architecture changed.
